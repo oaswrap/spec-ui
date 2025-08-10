@@ -35,7 +35,9 @@ func IndexTpl(assetBase string) string {
 				}
 				Redoc.init(url, {
 					"expandResponses": "200,400",
-					"hideDownloadButtons": cfg.hideDownload
+					"hideDownloadButtons": cfg.hideDownload,
+					"disableSearch": cfg.disableSearch,
+					"hideSchemaTitles": cfg.hideSchemaTitles
 				}, document.getElementById('redoc-container'))
 			}
 		</script>

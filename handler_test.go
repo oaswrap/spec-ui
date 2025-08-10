@@ -65,7 +65,7 @@ func TestHandler(t *testing.T) {
 			handler := specui.NewHandler(
 				specui.WithTitle("Petstore API"),
 				specui.WithSpecFile("testdata/petstore.yaml"),
-				specui.WithSwaggerUI(config.Swagger{}),
+				specui.WithSwaggerUI(config.SwaggerUI{}),
 			)
 			assert.NotNil(t, handler)
 

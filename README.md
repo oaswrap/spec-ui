@@ -88,7 +88,7 @@ handler := specui.NewHandler(
 	specui.WithDocsPath("/docs"),
 	specui.WithSpecPath("/docs/openapi.yaml"),
 	specui.WithSpecFile("openapi.yaml"),
-	specui.WithSwaggerUI(config.Swagger{
+	specui.WithSwaggerUI(config.SwaggerUI{
 		ShowTopBar:         true,
 		HideCurl:           false,
 		JsonEditor:         true,
@@ -191,7 +191,7 @@ specui.WithStoplightElements()
 
 #### Swagger UI Configuration
 ```go
-specui.WithSwaggerUI(config.Swagger{
+specui.WithSwaggerUI(config.SwaggerUI{
 	ShowTopBar:         true,                     // Show navigation top bar
 	HideCurl:           false,                    // Hide curl code snippets
 	JsonEditor:         true,                     // Enable visual JSON editor (experimental)
@@ -214,7 +214,9 @@ specui.WithSwaggerUI()
 #### Redoc Configuration
 ```go
 specui.WithRedoc(config.Redoc{
-	HideDownload: false,                          // Hide download button for OpenAPI spec
+	HideDownload: false,  		// Hide download button for OpenAPI spec
+	DisableSearch:    false, 	// Disable search functionality
+	HideSchemaTitles: false,	// Hide schema titles
 })
 
 // Or use with defaults
@@ -233,7 +235,7 @@ handler := specui.NewHandler(
 	specui.WithSpecFile("specs/petstore.yaml"),
 	
 	// Swagger UI with full configuration
-	specui.WithSwaggerUI(config.Swagger{
+	specui.WithSwaggerUI(config.SwaggerUI{
 		ShowTopBar:  true,
 		JsonEditor:  true,
 		PreAuthorizeApiKey: map[string]string{

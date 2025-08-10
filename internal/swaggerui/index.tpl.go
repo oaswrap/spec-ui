@@ -1,4 +1,4 @@
-package swagger
+package swaggerui
 
 import (
 	"sort"
@@ -10,7 +10,7 @@ import (
 // IndexTpl creates page template.
 //
 //nolint:funlen // The template is long.
-func IndexTpl(assetsBase, faviconBase string, cfg config.Swagger) string {
+func IndexTpl(assetsBase, faviconBase string, cfg config.SwaggerUI) string {
 	settings := map[string]string{
 		"url":         "url",
 		"dom_id":      "'#swagger-ui'",

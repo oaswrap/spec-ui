@@ -1,16 +1,16 @@
-package swagger_test
+package swaggerui_test
 
 import (
 	"net/http/httptest"
 	"testing"
 
 	"github.com/oaswrap/spec-ui/config"
-	"github.com/oaswrap/spec-ui/internal/swagger"
+	"github.com/oaswrap/spec-ui/internal/swaggerui"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestHandler(t *testing.T) {
-	handler := swagger.NewHandler(&config.SpecUI{
+	handler := swaggerui.NewHandler(&config.SpecUI{
 		Title:    "My API",
 		DocsPath: "/docs",
 	})

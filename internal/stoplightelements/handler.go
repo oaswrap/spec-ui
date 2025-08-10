@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/oaswrap/spec-ui/config"
+	"github.com/oaswrap/spec-ui/internal/constant"
 )
 
 // Handler handles swagger UI request.
@@ -52,7 +53,7 @@ func NewHandler(config *config.SpecUI) *Handler {
 
 	h.ConfigJson = template.JS(j) //nolint:gosec // Data is well formed.
 
-	h.tpl, err = template.New("index").Parse(IndexTpl(AssetsBase))
+	h.tpl, err = template.New("index").Parse(IndexTpl(constant.StoplightElementsAssetsBase))
 	if err != nil {
 		panic(err)
 	}

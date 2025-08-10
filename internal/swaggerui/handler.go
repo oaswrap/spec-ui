@@ -1,4 +1,4 @@
-package swagger
+package swaggerui
 
 import (
 	"encoding/json"
@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/oaswrap/spec-ui/config"
+	"github.com/oaswrap/spec-ui/internal/constant"
 )
 
 // Handler handles swagger UI request.
@@ -33,11 +34,11 @@ func NewHandler(config *config.SpecUI) *Handler {
 		Data: Data{
 			Title:              config.Title,
 			OpenAPIYAMLURL:     config.SpecPath,
-			ShowTopBar:         config.Swagger.ShowTopBar,
-			HideCurl:           config.Swagger.HideCurl,
-			JsonEditor:         config.Swagger.JsonEditor,
-			PreAuthorizeApiKey: config.Swagger.PreAuthorizeApiKey,
-			SettingsUI:         config.Swagger.SettingsUI,
+			ShowTopBar:         config.SwaggerUI.ShowTopBar,
+			HideCurl:           config.SwaggerUI.HideCurl,
+			JsonEditor:         config.SwaggerUI.JsonEditor,
+			PreAuthorizeApiKey: config.SwaggerUI.PreAuthorizeApiKey,
+			SettingsUI:         config.SwaggerUI.SettingsUI,
 		},
 	}
 
@@ -48,7 +49,7 @@ func NewHandler(config *config.SpecUI) *Handler {
 
 	h.ConfigJson = template.JS(j) //nolint:gosec // Data is well formed.
 
-	h.tpl, err = template.New("index").Parse(IndexTpl(AssetsBase, FaviconBase, config.Swagger))
+	h.tpl, err = template.New("index").Parse(IndexTpl(constant.SwaggerUIAssetsBase, constant.SwaggerUIFaviconBase, config.SwaggerUI))
 	if err != nil {
 		panic(err)
 	}

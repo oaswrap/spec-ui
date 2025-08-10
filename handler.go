@@ -7,21 +7,14 @@ import (
 	"github.com/oaswrap/spec-ui/internal/redoc"
 	"github.com/oaswrap/spec-ui/internal/spec"
 	"github.com/oaswrap/spec-ui/internal/stoplightelements"
-	"github.com/oaswrap/spec-ui/internal/swagger"
+	"github.com/oaswrap/spec-ui/internal/swaggerui"
 )
 
 // NewHandler creates a new HTTP handler for the OpenAPI UI.
 //
 // It applies the provided options to configure the OpenAPI UI.
 func NewHandler(opts ...Option) *Handler {
-	cfg := &config.SpecUI{
-		Title:    "API Documentation",
-		DocsPath: "/docs",
-		SpecPath: "/docs/openapi.yaml",
-	}
-	for _, opt := range opts {
-		opt(cfg)
-	}
+	cfg := newConfig(opts...)
 
 	return &Handler{cfg: cfg}
 }
@@ -45,7 +38,7 @@ func (h *Handler) SpecPath() string {
 func (h *Handler) Docs() http.Handler {
 	switch h.cfg.Provider {
 	case config.ProviderSwaggerUI:
-		return swagger.NewHandler(h.cfg)
+		return swaggerui.NewHandler(h.cfg)
 	case config.ProviderStoplightElements:
 		return stoplightelements.NewHandler(h.cfg)
 	case config.ProviderRedoc:

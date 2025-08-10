@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/oaswrap/spec-ui/config"
+	"github.com/oaswrap/spec-ui/internal/constant"
 )
 
 // Handler handles swagger UI request.
@@ -18,18 +19,22 @@ type Handler struct {
 }
 
 type Data struct {
-	Title          string `json:"title"`
-	OpenAPIYAMLURL string `json:"openapiYamlUrl"`
-	HideDownload   bool   `json:"hideDownload"`
+	Title            string `json:"title"`
+	OpenAPIYAMLURL   string `json:"openapiYamlUrl"`
+	HideDownload     bool   `json:"hideDownload"`
+	DisableSearch    bool   `json:"disableSearch"`
+	HideSchemaTitles bool   `json:"hideSchemaTitles"`
 }
 
 // NewHandler returns a HTTP handler for swagger UI.
 func NewHandler(config *config.SpecUI) *Handler {
 	h := &Handler{
 		Data: Data{
-			Title:          config.Title,
-			OpenAPIYAMLURL: config.SpecPath,
-			HideDownload:   config.Redoc.HideDownload,
+			Title:            config.Title,
+			OpenAPIYAMLURL:   config.SpecPath,
+			HideDownload:     config.Redoc.HideDownload,
+			DisableSearch:    config.Redoc.DisableSearch,
+			HideSchemaTitles: config.Redoc.HideSchemaTitles,
 		},
 	}
 
@@ -40,7 +45,7 @@ func NewHandler(config *config.SpecUI) *Handler {
 
 	h.ConfigJson = template.JS(j) //nolint:gosec // Data is well formed.
 
-	h.tpl, err = template.New("index").Parse(IndexTpl(AssetsBase))
+	h.tpl, err = template.New("index").Parse(IndexTpl(constant.RedocAssetsBase))
 	if err != nil {
 		panic(err)
 	}

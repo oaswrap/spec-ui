@@ -30,13 +30,13 @@ type SpecUI struct {
 	SpecGenerator SpecGenerator // OpenAPI specification generator
 
 	Provider          Provider          // Provider type
-	Swagger           Swagger           // Swagger UI configuration
+	SwaggerUI         SwaggerUI         // Swagger UI configuration
 	StoplightElements StoplightElements // Stoplight Elements configuration
 	Redoc             Redoc             // Redoc configuration
 }
 
-// Swagger holds the configuration for the Swagger UI.
-type Swagger struct {
+// SwaggerUI holds the configuration for the Swagger UI.
+type SwaggerUI struct {
 	ShowTopBar         bool              // Show navigation top bar, hidden by default.
 	HideCurl           bool              // Hide curl code snippet.
 	JsonEditor         bool              // Enable visual json editor support (experimental, can fail with complex schemas).
@@ -60,5 +60,7 @@ type StoplightElements struct {
 
 // Redoc holds the configuration for the Redoc.
 type Redoc struct {
-	HideDownload bool // Hides the "Download" button for saving the API definition source file.
+	DisableSearch    bool // Disable search functionality.
+	HideDownload     bool // Hides the "Download" button for saving the API definition source file.
+	HideSchemaTitles bool // Hides the schema titles in the documentation.
 }

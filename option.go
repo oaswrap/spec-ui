@@ -7,6 +7,25 @@ import (
 	"github.com/oaswrap/spec-ui/config"
 )
 
+func newConfig(opts ...Option) *config.SpecUI {
+	cfg := &config.SpecUI{
+		Title:    "OpenAPI Documentation",
+		DocsPath: "/docs",
+		SpecPath: "/docs/openapi.yaml",
+		StoplightElements: config.StoplightElements{
+			Router: "hash",
+			Layout: "sidebar",
+		},
+		Provider: config.ProviderStoplightElements,
+	}
+
+	for _, opt := range opts {
+		opt(cfg)
+	}
+
+	return cfg
+}
+
 // Option is a function that configures the OpenAPI UI.
 type Option func(*config.SpecUI)
 
@@ -62,11 +81,11 @@ func WithSpecGenerator(cfg config.SpecGenerator) Option {
 }
 
 // WithSwaggerUI sets up the Swagger UI configuration.
-func WithSwaggerUI(cfg ...config.Swagger) Option {
+func WithSwaggerUI(cfg ...config.SwaggerUI) Option {
 	return func(c *config.SpecUI) {
 		c.Provider = config.ProviderSwaggerUI
 		if len(cfg) > 0 {
-			c.Swagger = cfg[0]
+			c.SwaggerUI = cfg[0]
 		}
 	}
 }
