@@ -2,6 +2,7 @@ package specui
 
 import (
 	"embed"
+	"io/fs"
 
 	"github.com/oaswrap/spec-ui/config"
 )
@@ -37,10 +38,19 @@ func WithSpecFile(filepath string) Option {
 	}
 }
 
-// WithSpecFS sets the file system for the specification.
-func WithSpecFS(fs *embed.FS) Option {
+// WithSpecIOFS sets the generic I/O filesystem for the specification.
+func WithSpecIOFS(filepath string, iofs fs.FS) Option {
 	return func(c *config.SpecUI) {
-		c.SpecFS = fs
+		c.SpecFile = filepath
+		c.SpecIOFS = iofs
+	}
+}
+
+// WithSpecEmbedFS sets the embedded file system for the specification.
+func WithSpecEmbedFS(filepath string, fs *embed.FS) Option {
+	return func(c *config.SpecUI) {
+		c.SpecFile = filepath
+		c.SpecEmbedFS = fs
 	}
 }
 

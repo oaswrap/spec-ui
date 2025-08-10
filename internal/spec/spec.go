@@ -3,6 +3,8 @@ package spec
 import (
 	"encoding/json"
 	"errors"
+	"io"
+	"io/fs"
 	"log"
 	"net/http"
 	"os"
@@ -42,14 +44,27 @@ func (h *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			h.renderError(w, 500, errors.New("failed to generate OpenAPI schema"))
 			return
 		}
-	} else if h.cfg.SpecFS != nil && h.cfg.SpecFile != "" {
+	} else if h.cfg.SpecEmbedFS != nil {
 		h.once.Do(func() {
-			h.schema, h.err = h.cfg.SpecFS.ReadFile(h.cfg.SpecFile)
+			h.schema, h.err = h.cfg.SpecEmbedFS.ReadFile(h.cfg.SpecFile)
 		})
 
 		if h.err != nil {
 			h.renderError(w, 404, errors.New("OpenAPI specification file is not found"))
 			return
+		}
+	} else if h.cfg.SpecIOFS != nil {
+		h.once.Do(func() {
+			var file fs.File
+			file, h.err = h.cfg.SpecIOFS.Open(h.cfg.SpecFile)
+			if h.err == nil {
+				h.schema, h.err = io.ReadAll(file)
+				_ = file.Close()
+			}
+		})
+
+		if h.err != nil {
+			h.renderError(w, 404, errors.New("OpenAPI specification file is not found"))
 		}
 	} else if h.cfg.SpecFile != "" {
 		h.once.Do(func() {

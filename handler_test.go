@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"net/http/httptest"
+	"os"
 	"testing"
 
 	specui "github.com/oaswrap/spec-ui"
@@ -127,11 +128,24 @@ func TestHandler(t *testing.T) {
 			assert.Equal(t, http.StatusOK, rec.Code)
 			assert.NotNil(t, rec.Body)
 		})
+		t.Run("io file system", func(t *testing.T) {
+			handler := specui.NewHandler(
+				specui.WithTitle("Petstore API"),
+				specui.WithSpecIOFS("petstore.yaml", os.DirFS("testdata")),
+			)
+			assert.NotNil(t, handler)
+
+			req := httptest.NewRequest("GET", "/docs/openapi.yaml", nil)
+			rec := httptest.NewRecorder()
+			handler.SpecFunc()(rec, req)
+
+			assert.Equal(t, http.StatusOK, rec.Code)
+			assert.NotNil(t, rec.Body)
+		})
 		t.Run("embed file system", func(t *testing.T) {
 			handler := specui.NewHandler(
 				specui.WithTitle("Petstore API"),
-				specui.WithSpecFile("petstore.yaml"),
-				specui.WithSpecFS(&testdata.FS),
+				specui.WithSpecEmbedFS("petstore.yaml", &testdata.FS),
 			)
 			assert.NotNil(t, handler)
 

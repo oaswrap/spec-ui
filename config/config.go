@@ -2,6 +2,7 @@ package config
 
 import (
 	"embed"
+	"io/fs"
 )
 
 type Provider uint8
@@ -24,7 +25,8 @@ type SpecUI struct {
 	DocsPath      string        // Path to the OpenAPI UI documentation
 	SpecFile      string        // Path to the OpenAPI specification file
 	SpecPath      string        // Path to the OpenAPI specification, default is openapi.yaml
-	SpecFS        *embed.FS     // Filesystem for the OpenAPI specification
+	SpecIOFS      fs.FS         // Filesystem for the OpenAPI specification
+	SpecEmbedFS   *embed.FS     // Embedded file system for the OpenAPI specification
 	SpecGenerator SpecGenerator // OpenAPI specification generator
 
 	Provider          Provider          // Provider type

@@ -164,11 +164,12 @@ The library uses functional options for flexible configuration:
 ### Core Options
 
 ```go
-specui.WithTitle("My API")                     // Set documentation title
-specui.WithDocsPath("/docs")                   // Set documentation URL path
-specui.WithSpecPath("/docs/openapi.yaml")      // Set OpenAPI spec URL path
-specui.WithSpecFile("openapi.yaml")            // Specify OpenAPI specification file path
-specui.WithSpecFS(embedFS)                     // Use embedded filesystem for spec
+specui.WithTitle("My API")                   				// Set documentation title
+specui.WithDocsPath("/docs")								// Set documentation URL path
+specui.WithSpecPath("/docs/openapi.yaml")     				// Set OpenAPI spec URL path
+specui.WithSpecFile("openapi.yaml")            				// Specify OpenAPI specification file path
+specui.WithSpecEmbedFS("openapi.yaml", embedFS)     	 	// Use embedded filesystem for spec
+specui.WithSpecIOFS("openapi.yaml", os.DirFS("testdata")) 	// Use OS filesystem for spec
 ```
 
 ### UI Selection with Configuration
@@ -256,19 +257,6 @@ handler := specui.NewHandler(
 	specui.WithSwaggerUI(),
 )
 // Default paths: /docs and /docs/openapi.yaml
-```
-
-### Using Embedded Filesystem
-```go
-//go:embed specs
-var specsFS embed.FS
-
-handler := specui.NewHandler(
-	specui.WithTitle("Pet Store API"),
-	specui.WithSpecFS(&specsFS),
-	specui.WithSpecFile("specs/openapi.yaml"),
-	specui.WithStoplightElements(),
-)
 ```
 
 ## Examples
