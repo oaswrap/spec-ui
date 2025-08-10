@@ -1,0 +1,75 @@
+package specui
+
+import (
+	"net/http"
+
+	"github.com/oaswrap/spec-ui/config"
+	"github.com/oaswrap/spec-ui/internal/elements"
+	"github.com/oaswrap/spec-ui/internal/redoc"
+	"github.com/oaswrap/spec-ui/internal/spec"
+	"github.com/oaswrap/spec-ui/internal/swagger"
+)
+
+// NewHandler creates a new HTTP handler for the OpenAPI UI.
+//
+// It applies the provided options to configure the OpenAPI UI.
+func NewHandler(opts ...Option) *Handler {
+	cfg := &config.SpecUI{
+		Title:    "API Documentation",
+		DocsPath: "/docs",
+		SpecPath: "/docs/openapi.yaml",
+	}
+	for _, opt := range opts {
+		opt(cfg)
+	}
+
+	return &Handler{cfg: cfg}
+}
+
+// Handler handles HTTP requests for the OpenAPI UI.
+type Handler struct {
+	cfg *config.SpecUI
+}
+
+// DocsPath returns the path to the API documentation.
+func (h *Handler) DocsPath() string {
+	return h.cfg.DocsPath
+}
+
+// SpecPath returns the path to the OpenAPI specification.
+func (h *Handler) SpecPath() string {
+	return h.cfg.SpecPath
+}
+
+// Docs returns the HTTP handler for the API documentation.
+func (h *Handler) Docs() http.Handler {
+	switch h.cfg.Provider {
+	case config.ProviderSwaggerUI:
+		return swagger.NewHandler(h.cfg)
+	case config.ProviderStoplightElements:
+		return elements.NewHandler(h.cfg)
+	case config.ProviderRedoc:
+		return redoc.NewHandler(h.cfg)
+	default:
+		return nil
+	}
+}
+
+// DocsFunc returns the HTTP handler function for the API documentation.
+func (h *Handler) DocsFunc() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		h.Docs().ServeHTTP(w, r)
+	}
+}
+
+// Spec returns the HTTP handler for the OpenAPI specification.
+func (h *Handler) Spec() http.Handler {
+	return spec.NewHandler(h.cfg)
+}
+
+// SpecFunc returns the HTTP handler function for the OpenAPI specification.
+func (h *Handler) SpecFunc() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		h.Spec().ServeHTTP(w, r)
+	}
+}
