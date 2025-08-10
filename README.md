@@ -1,6 +1,7 @@
 # Spec UI
 
 [![Go Reference](https://pkg.go.dev/badge/github.com/oaswrap/spec-ui.svg)](https://pkg.go.dev/github.com/oaswrap/spec-ui)
+[![codecov](https://codecov.io/gh/oaswrap/spec-ui/graph/badge.svg?token=RqYnxmf6mW)](https://codecov.io/gh/oaswrap/spec-ui)
 [![Go Report Card](https://goreportcard.com/badge/github.com/oaswrap/spec-ui)](https://goreportcard.com/report/github.com/oaswrap/spec-ui)
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/oaswrap/spec-ui/blob/main/LICENSE)
 
