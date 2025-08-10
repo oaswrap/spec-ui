@@ -1,9 +1,9 @@
-module github.com/oaswrap/spec-ui/examples/petstore
+module github.com/oaswrap/spec-ui/examples/mux
 
-go 1.22
+go 1.21
 
 require (
-	github.com/go-chi/chi/v5 v5.2.2
+	github.com/gorilla/mux v1.8.1
 	github.com/oaswrap/spec-ui v0.0.0
 )
 
