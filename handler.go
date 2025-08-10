@@ -57,9 +57,9 @@ func (h *Handler) Docs() http.Handler {
 
 // DocsFunc returns the HTTP handler function for the API documentation.
 func (h *Handler) DocsFunc() http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		h.Docs().ServeHTTP(w, r)
-	}
+	})
 }
 
 // Spec returns the HTTP handler for the OpenAPI specification.

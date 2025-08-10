@@ -2,6 +2,7 @@ package spec
 
 import (
 	"encoding/json"
+	"errors"
 	"log"
 	"net/http"
 	"os"
@@ -28,11 +29,6 @@ func NewHandler(cfg *config.SpecUI) *Handler {
 }
 
 func (h *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	if h.cfg == nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		_ = json.NewEncoder(w).Encode(map[string]string{"error": "OpenAPI configuration not set"})
-		return
-	}
 	if h.cfg.SpecGenerator != nil {
 		h.once.Do(func() {
 			if h.fileType == "json" {
@@ -43,8 +39,7 @@ func (h *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		})
 
 		if h.err != nil {
-			w.WriteHeader(http.StatusInternalServerError)
-			_ = json.NewEncoder(w).Encode(map[string]string{"error": "failed to generate OpenAPI schema"})
+			h.renderError(w, 500, errors.New("failed to generate OpenAPI schema"))
 			return
 		}
 	} else if h.cfg.SpecFS != nil && h.cfg.SpecFile != "" {
@@ -53,8 +48,7 @@ func (h *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		})
 
 		if h.err != nil {
-			w.WriteHeader(http.StatusInternalServerError)
-			_ = json.NewEncoder(w).Encode(map[string]string{"error": "failed to read OpenAPI specification file"})
+			h.renderError(w, 404, errors.New("OpenAPI specification file is not found"))
 			return
 		}
 	} else if h.cfg.SpecFile != "" {
@@ -63,13 +57,11 @@ func (h *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		})
 
 		if h.err != nil {
-			w.WriteHeader(http.StatusInternalServerError)
-			_ = json.NewEncoder(w).Encode(map[string]string{"error": "failed to read OpenAPI specification file"})
+			h.renderError(w, 404, errors.New("OpenAPI specification file is not found"))
 			return
 		}
 	} else {
-		w.WriteHeader(http.StatusInternalServerError)
-		_ = json.NewEncoder(w).Encode(map[string]string{"error": "OpenAPI specification file not found"})
+		h.renderError(w, 500, errors.New("OpenAPI specification file is not set"))
 		return
 	}
 
@@ -87,4 +79,13 @@ func (h *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		log.Printf("failed to write OpenAPI schema: %v", err)
 		return
 	}
+}
+
+func (h *Handler) renderError(w http.ResponseWriter, status int, err error) {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(status)
+	_ = json.NewEncoder(w).Encode(map[string]any{
+		"status":  status,
+		"message": err.Error(),
+	})
 }

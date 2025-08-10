@@ -256,7 +256,7 @@ The handler automatically:
 
 ## Examples
 
-Check out the `examples` directory for more usage patterns:
+Check out the [`examples`](/examples) directory for more usage patterns:
 
 - Basic HTTP server setup
 - Integration with popular Go frameworks

@@ -9,7 +9,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestNewHandler(t *testing.T) {
+func TestHandler(t *testing.T) {
 	handler := swagger.NewHandler(&config.SpecUI{
 		Title:    "My API",
 		DocsPath: "/docs",

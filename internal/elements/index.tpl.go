@@ -7,7 +7,7 @@ func IndexTpl(assetBase string) string {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>{{ .Title }} - Elements</title>
+    <title>{{ .Title }} - Stoplight Elements</title>
 
     <script src="` + assetBase + `web-components.min.js"></script>
     <link rel="stylesheet" href="` + assetBase + `styles.min.css">
