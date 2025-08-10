@@ -1,16 +1,16 @@
-package elements_test
+package stoplightelements_test
 
 import (
 	"net/http/httptest"
 	"testing"
 
 	"github.com/oaswrap/spec-ui/config"
-	"github.com/oaswrap/spec-ui/internal/elements"
+	"github.com/oaswrap/spec-ui/internal/stoplightelements"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestHandler(t *testing.T) {
-	handler := elements.NewHandler(&config.SpecUI{
+	handler := stoplightelements.NewHandler(&config.SpecUI{
 		Title:    "My API",
 		DocsPath: "/docs",
 	})
@@ -22,4 +22,5 @@ func TestHandler(t *testing.T) {
 
 	assert.Equal(t, 200, rec.Code)
 	assert.Contains(t, rec.Body.String(), "My API")
+	assert.Contains(t, rec.Body.String(), "Stoplight Elements")
 }

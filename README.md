@@ -40,6 +40,8 @@ func main() {
 	// Stoplight Elements
 	handler := specui.NewHandler(
 		specui.WithTitle("Petstore API"),
+		specui.WithDocsPath("/docs"),
+		specui.WithSpecPath("/docs/openapi.yaml"),
 		specui.WithSpecFile("openapi.yaml"),
 		specui.WithStoplightElements(),
 	)
@@ -65,7 +67,7 @@ handler := specui.NewHandler(
 	specui.WithDocsPath("/docs"),
 	specui.WithSpecPath("/docs/openapi.yaml"),
 	specui.WithSpecFile("openapi.yaml"),
-	specui.WithStoplightElements(config.Elements{
+	specui.WithStoplightElements(config.StoplightElements{
 		HideExport:  false,
 		HideSchemas: false,
 		HideTryIt:   false,
@@ -89,6 +91,13 @@ handler := specui.NewHandler(
 		ShowTopBar:         true,
 		HideCurl:           false,
 		JsonEditor:         true,
+		PreAuthorizeApiKey: map[string]string{
+			"api_key": "your-api-key-here",
+		},
+		SettingsUI: map[string]string{
+			"deepLinking": "true",
+			"filter":      "true",
+		},
 	}),
 )
 ```
@@ -112,10 +121,12 @@ handler := specui.NewHandler(
 
 The handler provides convenient methods for integration:
 
-- `handler.DocsPath()` - Returns the documentation path (e.g., `/docs`)
+- `handler.Docs()` - Return HTTP handler for the documentation UI
 - `handler.DocsFunc()` - Returns the HTTP handler function for the documentation UI
-- `handler.SpecPath()` - Returns the OpenAPI spec path (e.g., `/docs/openapi.yaml`)  
+- `handler.DocsPath()` - Returns the documentation path (e.g., `/docs`)
+- `handler.Spec()` - Returns HTTP handler for the OpenAPI specification
 - `handler.SpecFunc()` - Returns the HTTP handler function for serving the OpenAPI specification
+- `handler.SpecPath()` - Returns the OpenAPI spec path (e.g., `/docs/openapi.yaml`)
 
 ## Basic Usage
 
@@ -128,7 +139,7 @@ handler := specui.NewHandler(
 	specui.WithDocsPath("/docs"),                  // Set docs URL path
 	specui.WithSpecPath("/docs/openapi.yaml"),     // Set spec URL path
 	specui.WithSpecFile("openapi.yaml"),           // Set spec file location
-	specui.WithStoplightElements(config.Elements{  // Choose UI with config
+	specui.WithStoplightElements(config.StoplightElements{  // Choose UI with config
 		HideExport: false,
 		HideTryIt:  false,
 	}),
@@ -137,7 +148,7 @@ handler := specui.NewHandler(
 // Minimal setup (uses sensible defaults)
 handler := specui.NewHandler(
 	specui.WithSpecFile("openapi.yaml"),
-	specui.WithSwaggerUI(config.Swagger{}),
+	specui.WithSwaggerUI(), // No config needed, uses defaults
 )
 
 // Register with any HTTP router
@@ -152,18 +163,18 @@ The library uses functional options for flexible configuration:
 ### Core Options
 
 ```go
-// Basic configuration
 specui.WithTitle("My API")                     // Set documentation title
 specui.WithDocsPath("/docs")                   // Set documentation URL path
 specui.WithSpecPath("/docs/openapi.yaml")      // Set OpenAPI spec URL path
 specui.WithSpecFile("openapi.yaml")            // Specify OpenAPI specification file path
+specui.WithSpecFS(embedFS)                     // Use embedded filesystem for spec
 ```
 
 ### UI Selection with Configuration
 
 #### Stoplight Elements Configuration
 ```go
-specui.WithStoplightElements(config.Elements{
+specui.WithStoplightElements(config.StoplightElements{
 	HideExport:  false,                           // Hide the "Export" button
 	HideSchemas: false,                           // Hide schemas in Table of Contents
 	HideTryIt:   false,                           // Hide "Try it" interactive feature
@@ -171,6 +182,9 @@ specui.WithStoplightElements(config.Elements{
 	Logo:        "/assets/logo.png",              // URL to logo image
 	Router:      "hash",                          // Router type: "hash", "memory"
 })
+
+// Or use with defaults (Layout: "sidebar", Router: "hash")
+specui.WithStoplightElements()
 ```
 
 #### Swagger UI Configuration
@@ -190,6 +204,9 @@ specui.WithSwaggerUI(config.Swagger{
 		"showExtensions":         "true",
 	},
 })
+
+// Or use with defaults
+specui.WithSwaggerUI()
 ```
 
 #### Redoc Configuration
@@ -197,6 +214,9 @@ specui.WithSwaggerUI(config.Swagger{
 specui.WithRedoc(config.Redoc{
 	HideDownload: false,                          // Hide download button for OpenAPI spec
 })
+
+// Or use with defaults
+specui.WithRedoc()
 ```
 
 ## Configuration Examples
@@ -232,36 +252,27 @@ handler := specui.NewHandler(
 // Uses sensible defaults
 handler := specui.NewHandler(
 	specui.WithSpecFile("openapi.yaml"),
-	specui.WithSwaggerUI(config.Swagger{}),
+	specui.WithSwaggerUI(),
 )
 // Default paths: /docs and /docs/openapi.yaml
 ```
 
-The library automatically serves your OpenAPI specification file. Simply ensure your `openapi.yaml` (or `openapi.json`) file is in the correct location:
-
+### Using Embedded Filesystem
 ```go
-// The file path is relative to your application's working directory
+//go:embed specs
+var specsFS embed.FS
+
 handler := specui.NewHandler(
-	specui.WithSpecFile("openapi.yaml"),        // ./openapi.yaml
-	specui.WithSpecFile("docs/openapi.yaml"),   // ./docs/openapi.yaml
-	specui.WithSpecFile("/path/to/spec.json"),  // absolute path
+	specui.WithTitle("Pet Store API"),
+	specui.WithSpecFS(&specsFS),
+	specui.WithSpecFile("specs/openapi.yaml"),
 	specui.WithStoplightElements(),
 )
 ```
 
-The handler automatically:
-- Serves the documentation UI at the docs path
-- Serves the OpenAPI specification at the spec path
-- Handles both YAML and JSON format specifications
-
 ## Examples
 
-Check out the [`examples`](/examples) directory for more usage patterns:
-
-- Basic HTTP server setup
-- Integration with popular Go frameworks
-- Custom configuration options
-- Dynamic OpenAPI spec generation
+Check out the [`examples`](/examples) directory for more examples.
 
 ## Contributing
 

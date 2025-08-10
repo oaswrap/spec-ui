@@ -1,4 +1,4 @@
-package elements
+package stoplightelements
 
 func IndexTpl(assetBase string) string {
 	return `

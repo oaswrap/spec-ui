@@ -81,7 +81,7 @@ func TestHandler(t *testing.T) {
 			handler := specui.NewHandler(
 				specui.WithTitle("Petstore API"),
 				specui.WithSpecFile("testdata/petstore.yaml"),
-				specui.WithStoplightElements(config.Elements{}),
+				specui.WithStoplightElements(config.StoplightElements{}),
 			)
 			assert.NotNil(t, handler)
 

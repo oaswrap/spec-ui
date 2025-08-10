@@ -1,4 +1,4 @@
-package elements
+package stoplightelements
 
 import (
 	"encoding/json"
@@ -36,12 +36,12 @@ func NewHandler(config *config.SpecUI) *Handler {
 		Data: Data{
 			Title:          config.Title,
 			OpenAPIYAMLURL: config.SpecPath,
-			HideExport:     config.Elements.HideExport,
-			HideSchemas:    config.Elements.HideSchemas,
-			HideTryIt:      config.Elements.HideTryIt,
-			Layout:         config.Elements.Layout,
-			Logo:           config.Elements.Logo,
-			Router:         config.Elements.Router,
+			HideExport:     config.StoplightElements.HideExport,
+			HideSchemas:    config.StoplightElements.HideSchemas,
+			HideTryIt:      config.StoplightElements.HideTryIt,
+			Layout:         config.StoplightElements.Layout,
+			Logo:           config.StoplightElements.Logo,
+			Router:         config.StoplightElements.Router,
 		},
 	}
 

@@ -17,7 +17,7 @@ func main() {
 		specui.WithDocsPath("/docs"),
 		specui.WithSpecPath("/docs/openapi.yaml"),
 		specui.WithSpecFile("openapi.yaml"),
-		specui.WithSwaggerUI(),
+		specui.WithStoplightElements(),
 	)
 
 	r.Get(handler.DocsPath(), handler.DocsFunc())

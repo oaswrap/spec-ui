@@ -22,4 +22,5 @@ func TestHandler(t *testing.T) {
 
 	assert.Equal(t, 200, rec.Code)
 	assert.Contains(t, rec.Body.String(), "My API")
+	assert.Contains(t, rec.Body.String(), "Swagger UI")
 }

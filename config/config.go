@@ -27,10 +27,10 @@ type SpecUI struct {
 	SpecFS        *embed.FS     // Filesystem for the OpenAPI specification
 	SpecGenerator SpecGenerator // OpenAPI specification generator
 
-	Provider Provider // Provider type
-	Swagger  Swagger  // Swagger UI configuration
-	Elements Elements // Stoplight Elements configuration
-	Redoc    Redoc    // Redoc configuration
+	Provider          Provider          // Provider type
+	Swagger           Swagger           // Swagger UI configuration
+	StoplightElements StoplightElements // Stoplight Elements configuration
+	Redoc             Redoc             // Redoc configuration
 }
 
 // Swagger holds the configuration for the Swagger UI.
@@ -46,8 +46,8 @@ type Swagger struct {
 	SettingsUI map[string]string
 }
 
-// Elements holds the configuration for the Stoplight Elements.
-type Elements struct {
+// StoplightElements holds the configuration for the Stoplight Elements.
+type StoplightElements struct {
 	HideExport  bool   // Hide the "Export" button on overview section of the documentation.
 	HideSchemas bool   // Hide the schemas in the Table of Contents, when using the sidebar layout.
 	HideTryIt   bool   // Hide "Try it" feature.

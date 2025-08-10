@@ -62,17 +62,17 @@ func WithSwaggerUI(cfg ...config.Swagger) Option {
 }
 
 // WithStoplightElements sets up the Stoplight Elements configuration.
-func WithStoplightElements(cfg ...config.Elements) Option {
+func WithStoplightElements(cfg ...config.StoplightElements) Option {
 	return func(c *config.SpecUI) {
 		c.Provider = config.ProviderStoplightElements
 		if len(cfg) > 0 {
-			c.Elements = cfg[0]
+			c.StoplightElements = cfg[0]
 		}
-		if c.Elements.Router == "" {
-			c.Elements.Router = "hash"
+		if c.StoplightElements.Router == "" {
+			c.StoplightElements.Router = "hash"
 		}
-		if c.Elements.Layout == "" {
-			c.Elements.Layout = "sidebar"
+		if c.StoplightElements.Layout == "" {
+			c.StoplightElements.Layout = "sidebar"
 		}
 	}
 }

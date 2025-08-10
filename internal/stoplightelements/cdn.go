@@ -1,4 +1,4 @@
-package elements
+package stoplightelements
 
 const (
 	// AssetsBase is a base URL for the assets.
