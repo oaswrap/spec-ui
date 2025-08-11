@@ -29,8 +29,8 @@ func TestHandler(t *testing.T) {
 	assert.Equal(t, 200, rec.Code)
 	assert.Contains(t, rec.Body.String(), "My API")
 	assert.Contains(t, rec.Body.String(), "Scalar")
-	assert.Contains(t, rec.Body.String(), "proxyUrl: 'https://proxy.scalar.com'")
-	assert.Contains(t, rec.Body.String(), "layout: 'modern'")
-	assert.Contains(t, rec.Body.String(), "documentDownloadType: 'both'")
-	assert.Contains(t, rec.Body.String(), "theme: 'moon'")
+	assert.Contains(t, rec.Body.String(), `proxyUrl: "https://proxy.scalar.com"`)
+	assert.Contains(t, rec.Body.String(), `layout: "modern"`)
+	assert.Contains(t, rec.Body.String(), `documentDownloadType: "both"`)
+	assert.Contains(t, rec.Body.String(), `theme: "moon"`)
 }

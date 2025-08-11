@@ -12,6 +12,7 @@ const (
 	ProviderStoplightElements
 	ProviderReDoc
 	ProviderScalar
+	ProviderRapiDoc
 )
 
 // SpecGenerator is an interface for types that can generate OpenAPI specifications.
@@ -35,6 +36,7 @@ type SpecUI struct {
 	StoplightElements *StoplightElements // Stoplight Elements configuration
 	ReDoc             *ReDoc             // ReDoc configuration
 	Scalar            *Scalar            // Scalar configuration
+	RapiDoc           *RapiDoc           // RapiDoc configuration
 }
 
 // SwaggerUI holds the configuration for the Swagger UI.
@@ -78,4 +80,21 @@ type Scalar struct {
 	DarkMode              bool   // Enable dark mode
 	Layout                string // Layout type e.g. "modern" or "classic"
 	Theme                 string // Theme name, see https://guides.scalar.com/scalar/scalar-api-references/themes for available themes
+}
+
+type RapiDoc struct {
+	Theme              string // Theme style, "light" or "dark"
+	Layout             string // Layout type, "row" or "column"
+	RenderStyle        string // Render style, "read", "view", or "focused"
+	SchemaStyle        string // Schema style, "table" or "tree"
+	BgColor            string // Background color, e.g. "#fff"
+	TextColor          string // Text color, e.g. "#444"
+	HeaderColor        string // Header color, e.g. "#444444"
+	PrimaryColor       string // Primary color, e.g. "#FF791A"
+	HideInfo           bool   // Hide the info section
+	HideHeader         bool   // Hide the header section
+	HideSearch         bool   // Hide the search bar
+	HideAdvancedSearch bool   // Hide the advanced search bar
+	HideTryIt          bool   // Hide the "Try" feature
+	Logo               string // Logo URL
 }

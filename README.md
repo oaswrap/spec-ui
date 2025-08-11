@@ -9,7 +9,7 @@ A Go library that provides multiple OpenAPI documentation UIs. Serve beautiful, 
 
 ## Features
 
-- 🚀 **Multiple UI Options**: Support for Swagger UI, Stoplight Elements, ReDoc, and Scalar
+- 🚀 **Multiple UI Options**: Support for Swagger UI, Stoplight Elements, ReDoc, Scalar and RapiDoc
 - ⚡ **Easy Integration**: Simple HTTP handler integration with Go's standard library
 - 🎨 **Customizable**: Configure titles, base paths, and OpenAPI spec locations
 - 🔧 **Flexible**: Works with any Go HTTP router or framework
@@ -113,6 +113,18 @@ handler := specui.NewHandler(
 )
 ```
 
+### RapiDoc
+**Flexible Rendering Styles** - Web component-based viewer with multiple themes, styling options, and distinctive tabular/tree model representations perfect for large schemas.  
+[View Demo](https://rapidocweb.com/examples/petstore-extended.html)
+
+```go
+handler := specui.NewHandler(
+	specui.WithTitle("My API"),
+	specui.WithSpecFile("openapi.yaml"),
+	specui.WithRapiDoc(),
+)
+```
+
 ## Handler Methods
 
 The handler provides convenient methods for integration:
@@ -211,6 +223,26 @@ specui.WithScalar(config.Scalar{
     DarkMode:                true,						    // Enable dark mode
     Layout:                  "modern",					    // Layout type: "modern" or "classic"
     Theme:                   "moon"						    // Theme name, see https://guides.scalar.com/scalar/scalar-api-references/themes for available themes
+})
+```
+
+#### RapiDoc Configuration
+```go
+specui.WithRapiDoc(config.RapiDoc{
+    Theme:              "light",			 // Theme style: "light" or "dark"
+    Layout:             "row",				 // Layout type: "row" or "column"
+    RenderStyle:        "read",				 // Render style: "read", "view", or "focused"
+    SchemaStyle:        "table",			 // Schema style: "table" or "tree"
+    BgColor:            "#fff",			// Background color
+    TextColor:          "#444",			// Text color
+    HeaderColor:        "#444444",			// Header color
+    PrimaryColor:       "#FF791A",			// Primary color
+    HideInfo:           false,				 // Hide the info section
+    HideHeader:         false,				 // Hide the header section
+    HideSearch:         false,				 // Hide the search bar
+    HideAdvancedSearch: false,				 // Hide the advanced search bar
+    HideTryIt:          false,				 // Hide the "Try" feature
+    Logo:               "/assets/logo.png",	 // Logo URL
 })
 ```
 

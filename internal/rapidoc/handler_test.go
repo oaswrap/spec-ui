@@ -1,19 +1,21 @@
-package redoc_test
+package rapidoc_test
 
 import (
 	"net/http/httptest"
 	"testing"
 
 	"github.com/oaswrap/spec-ui/config"
-	"github.com/oaswrap/spec-ui/internal/redoc"
+	"github.com/oaswrap/spec-ui/internal/rapidoc"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestHandler(t *testing.T) {
-	handler := redoc.NewHandler(&config.SpecUI{
+	handler := rapidoc.NewHandler(&config.SpecUI{
 		Title:    "My API",
 		DocsPath: "/docs",
-		ReDoc:    &config.ReDoc{},
+		RapiDoc: &config.RapiDoc{
+			Theme: "light",
+		},
 	})
 	assert.NotNil(t, handler)
 
@@ -23,5 +25,6 @@ func TestHandler(t *testing.T) {
 
 	assert.Equal(t, 200, rec.Code)
 	assert.Contains(t, rec.Body.String(), "My API")
-	assert.Contains(t, rec.Body.String(), "ReDoc")
+	assert.Contains(t, rec.Body.String(), "RapiDoc")
+	assert.Contains(t, rec.Body.String(), `theme="light"`)
 }

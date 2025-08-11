@@ -24,7 +24,7 @@ type Data struct {
 	ShowTopBar         bool              `json:"showTopBar"`
 	HideCurl           bool              `json:"hideCurl"`
 	JsonEditor         bool              `json:"jsonEditor"`
-	PreAuthorizeApiKey map[string]string `json:"-"`
+	PreAuthorizeApiKey map[string]string `json:"preAuthorizeApiKey"`
 	SettingsUI         map[string]string `json:"-"`
 }
 

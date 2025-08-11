@@ -142,3 +142,17 @@ func WithScalar(cfg ...config.Scalar) Option {
 		}
 	}
 }
+
+// WithRapiDoc set ui documentation to use RapiDoc.
+// It can be used to override the default RapiDoc configuration.
+func WithRapiDoc(cfg ...config.RapiDoc) Option {
+	return func(c *config.SpecUI) {
+		c.Provider = config.ProviderRapiDoc
+		if len(cfg) > 0 {
+			c.RapiDoc = &cfg[0]
+		}
+		if c.RapiDoc == nil {
+			c.RapiDoc = &config.RapiDoc{}
+		}
+	}
+}

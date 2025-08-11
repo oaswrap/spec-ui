@@ -11,9 +11,14 @@ import (
 
 func TestHandler(t *testing.T) {
 	handler := swaggerui.NewHandler(&config.SpecUI{
-		Title:     "My API",
-		DocsPath:  "/docs",
-		SwaggerUI: &config.SwaggerUI{},
+		Title:    "My API",
+		DocsPath: "/docs",
+		SwaggerUI: &config.SwaggerUI{
+			SettingsUI: map[string]string{
+				"docExpansion": "full",
+				"filter":       "true",
+			},
+		},
 	})
 	assert.NotNil(t, handler)
 
