@@ -229,20 +229,20 @@ specui.WithScalar(config.Scalar{
 #### RapiDoc Configuration
 ```go
 specui.WithRapiDoc(config.RapiDoc{
-    Theme:              "light",			 // Theme style: "light" or "dark"
-    Layout:             "row",				 // Layout type: "row" or "column"
-    RenderStyle:        "read",				 // Render style: "read", "view", or "focused"
-    SchemaStyle:        "table",			 // Schema style: "table" or "tree"
-    BgColor:            "#fff",			// Background color
-    TextColor:          "#444",			// Text color
-    HeaderColor:        "#444444",			// Header color
-    PrimaryColor:       "#FF791A",			// Primary color
-    HideInfo:           false,				 // Hide the info section
-    HideHeader:         false,				 // Hide the header section
-    HideSearch:         false,				 // Hide the search bar
-    HideAdvancedSearch: false,				 // Hide the advanced search bar
-    HideTryIt:          false,				 // Hide the "Try" feature
-    Logo:               "/assets/logo.png",	 // Logo URL
+	Theme:				"light",			// Theme style: "light" or "dark"
+	Layout:				"row",				// Layout type: "row" or "column"
+	RenderStyle:		"read",				// Render style: "read", "view", or "focused"
+	SchemaStyle:		"table",			// Schema style: "table" or "tree"
+	BgColor:			"#fff",				// Background color
+	TextColor:			"#444",				// Text color
+	HeaderColor:		"#444444",			// Header color
+	PrimaryColor:		"#FF791A",			// Primary color
+	HideInfo:			false,				// Hide the info section
+	HideHeader:			false,				// Hide the header section
+    HideSearch:			false,				// Hide the search bar
+    HideAdvancedSearch:	false,				// Hide the advanced search bar
+    HideTryIt:			false,				// Hide the "Try" feature
+    Logo:				"/assets/logo.png",	// Logo URL
 })
 ```
 
