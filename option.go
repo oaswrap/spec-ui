@@ -106,12 +106,12 @@ func WithStoplightElements(cfg ...config.StoplightElements) Option {
 	}
 }
 
-// WithRedoc sets up the Redoc configuration.
-func WithRedoc(cfg ...config.Redoc) Option {
+// WithReDoc sets up the ReDoc configuration.
+func WithReDoc(cfg ...config.ReDoc) Option {
 	return func(c *config.SpecUI) {
-		c.Provider = config.ProviderRedoc
+		c.Provider = config.ProviderReDoc
 		if len(cfg) > 0 {
-			c.Redoc = cfg[0]
+			c.ReDoc = cfg[0]
 		}
 	}
 }

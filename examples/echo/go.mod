@@ -2,8 +2,6 @@ module github.com/oaswrap/spec-ui/examples/echo
 
 go 1.23.0
 
-toolchain go1.24.5
-
 require (
 	github.com/labstack/echo/v4 v4.13.4
 	github.com/oaswrap/spec-ui v0.0.0

@@ -41,7 +41,7 @@ func (h *Handler) Docs() http.Handler {
 		return swaggerui.NewHandler(h.cfg)
 	case config.ProviderStoplightElements:
 		return stoplightelements.NewHandler(h.cfg)
-	case config.ProviderRedoc:
+	case config.ProviderReDoc:
 		return redoc.NewHandler(h.cfg)
 	default:
 		return nil

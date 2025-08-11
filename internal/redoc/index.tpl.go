@@ -5,7 +5,7 @@ func IndexTpl(assetBase string) string {
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>{{.Title}} - Redoc</title>
+		<title>{{.Title}} - ReDoc</title>
 		<!-- needed for adaptive design -->
 		<meta charset="utf-8"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1">

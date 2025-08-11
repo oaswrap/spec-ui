@@ -5,12 +5,11 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/oaswrap/spec-ui)](https://goreportcard.com/report/github.com/oaswrap/spec-ui)
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/oaswrap/spec-ui/blob/main/LICENSE)
 
-A Go library that provides multiple OpenAPI documentation UIs including Swagger UI, Redoc, and Stoplight Elements. Easily serve beautiful, interactive API documentation for your OpenAPI specifications.
+A Go library that provides multiple OpenAPI documentation UIs including Swagger UI, Stoplight Elements, and ReDoc. Easily serve beautiful, interactive API documentation for your OpenAPI specifications.
 
 ## Features
 
-- 🚀 **Multiple UI Options**: Support for Swagger UI, Redoc, and Stoplight Elements
-- 📱 **Responsive Design**: All UIs are mobile-friendly and responsive
+- 🚀 **Multiple UI Options**: Support for Swagger UI, Stoplight Elements, and ReDoc
 - ⚡ **Easy Integration**: Simple HTTP handler integration with Go's standard library
 - 🎨 **Customizable**: Configure titles, base paths, and OpenAPI spec locations
 - 🔧 **Flexible**: Works with any Go HTTP router or framework
@@ -103,7 +102,7 @@ handler := specui.NewHandler(
 )
 ```
 
-### Redoc
+### ReDoc
 A clean, responsive documentation interface optimized for readability.
 
 ```go
@@ -112,7 +111,7 @@ handler := specui.NewHandler(
 	specui.WithDocsPath("/docs"),
 	specui.WithSpecPath("/docs/openapi.yaml"),
 	specui.WithSpecFile("openapi.yaml"),
-	specui.WithRedoc(config.Redoc{
+	specui.WithReDoc(config.ReDoc{
 		HideDownload: false,
 	}),
 )
@@ -211,16 +210,16 @@ specui.WithSwaggerUI(config.SwaggerUI{
 specui.WithSwaggerUI()
 ```
 
-#### Redoc Configuration
+#### ReDoc Configuration
 ```go
-specui.WithRedoc(config.Redoc{
+specui.WithReDoc(config.ReDoc{
 	HideDownload: false,  		// Hide download button for OpenAPI spec
 	DisableSearch:    false, 	// Disable search functionality
 	HideSchemaTitles: false,	// Hide schema titles
 })
 
 // Or use with defaults
-specui.WithRedoc()
+specui.WithReDoc()
 ```
 
 ## Configuration Examples
