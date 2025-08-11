@@ -59,7 +59,8 @@ func main() {
 ## UI Options
 
 ### Stoplight Elements
-Modern, customizable API documentation with excellent developer experience. [Stoplight Elements Demo](https://elements-demo.stoplight.io/?spec=https://petstore3.swagger.io/api/v3/openapi.json)
+**Beautiful Three-Column Design** - Modern API documentation with a "Stripe-esque" three-column layout, powered by OpenAPI and Markdown for an elegant developer experience.  
+[View Demo](https://elements-demo.stoplight.io/?spec=https://petstore3.swagger.io/api/v3/openapi.json)
 
 ```go
 handler := specui.NewHandler(
@@ -77,7 +78,8 @@ handler := specui.NewHandler(
 ```
 
 ### Swagger UI
-The classic, feature-rich OpenAPI documentation interface with interactive API exploration. [Swagger UI Demo](https://petstore3.swagger.io/)
+**Interactive API Explorer** - Your interactive coding buddy for AI-driven API testing workflows, widely used by developers with extensive framework integrations.  
+[View Demo](https://petstore3.swagger.io/)
 
 ```go
 handler := specui.NewHandler(
@@ -88,7 +90,8 @@ handler := specui.NewHandler(
 ```
 
 ### ReDoc
-A clean, responsive documentation interface optimized for readability. [ReDoc Demo](https://redocly.github.io/redoc/?url=https://petstore3.swagger.io/api/v3/openapi.json)
+**Modern Three-Column Layout** - Similar to Swagger UI but renders documentation in a modern three-column format, perfect for polished executive summaries and presenting API schemas.  
+[View Demo](https://redocly.github.io/redoc/?url=https://petstore3.swagger.io/api/v3/openapi.json)
 
 ```go
 handler := specui.NewHandler(
@@ -99,7 +102,8 @@ handler := specui.NewHandler(
 ```
 
 ### Scalar
-A minimal, lightweight API documentation interface with a focus on simplicity. [Scalar Demo](https://docs.scalar.com/swagger-editor)
+**Feature-Rich Modern Interface** - Provides the most feature-rich interface compared to Swagger UI and ReDoc, with built-in themes, search function, and code examples.  
+[View Demo](https://docs.scalar.com/swagger-editor)
 
 ```go
 handler := specui.NewHandler(
@@ -113,7 +117,7 @@ handler := specui.NewHandler(
 
 The handler provides convenient methods for integration:
 
-- `handler.Docs()` - Return HTTP handler for the documentation UI
+- `handler.Docs()` - Returns HTTP handler for the documentation UI
 - `handler.DocsFunc()` - Returns the HTTP handler function for the documentation UI
 - `handler.DocsPath()` - Returns the documentation path (e.g., `/docs`)
 - `handler.Spec()` - Returns HTTP handler for the OpenAPI specification
@@ -189,24 +193,24 @@ specui.WithSwaggerUI(config.SwaggerUI{
 #### ReDoc Configuration
 ```go
 specui.WithReDoc(config.ReDoc{
-	DisableSearch: true, 		// Disable search functionality.
-	HideDownloadButtons: true, 	// Hides the "Download" button for saving the API definition source file.
-	HideSchemaTitles: true,		// Hides the schema titles in the documentation.
+	DisableSearch:       true, 		// Disable search functionality
+	HideDownloadButtons: true, 		// Hide the "Download" button for saving the API definition source file
+	HideSchemaTitles:    true,		// Hide the schema titles in the documentation
 })
 ```
 
 #### Scalar Configuration
 ```go
 specui.WithScalar(config.Scalar{
-    ProxyURL: "https://proxy.scalar.com",	// Set Proxy URL to making API requests
-    HideSidebar: false,						// Hide sidebar navigation
-    HideModels: false,						// Hide models in the sidebar
-    DocumentDownloadType: "both",			// Document download type e.g. "json", "yaml", "both", or "none"
-    HideTestRequestButton: false,			// Hide the "Test Request" button
-    HideSearch: false,						// Hide search bar
-    DarkMode: true,							// Enable dark mode
-    Layout: "modern",						// Layout type e.g. "modern" or "classic"
-    Theme: "moon"							// Theme name, see https://guides.scalar.com/scalar/scalar-api-references/themes for available themes
+    ProxyURL:                "https://proxy.scalar.com",	// Set Proxy URL for making API requests
+    HideSidebar:             false,						    // Hide sidebar navigation
+    HideModels:              false,						    // Hide models in the sidebar
+    DocumentDownloadType:    "both",					    // Document download type: "json", "yaml", "both", or "none"
+    HideTestRequestButton:   false,						    // Hide the "Test Request" button
+    HideSearch:              false,						    // Hide search bar
+    DarkMode:                true,						    // Enable dark mode
+    Layout:                  "modern",					    // Layout type: "modern" or "classic"
+    Theme:                   "moon"						    // Theme name, see https://guides.scalar.com/scalar/scalar-api-references/themes for available themes
 })
 ```
 
