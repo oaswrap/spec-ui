@@ -1,6 +1,6 @@
 module github.com/oaswrap/spec-ui/examples/fiber
 
-go 1.21
+go 1.20
 
 require (
 	github.com/gofiber/fiber/v2 v2.52.9

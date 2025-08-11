@@ -10,7 +10,7 @@ type Provider uint8
 const (
 	ProviderSwaggerUI Provider = iota
 	ProviderStoplightElements
-	ProviderRedoc
+	ProviderReDoc
 )
 
 // SpecGenerator is an interface for types that can generate OpenAPI specifications.
@@ -32,7 +32,7 @@ type SpecUI struct {
 	Provider          Provider          // Provider type
 	SwaggerUI         SwaggerUI         // Swagger UI configuration
 	StoplightElements StoplightElements // Stoplight Elements configuration
-	Redoc             Redoc             // Redoc configuration
+	ReDoc             ReDoc             // ReDoc configuration
 }
 
 // SwaggerUI holds the configuration for the Swagger UI.
@@ -58,8 +58,8 @@ type StoplightElements struct {
 	Router      string // Router type.
 }
 
-// Redoc holds the configuration for the Redoc.
-type Redoc struct {
+// ReDoc holds the configuration for the ReDoc.
+type ReDoc struct {
 	DisableSearch    bool // Disable search functionality.
 	HideDownload     bool // Hides the "Download" button for saving the API definition source file.
 	HideSchemaTitles bool // Hides the schema titles in the documentation.

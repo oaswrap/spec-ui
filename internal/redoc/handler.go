@@ -32,9 +32,9 @@ func NewHandler(config *config.SpecUI) *Handler {
 		Data: Data{
 			Title:            config.Title,
 			OpenAPIYAMLURL:   config.SpecPath,
-			HideDownload:     config.Redoc.HideDownload,
-			DisableSearch:    config.Redoc.DisableSearch,
-			HideSchemaTitles: config.Redoc.HideSchemaTitles,
+			HideDownload:     config.ReDoc.HideDownload,
+			DisableSearch:    config.ReDoc.DisableSearch,
+			HideSchemaTitles: config.ReDoc.HideSchemaTitles,
 		},
 	}
 
