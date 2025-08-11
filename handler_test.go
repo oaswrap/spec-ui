@@ -61,74 +61,103 @@ func TestHandler(t *testing.T) {
 		})
 	})
 	t.Run("Docs", func(t *testing.T) {
-		t.Run("SwaggerUI", func(t *testing.T) {
-			handler := specui.NewHandler(
-				specui.WithTitle("Petstore API"),
-				specui.WithSpecFile("testdata/petstore.yaml"),
-				specui.WithSwaggerUI(config.SwaggerUI{}),
-			)
-			assert.NotNil(t, handler)
+		tests := []struct {
+			name     string
+			opts     []specui.Option
+			contains []string
+		}{
+			{
+				name: "SwaggerUI",
+				opts: []specui.Option{
+					specui.WithSwaggerUI(),
+				},
+				contains: []string{"Swagger UI"},
+			},
+			{
+				name: "SwaggerUI Empty",
+				opts: []specui.Option{
+					specui.WithSwaggerUI(config.SwaggerUI{}),
+				},
+				contains: []string{"Swagger UI"},
+			},
+			{
+				name: "StoplightElements",
+				opts: []specui.Option{
+					specui.WithStoplightElements(),
+				},
+				contains: []string{"Stoplight Elements"},
+			},
+			{
+				name: "StoplightElements Empty",
+				opts: []specui.Option{
+					specui.WithStoplightElements(config.StoplightElements{}),
+				},
+				contains: []string{"Stoplight Elements"},
+			},
+			{
+				name: "ReDoc",
+				opts: []specui.Option{
+					specui.WithReDoc(),
+				},
+				contains: []string{"ReDoc"},
+			},
+			{
+				name: "ReDoc Empty",
+				opts: []specui.Option{
+					specui.WithReDoc(config.ReDoc{}),
+				},
+				contains: []string{"ReDoc"},
+			},
+			{
+				name: "Scalar",
+				opts: []specui.Option{
+					specui.WithScalar(),
+				},
+				contains: []string{"Scalar"},
+			},
+			{
+				name: "Scalar Empty",
+				opts: []specui.Option{
+					specui.WithScalar(config.Scalar{}),
+				},
+				contains: []string{"Scalar"},
+			},
+			{
+				name: "RapiDoc",
+				opts: []specui.Option{
+					specui.WithRapiDoc(),
+				},
+				contains: []string{"RapiDoc"},
+			},
+			{
+				name: "RapiDoc Empty",
+				opts: []specui.Option{
+					specui.WithRapiDoc(config.RapiDoc{}),
+				},
+				contains: []string{"RapiDoc"},
+			},
+		}
+		for _, tt := range tests {
+			t.Run(tt.name, func(t *testing.T) {
+				defaultOpts := []specui.Option{
+					specui.WithTitle("Petstore API"),
+					specui.WithSpecFile("testdata/petstore.yaml"),
+				}
+				handler := specui.NewHandler(append(defaultOpts, tt.opts...)...)
+				assert.NotNil(t, handler)
 
-			req := httptest.NewRequest("GET", "/docs", nil)
-			rec := httptest.NewRecorder()
-			handler.DocsFunc()(rec, req)
+				req := httptest.NewRequest("GET", "/docs", nil)
+				rec := httptest.NewRecorder()
+				handler.DocsFunc()(rec, req)
 
-			assert.Equal(t, http.StatusOK, rec.Code)
-			assert.NotNil(t, rec.Body)
-			assert.Contains(t, rec.Body.String(), "Petstore API")
-			assert.Contains(t, rec.Body.String(), "Swagger UI")
-		})
-		t.Run("StoplightElements", func(t *testing.T) {
-			handler := specui.NewHandler(
-				specui.WithTitle("Petstore API"),
-				specui.WithSpecFile("testdata/petstore.yaml"),
-				specui.WithStoplightElements(config.StoplightElements{}),
-			)
-			assert.NotNil(t, handler)
-
-			req := httptest.NewRequest("GET", "/docs", nil)
-			rec := httptest.NewRecorder()
-			handler.DocsFunc()(rec, req)
-
-			assert.Equal(t, http.StatusOK, rec.Code)
-			assert.NotNil(t, rec.Body)
-			assert.Contains(t, rec.Body.String(), "Petstore API")
-			assert.Contains(t, rec.Body.String(), "Stoplight Elements")
-		})
-		t.Run("Redoc", func(t *testing.T) {
-			handler := specui.NewHandler(
-				specui.WithTitle("Petstore API"),
-				specui.WithSpecFile("testdata/petstore.yaml"),
-				specui.WithReDoc(config.ReDoc{}),
-			)
-			assert.NotNil(t, handler)
-
-			req := httptest.NewRequest("GET", "/docs", nil)
-			rec := httptest.NewRecorder()
-			handler.DocsFunc()(rec, req)
-
-			assert.Equal(t, http.StatusOK, rec.Code)
-			assert.NotNil(t, rec.Body)
-			assert.Contains(t, rec.Body.String(), "Petstore API")
-			assert.Contains(t, rec.Body.String(), "Redoc")
-		})
-		t.Run("Scalar", func(t *testing.T) {
-			handler := specui.NewHandler(
-				specui.WithTitle("Petstore API"),
-				specui.WithSpecFile("testdata/petstore.yaml"),
-				specui.WithScalar(config.Scalar{}),
-			)
-			assert.NotNil(t, handler)
-
-			req := httptest.NewRequest("GET", "/docs", nil)
-			rec := httptest.NewRecorder()
-			handler.DocsFunc()(rec, req)
-
-			assert.Equal(t, http.StatusOK, rec.Code)
-			assert.NotNil(t, rec.Body)
-			assert.Contains(t, rec.Body.String(), "Petstore API")
-			assert.Contains(t, rec.Body.String(), "Scalar")
-		})
+				assert.Equal(t, http.StatusOK, rec.Code)
+				assert.NotNil(t, rec.Body)
+				assert.Contains(t, rec.Body.String(), "Petstore API")
+				for _, c := range tt.contains {
+					assert.Contains(t, rec.Body.String(), c)
+				}
+			})
+		}
 	})
 	t.Run("Spec", func(t *testing.T) {
 		t.Run("os file system", func(t *testing.T) {

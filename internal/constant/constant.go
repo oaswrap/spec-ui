@@ -1,6 +1,8 @@
 package constant
 
 const (
+	// RapiDocAssetBase is a base URL for the RapiDoc assets.
+	RapiDocAssetBase = "https://cdnjs.cloudflare.com/ajax/libs/rapidoc/9.3.8"
 	// RedocAssetsBase is a base URL for the Redoc assets.
 	RedocAssetsBase = "https://cdn.jsdelivr.net/npm/redoc@2.5.0/bundles"
 

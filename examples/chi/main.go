@@ -11,13 +11,13 @@ import (
 func main() {
 	r := chi.NewRouter()
 
-	// Scalar
+	// Stoplight Elements
 	handler := specui.NewHandler(
 		specui.WithTitle("Pet Store API"),
 		specui.WithDocsPath("/docs"),
 		specui.WithSpecPath("/docs/openapi.yaml"),
 		specui.WithSpecFile("openapi.yaml"),
-		specui.WithScalar(),
+		specui.WithStoplightElements(),
 	)
 
 	r.Get(handler.DocsPath(), handler.DocsFunc())

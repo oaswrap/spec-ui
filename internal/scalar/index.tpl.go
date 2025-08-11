@@ -17,18 +17,16 @@ func IndexTpl(assetBase string, cfg *config.Scalar) string {
 		"hideSearch":            fmt.Sprintf("%t", cfg.HideSearch),
 		"darkMode":              fmt.Sprintf("%t", cfg.DarkMode),
 	}
-	if cfg.ProxyURL != "" {
-		settings["proxyUrl"] = fmt.Sprintf("'%s'", cfg.ProxyURL)
+	// Helper to add a quoted string if not empty
+	addSetting := func(key, val string) {
+		if val != "" {
+			settings[key] = fmt.Sprintf(`"%s"`, val)
+		}
 	}
-	if cfg.Layout != "" {
-		settings["layout"] = fmt.Sprintf("'%s'", cfg.Layout)
-	}
-	if cfg.DocumentDownloadType != "" {
-		settings["documentDownloadType"] = fmt.Sprintf("'%s'", cfg.DocumentDownloadType)
-	}
-	if cfg.Theme != "" {
-		settings["theme"] = fmt.Sprintf("'%s'", cfg.Theme)
-	}
+	addSetting("proxyUrl", cfg.ProxyURL)
+	addSetting("layout", cfg.Layout)
+	addSetting("documentDownloadType", cfg.DocumentDownloadType)
+	addSetting("theme", cfg.Theme)
 
 	settingsStr := make([]string, 0, len(settings))
 	for k, v := range settings {

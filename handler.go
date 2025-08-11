@@ -1,9 +1,11 @@
 package specui
 
 import (
+	"errors"
 	"net/http"
 
 	"github.com/oaswrap/spec-ui/config"
+	"github.com/oaswrap/spec-ui/internal/rapidoc"
 	"github.com/oaswrap/spec-ui/internal/redoc"
 	"github.com/oaswrap/spec-ui/internal/scalar"
 	"github.com/oaswrap/spec-ui/internal/spec"
@@ -46,8 +48,10 @@ func (h *Handler) Docs() http.Handler {
 		return redoc.NewHandler(h.cfg)
 	case config.ProviderScalar:
 		return scalar.NewHandler(h.cfg)
+	case config.ProviderRapiDoc:
+		return rapidoc.NewHandler(h.cfg)
 	default:
-		return nil
+		panic(errors.New("unsupported provider"))
 	}
 }
 
