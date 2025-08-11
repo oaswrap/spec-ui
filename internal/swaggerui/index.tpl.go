@@ -10,39 +10,39 @@ import (
 // IndexTpl creates page template.
 //
 //nolint:funlen // The template is long.
-func IndexTpl(assetsBase, faviconBase string, cfg config.SwaggerUI) string {
+func IndexTpl(assetsBase, faviconBase string, cfg *config.SwaggerUI) string {
 	settings := map[string]string{
 		"url":         "url",
 		"dom_id":      "'#swagger-ui'",
 		"deepLinking": "true",
 		"presets": `[
-				SwaggerUIBundle.presets.apis,
-				SwaggerUIStandalonePreset
-			]`,
+                    SwaggerUIBundle.presets.apis,
+                    SwaggerUIStandalonePreset
+                ]`,
 		"plugins": `[
-				SwaggerUIBundle.plugins.DownloadUrl
-			]`,
+                    SwaggerUIBundle.plugins.DownloadUrl
+                ]`,
 		"layout":                   `"StandaloneLayout"`,
 		"showExtensions":           "true",
 		"showCommonExtensions":     "true",
 		"validatorUrl":             "null",
 		"defaultModelsExpandDepth": "-1", // Hides schemas, override with value "1" in Config.SettingsUI to show schemas.
 		`onComplete`: `function() {
-                if (cfg.preAuthorizeApiKey) {
-                    for (var name in cfg.preAuthorizeApiKey) {
-                        ui.preauthorizeApiKey(name, cfg.preAuthorizeApiKey[name]);
+                    if (cfg.preAuthorizeApiKey) {
+                        for (var name in cfg.preAuthorizeApiKey) {
+                            ui.preauthorizeApiKey(name, cfg.preAuthorizeApiKey[name]);
+                        }
                     }
-                }
 
-                var dom = document.querySelector('.scheme-container select');
-                for (var key in dom) {
-                    if (key.startsWith("__reactInternalInstance$")) {
-                        var compInternals = dom[key]._currentElement;
-                        var compWrapper = compInternals._owner;
-                        compWrapper._instance.setScheme(window.location.protocol.slice(0,-1));
+                    var dom = document.querySelector('.scheme-container select');
+                    for (var key in dom) {
+                        if (key.startsWith("__reactInternalInstance$")) {
+                            var compInternals = dom[key]._currentElement;
+                            var compWrapper = compInternals._owner;
+                            compWrapper._instance.setScheme(window.location.protocol.slice(0,-1));
+                        }
                     }
-                }
-            }`,
+                }`,
 	}
 
 	for k, v := range cfg.SettingsUI {
@@ -51,7 +51,7 @@ func IndexTpl(assetsBase, faviconBase string, cfg config.SwaggerUI) string {
 
 	settingsStr := make([]string, 0, len(settings))
 	for k, v := range settings {
-		settingsStr = append(settingsStr, "\t\t\t"+k+": "+v)
+		settingsStr = append(settingsStr, "\t\t\t\t"+k+": "+v)
 	}
 
 	sort.Strings(settingsStr)
@@ -62,9 +62,9 @@ func IndexTpl(assetsBase, faviconBase string, cfg config.SwaggerUI) string {
 <head>
     <meta charset="UTF-8">
     <title>{{ .Title }} - Swagger UI</title>
-    <link rel="stylesheet" type="text/css" href="` + assetsBase + `swagger-ui.css">
-    <link rel="icon" type="image/png" href="` + faviconBase + `favicon-32x32.png" sizes="32x32"/>
-    <link rel="icon" type="image/png" href="` + faviconBase + `favicon-16x16.png" sizes="16x16"/>
+    <link rel="stylesheet" type="text/css" href="` + assetsBase + `/swagger-ui.css">
+    <link rel="icon" type="image/png" href="` + faviconBase + `/favicon-32x32.png" sizes="32x32"/>
+    <link rel="icon" type="image/png" href="` + faviconBase + `/favicon-16x16.png" sizes="16x16"/>
     <style>
         html {
             box-sizing: border-box;
@@ -85,47 +85,47 @@ func IndexTpl(assetsBase, faviconBase string, cfg config.SwaggerUI) string {
     </style>
 </head>
 <body>
-<div id="swagger-ui"></div>
-<script src="` + assetsBase + `swagger-ui-bundle.js"></script>
-<script src="` + assetsBase + `swagger-ui-standalone-preset.js"></script>
-<script>
-    window.onload = function () {
-        var cfg = {{ .ConfigJson }};
-        var url = cfg.openapiYamlUrl;
-        if (!url.startsWith("https://") && !url.startsWith("http://")) {
-            if (url.startsWith(".")) {
-                var path = window.location.pathname;
-                path = path.endsWith("/") ? path : path + "/";
-                url = window.location.protocol + "//" + window.location.host + path + url;
-            } else {
-                url = window.location.protocol + "//" + window.location.host + url;
+    <div id="swagger-ui"></div>
+    <script src="` + assetsBase + `/swagger-ui-bundle.js"></script>
+    <script src="` + assetsBase + `/swagger-ui-standalone-preset.js"></script>
+    <script>
+        window.onload = function () {
+            const cfg = {{ .ConfigJson }};
+            var url = cfg.openapiURL;
+            if (!url.startsWith("https://") && !url.startsWith("http://")) {
+                if (url.startsWith(".")) {
+                    var path = window.location.pathname;
+                    path = path.endsWith("/") ? path : path + "/";
+                    url = window.location.protocol + "//" + window.location.host + path + url;
+                } else {
+                    url = window.location.protocol + "//" + window.location.host + url;
+                }
             }
-        }
 
-        // Build a system
-        var settings = {
+            // Build a system
+            var settings = {
 ` + strings.Join(settingsStr, ",\n") + `
-        };
+            };
 
-        if (cfg.showTopBar == false) {
-            settings.plugins.push(function () {
-                return {
-                    components: {
-                        Topbar: function () {
-                            return null;
+            if (cfg.showTopBar == false) {
+                settings.plugins.push(function () {
+                    return {
+                        components: {
+                            Topbar: function () {
+                                return null;
+                            }
                         }
                     }
-                }
-            });
-        }
+                });
+            }
 
-        if (cfg.hideCurl) {
-            settings.plugins.push(() => {return {wrapComponents: {curl: () => () => null}}});
-        }
+            if (cfg.hideCurl) {
+                settings.plugins.push(() => {return {wrapComponents: {curl: () => () => null}}});
+            }
 
-        window.ui = SwaggerUIBundle(settings);
-    }
-</script>
+            window.ui = SwaggerUIBundle(settings);
+        }
+    </script>
 </body>
 </html>
 `

@@ -5,6 +5,7 @@ import (
 
 	"github.com/oaswrap/spec-ui/config"
 	"github.com/oaswrap/spec-ui/internal/redoc"
+	"github.com/oaswrap/spec-ui/internal/scalar"
 	"github.com/oaswrap/spec-ui/internal/spec"
 	"github.com/oaswrap/spec-ui/internal/stoplightelements"
 	"github.com/oaswrap/spec-ui/internal/swaggerui"
@@ -43,6 +44,8 @@ func (h *Handler) Docs() http.Handler {
 		return stoplightelements.NewHandler(h.cfg)
 	case config.ProviderReDoc:
 		return redoc.NewHandler(h.cfg)
+	case config.ProviderScalar:
+		return scalar.NewHandler(h.cfg)
 	default:
 		return nil
 	}

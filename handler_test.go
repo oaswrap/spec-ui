@@ -112,6 +112,23 @@ func TestHandler(t *testing.T) {
 			assert.Contains(t, rec.Body.String(), "Petstore API")
 			assert.Contains(t, rec.Body.String(), "Redoc")
 		})
+		t.Run("Scalar", func(t *testing.T) {
+			handler := specui.NewHandler(
+				specui.WithTitle("Petstore API"),
+				specui.WithSpecFile("testdata/petstore.yaml"),
+				specui.WithScalar(config.Scalar{}),
+			)
+			assert.NotNil(t, handler)
+
+			req := httptest.NewRequest("GET", "/docs", nil)
+			rec := httptest.NewRecorder()
+			handler.DocsFunc()(rec, req)
+
+			assert.Equal(t, http.StatusOK, rec.Code)
+			assert.NotNil(t, rec.Body)
+			assert.Contains(t, rec.Body.String(), "Petstore API")
+			assert.Contains(t, rec.Body.String(), "Scalar")
+		})
 	})
 	t.Run("Spec", func(t *testing.T) {
 		t.Run("os file system", func(t *testing.T) {
