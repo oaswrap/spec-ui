@@ -12,7 +12,7 @@ func newConfig(opts ...Option) *config.SpecUI {
 		Title:    "OpenAPI Documentation",
 		DocsPath: "/docs",
 		SpecPath: "/docs/openapi.yaml",
-		StoplightElements: config.StoplightElements{
+		StoplightElements: &config.StoplightElements{
 			Router: "hash",
 			Layout: "sidebar",
 		},
@@ -80,22 +80,31 @@ func WithSpecGenerator(cfg config.SpecGenerator) Option {
 	}
 }
 
-// WithSwaggerUI sets up the Swagger UI configuration.
+// WithSwaggerUI set ui documentation to use Swagger UI.
+// It can be used to override the default Swagger UI configuration.
 func WithSwaggerUI(cfg ...config.SwaggerUI) Option {
 	return func(c *config.SpecUI) {
 		c.Provider = config.ProviderSwaggerUI
 		if len(cfg) > 0 {
-			c.SwaggerUI = cfg[0]
+			c.SwaggerUI = &cfg[0]
+		}
+		if c.SwaggerUI == nil {
+			c.SwaggerUI = &config.SwaggerUI{}
 		}
 	}
 }
 
-// WithStoplightElements sets up the Stoplight Elements configuration.
+// WithStoplightElements set ui documentation to use Stoplight Elements.
+// It can be used to override the default Stoplight Elements configuration.
+// It sets the default router to "hash" and layout to "sidebar" if not specified.
 func WithStoplightElements(cfg ...config.StoplightElements) Option {
 	return func(c *config.SpecUI) {
 		c.Provider = config.ProviderStoplightElements
 		if len(cfg) > 0 {
-			c.StoplightElements = cfg[0]
+			c.StoplightElements = &cfg[0]
+		}
+		if c.StoplightElements == nil {
+			c.StoplightElements = &config.StoplightElements{}
 		}
 		if c.StoplightElements.Router == "" {
 			c.StoplightElements.Router = "hash"
@@ -106,12 +115,30 @@ func WithStoplightElements(cfg ...config.StoplightElements) Option {
 	}
 }
 
-// WithReDoc sets up the ReDoc configuration.
+// WithReDoc set ui documentation to use ReDoc.
+// It can be used to override the default ReDoc configuration.
 func WithReDoc(cfg ...config.ReDoc) Option {
 	return func(c *config.SpecUI) {
 		c.Provider = config.ProviderReDoc
 		if len(cfg) > 0 {
-			c.ReDoc = cfg[0]
+			c.ReDoc = &cfg[0]
+		}
+		if c.ReDoc == nil {
+			c.ReDoc = &config.ReDoc{}
+		}
+	}
+}
+
+// WithScalar set ui documentation to use Scalar.
+// It can be used to override the default Scalar configuration.
+func WithScalar(cfg ...config.Scalar) Option {
+	return func(c *config.SpecUI) {
+		c.Provider = config.ProviderScalar
+		if len(cfg) > 0 {
+			c.Scalar = &cfg[0]
+		}
+		if c.Scalar == nil {
+			c.Scalar = &config.Scalar{}
 		}
 	}
 }

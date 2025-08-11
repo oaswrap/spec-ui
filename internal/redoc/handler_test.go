@@ -13,6 +13,7 @@ func TestHandler(t *testing.T) {
 	handler := redoc.NewHandler(&config.SpecUI{
 		Title:    "My API",
 		DocsPath: "/docs",
+		ReDoc:    &config.ReDoc{},
 	})
 	assert.NotNil(t, handler)
 

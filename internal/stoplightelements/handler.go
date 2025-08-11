@@ -19,14 +19,14 @@ type Handler struct {
 }
 
 type Data struct {
-	Title          string `json:"title"`
-	OpenAPIYAMLURL string `json:"openapiYamlUrl"`
-	HideExport     bool   `json:"hideExport"`
-	HideSchemas    bool   `json:"hideSchemas"`
-	HideTryIt      bool   `json:"hideTryIt"`
-	Layout         string `json:"layout"`
-	Logo           string `json:"logo"`
-	Router         string `json:"router"`
+	Title       string `json:"title"`
+	OpenAPIURL  string `json:"openapiURL"`
+	HideExport  bool   `json:"hideExport"`
+	HideSchemas bool   `json:"hideSchemas"`
+	HideTryIt   bool   `json:"hideTryIt"`
+	Layout      string `json:"layout"`
+	Logo        string `json:"logo"`
+	Router      string `json:"router"`
 }
 
 // NewHandler returns a HTTP handler for swagger UI.
@@ -35,14 +35,14 @@ func NewHandler(config *config.SpecUI) *Handler {
 
 	h := &Handler{
 		Data: Data{
-			Title:          config.Title,
-			OpenAPIYAMLURL: config.SpecPath,
-			HideExport:     config.StoplightElements.HideExport,
-			HideSchemas:    config.StoplightElements.HideSchemas,
-			HideTryIt:      config.StoplightElements.HideTryIt,
-			Layout:         config.StoplightElements.Layout,
-			Logo:           config.StoplightElements.Logo,
-			Router:         config.StoplightElements.Router,
+			Title:       config.Title,
+			OpenAPIURL:  config.SpecPath,
+			HideExport:  config.StoplightElements.HideExport,
+			HideSchemas: config.StoplightElements.HideSchemas,
+			HideTryIt:   config.StoplightElements.HideTryIt,
+			Layout:      config.StoplightElements.Layout,
+			Logo:        config.StoplightElements.Logo,
+			Router:      config.StoplightElements.Router,
 		},
 	}
 

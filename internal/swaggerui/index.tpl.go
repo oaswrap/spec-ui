@@ -10,7 +10,7 @@ import (
 // IndexTpl creates page template.
 //
 //nolint:funlen // The template is long.
-func IndexTpl(assetsBase, faviconBase string, cfg config.SwaggerUI) string {
+func IndexTpl(assetsBase, faviconBase string, cfg *config.SwaggerUI) string {
 	settings := map[string]string{
 		"url":         "url",
 		"dom_id":      "'#swagger-ui'",
@@ -86,12 +86,12 @@ func IndexTpl(assetsBase, faviconBase string, cfg config.SwaggerUI) string {
 </head>
 <body>
 <div id="swagger-ui"></div>
-<script src="` + assetsBase + `swagger-ui-bundle.js"></script>
-<script src="` + assetsBase + `swagger-ui-standalone-preset.js"></script>
+<script src="` + assetsBase + `/swagger-ui-bundle.js"></script>
+<script src="` + assetsBase + `/swagger-ui-standalone-preset.js"></script>
 <script>
     window.onload = function () {
-        var cfg = {{ .ConfigJson }};
-        var url = cfg.openapiYamlUrl;
+        const cfg = {{ .ConfigJson }};
+        var url = cfg.openapiURL;
         if (!url.startsWith("https://") && !url.startsWith("http://")) {
             if (url.startsWith(".")) {
                 var path = window.location.pathname;

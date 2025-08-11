@@ -1,6 +1,27 @@
 package redoc
 
-func IndexTpl(assetBase string) string {
+import (
+	"fmt"
+	"sort"
+	"strings"
+
+	"github.com/oaswrap/spec-ui/config"
+)
+
+func IndexTpl(assetBase string, cfg *config.ReDoc) string {
+	settings := map[string]string{
+		"expandResponses":     "'200,400'",
+		"hideDownloadButtons": fmt.Sprintf("%t", cfg.HideDownloadButtons),
+		"disableSearch":       fmt.Sprintf("%t", cfg.DisableSearch),
+		"hideSchemaTitles":    fmt.Sprintf("%t", cfg.HideSchemaTitles),
+	}
+
+	settingsStr := make([]string, 0, len(settings))
+	for k, v := range settings {
+		settingsStr = append(settingsStr, "\t\t\t\t\t"+k+": "+v)
+	}
+
+	sort.Strings(settingsStr)
 	return `
 <!DOCTYPE html>
 <html>
@@ -19,11 +40,10 @@ func IndexTpl(assetBase string) string {
 	</head>
 	<body>
 		<div id="redoc-container"></div>
-		<script src="` + assetBase + `redoc.standalone.js"> </script>
+		<script src="` + assetBase + `/redoc.standalone.js"> </script>
 		<script>
 			window.onload = function () {
-				const cfg = {{ .ConfigJson }};
-				var url = cfg.openapiYamlUrl;
+				var url = "{{ .OpenAPIURL }}";
 				if (!url.startsWith("https://") && !url.startsWith("http://")) {
 					if (url.startsWith(".")) {
 					var path = window.location.pathname;
@@ -33,12 +53,10 @@ func IndexTpl(assetBase string) string {
 						url = window.location.protocol + "//" + window.location.host + url;
 					}
 				}
-				Redoc.init(url, {
-					"expandResponses": "200,400",
-					"hideDownloadButtons": cfg.hideDownload,
-					"disableSearch": cfg.disableSearch,
-					"hideSchemaTitles": cfg.hideSchemaTitles
-				}, document.getElementById('redoc-container'))
+				const options = {
+` + strings.Join(settingsStr, ",\n") + `
+				}
+				Redoc.init(url, options, document.getElementById('redoc-container'))
 			}
 		</script>
 	</body>

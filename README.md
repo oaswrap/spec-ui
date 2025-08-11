@@ -5,11 +5,11 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/oaswrap/spec-ui)](https://goreportcard.com/report/github.com/oaswrap/spec-ui)
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/oaswrap/spec-ui/blob/main/LICENSE)
 
-A Go library that provides multiple OpenAPI documentation UIs including Swagger UI, Stoplight Elements, and ReDoc. Easily serve beautiful, interactive API documentation for your OpenAPI specifications.
+A Go library that provides multiple OpenAPI documentation UIs. Serve beautiful, interactive API documentation for your OpenAPI specifications.
 
 ## Features
 
-- 🚀 **Multiple UI Options**: Support for Swagger UI, Stoplight Elements, and ReDoc
+- 🚀 **Multiple UI Options**: Support for Swagger UI, Stoplight Elements, ReDoc, and Scalar
 - ⚡ **Easy Integration**: Simple HTTP handler integration with Go's standard library
 - 🎨 **Customizable**: Configure titles, base paths, and OpenAPI spec locations
 - 🔧 **Flexible**: Works with any Go HTTP router or framework
@@ -39,7 +39,7 @@ func main() {
 
 	// Stoplight Elements
 	handler := specui.NewHandler(
-		specui.WithTitle("Petstore API"),
+		specui.WithTitle("Pet Store API"),
 		specui.WithDocsPath("/docs"),
 		specui.WithSpecPath("/docs/openapi.yaml"),
 		specui.WithSpecFile("openapi.yaml"),
@@ -59,13 +59,11 @@ func main() {
 ## UI Options
 
 ### Stoplight Elements
-Modern, customizable API documentation with excellent developer experience.
+Modern, customizable API documentation with excellent developer experience. [Stoplight Elements Demo](https://elements-demo.stoplight.io/?spec=https://petstore3.swagger.io/api/v3/openapi.json)
 
 ```go
 handler := specui.NewHandler(
 	specui.WithTitle("My API"),
-	specui.WithDocsPath("/docs"),
-	specui.WithSpecPath("/docs/openapi.yaml"),
 	specui.WithSpecFile("openapi.yaml"),
 	specui.WithStoplightElements(config.StoplightElements{
 		HideExport:  false,
@@ -79,41 +77,35 @@ handler := specui.NewHandler(
 ```
 
 ### Swagger UI
-The classic, feature-rich OpenAPI documentation interface with interactive API exploration.
+The classic, feature-rich OpenAPI documentation interface with interactive API exploration. [Swagger UI Demo](https://petstore3.swagger.io/)
 
 ```go
 handler := specui.NewHandler(
 	specui.WithTitle("My API"),
-	specui.WithDocsPath("/docs"),
-	specui.WithSpecPath("/docs/openapi.yaml"),
 	specui.WithSpecFile("openapi.yaml"),
-	specui.WithSwaggerUI(config.SwaggerUI{
-		ShowTopBar:         true,
-		HideCurl:           false,
-		JsonEditor:         true,
-		PreAuthorizeApiKey: map[string]string{
-			"api_key": "your-api-key-here",
-		},
-		SettingsUI: map[string]string{
-			"deepLinking": "true",
-			"filter":      "true",
-		},
-	}),
+	specui.WithSwaggerUI(),
 )
 ```
 
 ### ReDoc
-A clean, responsive documentation interface optimized for readability.
+A clean, responsive documentation interface optimized for readability. [ReDoc Demo](https://redocly.github.io/redoc/?url=https://petstore3.swagger.io/api/v3/openapi.json)
 
 ```go
 handler := specui.NewHandler(
 	specui.WithTitle("My API"),
-	specui.WithDocsPath("/docs"),
-	specui.WithSpecPath("/docs/openapi.yaml"),
 	specui.WithSpecFile("openapi.yaml"),
-	specui.WithReDoc(config.ReDoc{
-		HideDownload: false,
-	}),
+	specui.WithReDoc(),
+)
+```
+
+### Scalar
+A minimal, lightweight API documentation interface with a focus on simplicity. [Scalar Demo](https://docs.scalar.com/swagger-editor)
+
+```go
+handler := specui.NewHandler(
+	specui.WithTitle("My API"),
+	specui.WithSpecFile("openapi.yaml"),
+	specui.WithScalar(),
 )
 ```
 
@@ -138,7 +130,7 @@ handler := specui.NewHandler(
 	specui.WithTitle("My API"),                    // Set documentation title
 	specui.WithDocsPath("/docs"),                  // Set docs URL path
 	specui.WithSpecPath("/docs/openapi.yaml"),     // Set spec URL path
-	specui.WithSpecFile("openapi.yaml"),           // Set spec file location
+	specui.WithSpecFile("openapi.yaml"),           // Set the spec file location
 	specui.WithStoplightElements(config.StoplightElements{  // Choose UI with config
 		HideExport: false,
 		HideTryIt:  false,
@@ -166,9 +158,9 @@ The library uses functional options for flexible configuration:
 specui.WithTitle("My API")                   				// Set documentation title
 specui.WithDocsPath("/docs")								// Set documentation URL path
 specui.WithSpecPath("/docs/openapi.yaml")     				// Set OpenAPI spec URL path
-specui.WithSpecFile("openapi.yaml")            				// Specify OpenAPI specification file path
-specui.WithSpecEmbedFS("openapi.yaml", embedFS)     	 	// Use embedded filesystem for spec
-specui.WithSpecIOFS("openapi.yaml", os.DirFS("testdata")) 	// Use OS filesystem for spec
+specui.WithSpecFile("openapi.yaml")            				// Set the spec file location
+specui.WithSpecEmbedFS("openapi.yaml", embedFS)     	 	// Set spec file location with embedded filesystem
+specui.WithSpecIOFS("openapi.yaml", os.DirFS("docs")) 		// Set spec file location with OS filesystem
 ```
 
 ### UI Selection with Configuration
@@ -176,88 +168,46 @@ specui.WithSpecIOFS("openapi.yaml", os.DirFS("testdata")) 	// Use OS filesystem 
 #### Stoplight Elements Configuration
 ```go
 specui.WithStoplightElements(config.StoplightElements{
-	HideExport:  false,                           // Hide the "Export" button
-	HideSchemas: false,                           // Hide schemas in Table of Contents
-	HideTryIt:   false,                           // Hide "Try it" interactive feature
-	Layout:      "sidebar",                       // Layout: "sidebar" or "responsive"
-	Logo:        "/assets/logo.png",              // URL to logo image
-	Router:      "hash",                          // Router type: "hash", "memory"
+	HideExport:  false,					// Hide the "Export" button
+	HideSchemas: false,					// Hide schemas in the Table of Contents
+	HideTryIt:   false,					// Hide the "Try it" interactive feature
+	Layout:      "sidebar",				// Layout: "sidebar" or "responsive"
+	Logo:        "/assets/logo.png",	// URL to logo image
+	Router:      "hash",				// Router type: "hash", "memory"
 })
-
-// Or use with defaults (Layout: "sidebar", Router: "hash")
-specui.WithStoplightElements()
 ```
 
 #### Swagger UI Configuration
 ```go
 specui.WithSwaggerUI(config.SwaggerUI{
-	ShowTopBar:         true,                     // Show navigation top bar
-	HideCurl:           false,                    // Hide curl code snippets
-	JsonEditor:         true,                     // Enable visual JSON editor (experimental)
-	PreAuthorizeApiKey: map[string]string{        // Pre-authorize API keys
-		"api_key": "your-api-key-here",
-		"bearer":  "your-bearer-token",
-	},
-	SettingsUI: map[string]string{                // Advanced SwaggerUI configuration
-		"deepLinking":            "true",
-		"displayRequestDuration": "true",
-		"filter":                 "true",
-		"showExtensions":         "true",
-	},
+	ShowTopBar:         true,	// Show navigation top bar
+	HideCurl:           false,	// Hide curl code snippets
+	JsonEditor:         true,	// Enable visual JSON editor (experimental)
 })
-
-// Or use with defaults
-specui.WithSwaggerUI()
 ```
 
 #### ReDoc Configuration
 ```go
 specui.WithReDoc(config.ReDoc{
-	HideDownload: false,  		// Hide download button for OpenAPI spec
-	DisableSearch:    false, 	// Disable search functionality
-	HideSchemaTitles: false,	// Hide schema titles
+	DisableSearch: true, 		// Disable search functionality.
+	HideDownloadButtons: true, 	// Hides the "Download" button for saving the API definition source file.
+	HideSchemaTitles: true,		// Hides the schema titles in the documentation.
 })
-
-// Or use with defaults
-specui.WithReDoc()
 ```
 
-## Configuration Examples
-
-### Complete Example with All Options
+#### Scalar Configuration
 ```go
-handler := specui.NewHandler(
-	// Core configuration
-	specui.WithTitle("Pet Store API"),
-	specui.WithDocsPath("/documentation"),
-	specui.WithSpecPath("/documentation/openapi.yaml"),
-	specui.WithSpecFile("specs/petstore.yaml"),
-	
-	// Swagger UI with full configuration
-	specui.WithSwaggerUI(config.SwaggerUI{
-		ShowTopBar:  true,
-		JsonEditor:  true,
-		PreAuthorizeApiKey: map[string]string{
-			"api_key": "demo-key",
-			"bearer":  "demo-token",
-		},
-		SettingsUI: map[string]string{
-			"deepLinking":            "true",
-			"displayRequestDuration": "true",
-			"filter":                 "true",
-		},
-	}),
-)
-```
-
-### Minimal Configuration
-```go
-// Uses sensible defaults
-handler := specui.NewHandler(
-	specui.WithSpecFile("openapi.yaml"),
-	specui.WithSwaggerUI(),
-)
-// Default paths: /docs and /docs/openapi.yaml
+specui.WithScalar(config.Scalar{
+    ProxyURL: "https://proxy.scalar.com",	// Set Proxy URL to making API requests
+    HideSidebar: false,						// Hide sidebar navigation
+    HideModels: false,						// Hide models in the sidebar
+    DocumentDownloadType: "both",			// Document download type e.g. "json", "yaml", "both", or "none"
+    HideTestRequestButton: false,			// Hide the "Test Request" button
+    HideSearch: false,						// Hide search bar
+    DarkMode: true,							// Enable dark mode
+    Layout: "modern",						// Layout type e.g. "modern" or "classic"
+    Theme: "moon"							// Theme name, see https://guides.scalar.com/scalar/scalar-api-references/themes for available themes
+})
 ```
 
 ## Examples
@@ -270,14 +220,6 @@ Contributions are welcome! Please feel free to submit a Pull Request. For major 
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## Support
-
-- 📖 Documentation: Check the examples and configuration options above
-- 🐛 Issues: Report bugs or request features via GitHub Issues
-- 💬 Discussions: Join the community discussions for questions and ideas
-
----
+This project is licensed under the MIT License—see the [LICENSE](/LICENSE) file for details.
 
 Made with ❤️ for the Go community

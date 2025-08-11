@@ -11,8 +11,9 @@ import (
 
 func TestHandler(t *testing.T) {
 	handler := swaggerui.NewHandler(&config.SpecUI{
-		Title:    "My API",
-		DocsPath: "/docs",
+		Title:     "My API",
+		DocsPath:  "/docs",
+		SwaggerUI: &config.SwaggerUI{},
 	})
 	assert.NotNil(t, handler)
 

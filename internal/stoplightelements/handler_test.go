@@ -11,8 +11,9 @@ import (
 
 func TestHandler(t *testing.T) {
 	handler := stoplightelements.NewHandler(&config.SpecUI{
-		Title:    "My API",
-		DocsPath: "/docs",
+		Title:             "My API",
+		DocsPath:          "/docs",
+		StoplightElements: &config.StoplightElements{},
 	})
 	assert.NotNil(t, handler)
 

@@ -20,7 +20,7 @@ type Handler struct {
 
 type Data struct {
 	Title              string            `json:"title"`
-	OpenAPIYAMLURL     string            `json:"openapiYamlUrl"`
+	OpenAPIURL         string            `json:"openapiURL"`
 	ShowTopBar         bool              `json:"showTopBar"`
 	HideCurl           bool              `json:"hideCurl"`
 	JsonEditor         bool              `json:"jsonEditor"`
@@ -33,7 +33,7 @@ func NewHandler(config *config.SpecUI) *Handler {
 	h := &Handler{
 		Data: Data{
 			Title:              config.Title,
-			OpenAPIYAMLURL:     config.SpecPath,
+			OpenAPIURL:         config.SpecPath,
 			ShowTopBar:         config.SwaggerUI.ShowTopBar,
 			HideCurl:           config.SwaggerUI.HideCurl,
 			JsonEditor:         config.SwaggerUI.JsonEditor,
