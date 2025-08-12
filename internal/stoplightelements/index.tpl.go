@@ -9,21 +9,20 @@ import (
 )
 
 func IndexTpl(assetBase, faviconBase string, specCfg *config.SpecUI) string {
-	settings := map[string]string{
-		"hideExport":  fmt.Sprintf("%t", specCfg.StoplightElements.HideExport),
-		"hideSchemas": fmt.Sprintf("%t", specCfg.StoplightElements.HideSchemas),
-		"hideTryIt":   fmt.Sprintf("%t", specCfg.StoplightElements.HideTryIt),
-	}
+	settings := map[string]string{}
 	cfg := specCfg.StoplightElements
 	addSetting := func(key, val string) {
 		if val != "" {
 			settings[key] = fmt.Sprintf(`"%s"`, val)
 		}
 	}
+	if cfg.Router == "" {
+		cfg.Router = config.ElementRouterHash
+	}
 	addSetting("router", string(cfg.Router))
 	addSetting("layout", string(cfg.Layout))
 	addSetting("logo", cfg.Logo)
-	if cfg.Router == config.ElementRouterHistory || cfg.Router == "" {
+	if cfg.Router == config.ElementRouterHistory {
 		addSetting("basePath", specCfg.DocsPath)
 	}
 
@@ -59,7 +58,8 @@ func IndexTpl(assetBase, faviconBase string, specCfg *config.SpecUI) string {
 <script>
     window.onload = function () {
         (async () => {
-            var url = "{{ .OpenAPIURL }}";
+            const cfg = {{ .ConfigJson }};
+            var url = cfg.openapiURL;
             if (!url.startsWith("https://") && !url.startsWith("http://")) {
                 if (url.startsWith(".")) {
                     var path = window.location.pathname;
@@ -74,6 +74,10 @@ func IndexTpl(assetBase, faviconBase string, specCfg *config.SpecUI) string {
             const text = await fetch(url).then(res => res.text())
 
             docs.apiDescriptionDocument = text;
+            docs.hideTryIt = cfg.hideTryIt;
+            docs.hideTryItPanel = cfg.hideTryItPanel;
+            docs.hideExport = cfg.hideExport;
+            docs.hideSchemas = cfg.hideSchemas;
         })();
     }
 </script>

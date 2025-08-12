@@ -11,11 +11,11 @@ import (
 func IndexTpl(assetBase, faviconBase string, cfg *config.RapiDoc) string {
 	settings := map[string]string{
 		"spec-url":              `"{{ .OpenAPIURL }}"`,
-		"show-info":             fmt.Sprintf("'%t'", !cfg.HideInfo),
-		"show-header":           fmt.Sprintf("'%t'", !cfg.HideHeader),
-		"allow-search":          fmt.Sprintf("'%t'", !cfg.HideSearch),
-		"allow-advanced-search": fmt.Sprintf("'%t'", !cfg.HideAdvancedSearch),
-		"allow-try":             fmt.Sprintf("'%t'", !cfg.HideTryIt),
+		"show-info":             fmt.Sprintf(`"%t"`, !cfg.HideInfo),
+		"show-header":           fmt.Sprintf(`"%t"`, !cfg.HideHeader),
+		"allow-search":          fmt.Sprintf(`"%t"`, !cfg.HideSearch),
+		"allow-advanced-search": fmt.Sprintf(`"%t"`, !cfg.HideAdvancedSearch),
+		"allow-try":             fmt.Sprintf(`"%t"`, !cfg.HideTryIt),
 	}
 	// Helper to add a quoted string if not empty
 	addSetting := func(key, val string) {

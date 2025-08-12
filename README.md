@@ -189,6 +189,7 @@ The library uses functional options for flexible configuration:
 | `HideExport` | `bool` | `false` | Hide the "Export" button |
 | `HideSchemas` | `bool` | `false` | Hide schemas in the Table of Contents |
 | `HideTryIt` | `bool` | `false` | Hide the "Try it" interactive feature |
+| `HideTryItPanel` | `bool` | `false` | Hide the "Try it" panel |
 | `Layout` | `string` | `"sidebar"` | Layout: "sidebar" or "responsive" |
 | `Logo` | `string` | `""` | URL to logo image |
 | `Router` | `string` | `"history"` | Router type: "history", "hash", "memory", or "static" |
@@ -196,12 +197,13 @@ The library uses functional options for flexible configuration:
 **Usage:**
 ```go
 specui.WithStoplightElements(config.StoplightElements{
-	HideExport:  false,
-	HideSchemas: false,
-	HideTryIt:   false,
-	Layout:      "sidebar",
-	Logo:        "/assets/logo.png",
-	Router:      "hash",
+	HideExport:		false,
+	HideSchemas:	false,
+	HideTryIt:		false,
+	HideTryItPanel:	false,
+	Layout:			"sidebar",
+	Logo:			"/assets/logo.png",
+	Router:			"hash",
 })
 ```
 
