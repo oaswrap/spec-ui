@@ -1,6 +1,7 @@
 package swaggerui
 
 import (
+	"fmt"
 	"sort"
 	"strings"
 
@@ -16,42 +17,26 @@ func IndexTpl(assetsBase, faviconBase string, cfg *config.SwaggerUI) string {
 		"dom_id":      "'#swagger-ui'",
 		"deepLinking": "true",
 		"presets": `[
-                    SwaggerUIBundle.presets.apis,
-                    SwaggerUIStandalonePreset
-                ]`,
+                SwaggerUIBundle.presets.apis,
+                SwaggerUIStandalonePreset
+            ]`,
 		"plugins": `[
-                    SwaggerUIBundle.plugins.DownloadUrl
-                ]`,
-		"layout":                   `"StandaloneLayout"`,
+                SwaggerUIBundle.plugins.DownloadUrl
+            ]`,
+		"layout":                   fmt.Sprintf("'%s'", cfg.Layout),
 		"showExtensions":           "true",
 		"showCommonExtensions":     "true",
 		"validatorUrl":             "null",
-		"defaultModelsExpandDepth": "-1", // Hides schemas, override with value "1" in Config.SettingsUI to show schemas.
-		`onComplete`: `function() {
-                    if (cfg.preAuthorizeApiKey) {
-                        for (var name in cfg.preAuthorizeApiKey) {
-                            ui.preauthorizeApiKey(name, cfg.preAuthorizeApiKey[name]);
-                        }
-                    }
-
-                    var dom = document.querySelector('.scheme-container select');
-                    for (var key in dom) {
-                        if (key.startsWith("__reactInternalInstance$")) {
-                            var compInternals = dom[key]._currentElement;
-                            var compWrapper = compInternals._owner;
-                            compWrapper._instance.setScheme(window.location.protocol.slice(0,-1));
-                        }
-                    }
-                }`,
+		"defaultModelsExpandDepth": fmt.Sprintf("%d", cfg.DefaultModelsExpandDepth),
 	}
 
-	for k, v := range cfg.SettingsUI {
+	for k, v := range cfg.UIConfig {
 		settings[k] = v
 	}
 
 	settingsStr := make([]string, 0, len(settings))
 	for k, v := range settings {
-		settingsStr = append(settingsStr, "\t\t\t\t"+k+": "+v)
+		settingsStr = append(settingsStr, "\t\t\t"+k+": "+v)
 	}
 
 	sort.Strings(settingsStr)
@@ -85,47 +70,35 @@ func IndexTpl(assetsBase, faviconBase string, cfg *config.SwaggerUI) string {
     </style>
 </head>
 <body>
-    <div id="swagger-ui"></div>
-    <script src="` + assetsBase + `/swagger-ui-bundle.js"></script>
-    <script src="` + assetsBase + `/swagger-ui-standalone-preset.js"></script>
-    <script>
-        window.onload = function () {
-            const cfg = {{ .ConfigJson }};
-            var url = cfg.openapiURL;
-            if (!url.startsWith("https://") && !url.startsWith("http://")) {
-                if (url.startsWith(".")) {
-                    var path = window.location.pathname;
-                    path = path.endsWith("/") ? path : path + "/";
-                    url = window.location.protocol + "//" + window.location.host + path + url;
-                } else {
-                    url = window.location.protocol + "//" + window.location.host + url;
-                }
+<div id="swagger-ui"></div>
+<script src="` + assetsBase + `/swagger-ui-bundle.js"></script>
+<script src="` + assetsBase + `/swagger-ui-standalone-preset.js"></script>
+<script>
+    window.onload = function () {
+        const cfg = {{ .ConfigJson }};
+        var url = cfg.openapiURL;
+        if (!url.startsWith("https://") && !url.startsWith("http://")) {
+            if (url.startsWith(".")) {
+                var path = window.location.pathname;
+                path = path.endsWith("/") ? path : path + "/";
+                url = window.location.protocol + "//" + window.location.host + path + url;
+            } else {
+                url = window.location.protocol + "//" + window.location.host + url;
             }
-
-            // Build a system
-            var settings = {
-` + strings.Join(settingsStr, ",\n") + `
-            };
-
-            if (cfg.showTopBar == false) {
-                settings.plugins.push(function () {
-                    return {
-                        components: {
-                            Topbar: function () {
-                                return null;
-                            }
-                        }
-                    }
-                });
-            }
-
-            if (cfg.hideCurl) {
-                settings.plugins.push(() => {return {wrapComponents: {curl: () => () => null}}});
-            }
-
-            window.ui = SwaggerUIBundle(settings);
         }
-    </script>
+
+        // Build a system
+        var settings = {
+` + strings.Join(settingsStr, ",\n") + `
+        };
+
+        if (cfg.hideCurl) {
+            settings.plugins.push(() => {return {wrapComponents: {curl: () => () => null}}});
+        }
+
+        window.ui = SwaggerUIBundle(settings);
+    }
+</script>
 </body>
 </html>
 `

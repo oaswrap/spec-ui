@@ -8,6 +8,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strconv"
 	"strings"
 	"sync"
 
@@ -85,9 +86,7 @@ func (h *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	} else {
 		w.Header().Set("Content-Type", "application/x-yaml")
 	}
-	w.Header().Set("Cache-Control", "no-cache, no-store, must-revalidate")
-	w.Header().Set("Pragma", "no-cache")
-	w.Header().Set("Expires", "0")
+	w.Header().Set("Cache-Control", "public, max-age="+strconv.Itoa(h.cfg.CacheAge)+", immutable")
 	w.WriteHeader(http.StatusOK)
 	_, err := w.Write(h.schema)
 	if err != nil {

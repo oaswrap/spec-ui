@@ -9,14 +9,12 @@ import (
 
 func newConfig(opts ...Option) *config.SpecUI {
 	cfg := &config.SpecUI{
-		Title:    "OpenAPI Documentation",
-		DocsPath: "/docs",
-		SpecPath: "/docs/openapi.yaml",
-		StoplightElements: &config.StoplightElements{
-			Router: "hash",
-			Layout: "sidebar",
-		},
-		Provider: config.ProviderStoplightElements,
+		Title:             "OpenAPI Documentation",
+		CacheAge:          3600, // Default cache age is 3600 seconds (1 hour)
+		DocsPath:          "/docs",
+		SpecPath:          "/docs/openapi.json",
+		StoplightElements: &config.StoplightElements{},
+		Provider:          config.ProviderStoplightElements,
 	}
 
 	for _, opt := range opts {
@@ -33,6 +31,15 @@ type Option func(*config.SpecUI)
 func WithTitle(title string) Option {
 	return func(c *config.SpecUI) {
 		c.Title = title
+	}
+}
+
+// WithCacheAge sets the cache age for the documentation.
+func WithCacheAge(age int) Option {
+	return func(c *config.SpecUI) {
+		if age >= 0 {
+			c.CacheAge = age
+		}
 	}
 }
 
@@ -91,6 +98,12 @@ func WithSwaggerUI(cfg ...config.SwaggerUI) Option {
 		if c.SwaggerUI == nil {
 			c.SwaggerUI = &config.SwaggerUI{}
 		}
+		if c.SwaggerUI.Layout == "" {
+			c.SwaggerUI.Layout = config.SwaggerLayoutStandalone
+		}
+		if c.SwaggerUI.DefaultModelsExpandDepth == 0 {
+			c.SwaggerUI.DefaultModelsExpandDepth = 1
+		}
 	}
 }
 
@@ -105,12 +118,6 @@ func WithStoplightElements(cfg ...config.StoplightElements) Option {
 		}
 		if c.StoplightElements == nil {
 			c.StoplightElements = &config.StoplightElements{}
-		}
-		if c.StoplightElements.Router == "" {
-			c.StoplightElements.Router = "hash"
-		}
-		if c.StoplightElements.Layout == "" {
-			c.StoplightElements.Layout = "sidebar"
 		}
 	}
 }

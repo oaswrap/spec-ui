@@ -1,10 +1,8 @@
 package stoplightelements
 
 import (
-	"encoding/json"
 	"html/template"
 	"net/http"
-	"strings"
 
 	"github.com/oaswrap/spec-ui/config"
 	"github.com/oaswrap/spec-ui/internal/constant"
@@ -13,26 +11,23 @@ import (
 // Handler handles swagger UI request.
 type Handler struct {
 	Data
-	ConfigJson template.JS
 
 	tpl *template.Template
 }
 
 type Data struct {
-	Title       string `json:"title"`
-	OpenAPIURL  string `json:"openapiURL"`
-	HideExport  bool   `json:"hideExport"`
-	HideSchemas bool   `json:"hideSchemas"`
-	HideTryIt   bool   `json:"hideTryIt"`
-	Layout      string `json:"layout"`
-	Logo        string `json:"logo"`
-	Router      string `json:"router"`
+	Title       string               `json:"title"`
+	OpenAPIURL  string               `json:"openapiURL"`
+	HideExport  bool                 `json:"hideExport"`
+	HideSchemas bool                 `json:"hideSchemas"`
+	HideTryIt   bool                 `json:"hideTryIt"`
+	Layout      config.ElementLayout `json:"layout"`
+	Logo        string               `json:"logo"`
+	Router      config.ElementRouter `json:"router"`
 }
 
 // NewHandler returns a HTTP handler for swagger UI.
 func NewHandler(config *config.SpecUI) *Handler {
-	config.DocsPath = strings.TrimSuffix(config.DocsPath, "/") + "/"
-
 	h := &Handler{
 		Data: Data{
 			Title:       config.Title,
@@ -45,15 +40,9 @@ func NewHandler(config *config.SpecUI) *Handler {
 			Router:      config.StoplightElements.Router,
 		},
 	}
+	var err error
 
-	j, err := json.Marshal(h.Data)
-	if err != nil {
-		panic(err)
-	}
-
-	h.ConfigJson = template.JS(j) //nolint:gosec // Data is well formed.
-
-	h.tpl, err = template.New("index").Parse(IndexTpl(constant.StoplightElementsAssetsBase))
+	h.tpl, err = template.New("index").Parse(IndexTpl(constant.StoplightElementsAssetsBase, config))
 	if err != nil {
 		panic(err)
 	}

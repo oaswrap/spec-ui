@@ -14,7 +14,7 @@ func TestHandler(t *testing.T) {
 		Title:    "My API",
 		DocsPath: "/docs",
 		SwaggerUI: &config.SwaggerUI{
-			SettingsUI: map[string]string{
+			UIConfig: map[string]string{
 				"docExpansion": "full",
 				"filter":       "true",
 			},
