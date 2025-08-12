@@ -19,26 +19,22 @@ type Handler struct {
 }
 
 type Data struct {
-	Title              string            `json:"title"`
-	OpenAPIURL         string            `json:"openapiURL"`
-	ShowTopBar         bool              `json:"showTopBar"`
-	HideCurl           bool              `json:"hideCurl"`
-	JsonEditor         bool              `json:"jsonEditor"`
-	PreAuthorizeApiKey map[string]string `json:"preAuthorizeApiKey"`
-	SettingsUI         map[string]string `json:"-"`
+	Title      string            `json:"title"`
+	OpenAPIURL string            `json:"openapiURL"`
+	HideCurl   bool              `json:"hideCurl"`
+	JsonEditor bool              `json:"jsonEditor"`
+	UIConfig   map[string]string `json:"-"`
 }
 
 // NewHandler returns a HTTP handler for swagger UI.
 func NewHandler(config *config.SpecUI) *Handler {
 	h := &Handler{
 		Data: Data{
-			Title:              config.Title,
-			OpenAPIURL:         config.SpecPath,
-			ShowTopBar:         config.SwaggerUI.ShowTopBar,
-			HideCurl:           config.SwaggerUI.HideCurl,
-			JsonEditor:         config.SwaggerUI.JsonEditor,
-			PreAuthorizeApiKey: config.SwaggerUI.PreAuthorizeApiKey,
-			SettingsUI:         config.SwaggerUI.SettingsUI,
+			Title:      config.Title,
+			OpenAPIURL: config.SpecPath,
+			HideCurl:   config.SwaggerUI.HideCurl,
+			JsonEditor: config.SwaggerUI.JsonEditor,
+			UIConfig:   config.SwaggerUI.UIConfig,
 		},
 	}
 

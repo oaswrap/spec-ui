@@ -170,79 +170,142 @@ The library uses functional options for flexible configuration:
 
 ### Core Options
 
-```go
-specui.WithTitle("My API")                   				// Set documentation title
-specui.WithDocsPath("/docs")								// Set documentation URL path
-specui.WithSpecPath("/docs/openapi.yaml")     				// Set OpenAPI spec URL path
-specui.WithSpecFile("openapi.yaml")            				// Set the spec file location
-specui.WithSpecEmbedFS("openapi.yaml", embedFS)     	 	// Set spec file location with embedded filesystem
-specui.WithSpecIOFS("openapi.yaml", os.DirFS("docs")) 		// Set spec file location with OS filesystem
-```
+| Option | Description | Example |
+|--------|-------------|---------|
+| `WithTitle` | Set documentation title | `specui.WithTitle("My API")` |
+| `WithDocsPath` | Set documentation URL path | `specui.WithDocsPath("/docs")` |
+| `WithSpecPath` | Set OpenAPI spec URL path | `specui.WithSpecPath("/docs/openapi.yaml")` |
+| `WithSpecFile` | Set the spec file location | `specui.WithSpecFile("openapi.yaml")` |
+| `WithSpecEmbedFS` | Set spec file location with embedded filesystem | `specui.WithSpecEmbedFS("openapi.yaml", embedFS)` |
+| `WithSpecIOFS` | Set spec file location with OS filesystem | `specui.WithSpecIOFS("openapi.yaml", os.DirFS("docs"))` |
+| `WithCacheAge` | Set cache age for the documentation | `specui.WithCacheAge(3600)` |
 
 ### UI Selection with Configuration
 
 #### Stoplight Elements Configuration
+
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `HideExport` | `bool` | `false` | Hide the "Export" button |
+| `HideSchemas` | `bool` | `false` | Hide schemas in the Table of Contents |
+| `HideTryIt` | `bool` | `false` | Hide the "Try it" interactive feature |
+| `Layout` | `string` | `"sidebar"` | Layout: "sidebar" or "responsive" |
+| `Logo` | `string` | `""` | URL to logo image |
+| `Router` | `string` | `"history"` | Router type: "history", "hash", "memory", or "static" |
+
+**Usage:**
 ```go
 specui.WithStoplightElements(config.StoplightElements{
-	HideExport:  false,					// Hide the "Export" button
-	HideSchemas: false,					// Hide schemas in the Table of Contents
-	HideTryIt:   false,					// Hide the "Try it" interactive feature
-	Layout:      "sidebar",				// Layout: "sidebar" or "responsive"
-	Logo:        "/assets/logo.png",	// URL to logo image
-	Router:      "hash",				// Router type: "hash", "memory"
+	HideExport:  false,
+	HideSchemas: false,
+	HideTryIt:   false,
+	Layout:      "sidebar",
+	Logo:        "/assets/logo.png",
+	Router:      "hash",
 })
 ```
 
 #### Swagger UI Configuration
+
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `HideCurl` | `bool` | `false` | Hide curl code snippets |
+| `JsonEditor` | `bool` | `false` | Enable visual JSON editor (experimental) |
+| `Layout` | `string` | `"StandaloneLayout"` | Layout type: "StandaloneLayout" or "BaseLayout" |
+| `DefaultModelsExpandDepth` | `int` | `1` | Default depth for model expansion in the UI |
+
+**Usage:**
 ```go
 specui.WithSwaggerUI(config.SwaggerUI{
-	ShowTopBar:         true,	// Show navigation top bar
-	HideCurl:           false,	// Hide curl code snippets
-	JsonEditor:         true,	// Enable visual JSON editor (experimental)
+	HideCurl:   				false,
+	JsonEditor: 				true,
+	Layout:     				"StandaloneLayout",
+	DefaultModelsExpandDepth:	1,
 })
 ```
 
 #### ReDoc Configuration
+
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `DisableSearch` | `bool` | `false` | Disable search functionality |
+| `HideDownloadButtons` | `bool` | `false` | Hide the "Download" button for saving the API definition source file |
+| `HideSchemaTitles` | `bool` | `false` | Hide the schema titles in the documentation |
+
+**Usage:**
 ```go
 specui.WithReDoc(config.ReDoc{
-	DisableSearch:       true, 		// Disable search functionality
-	HideDownloadButtons: true, 		// Hide the "Download" button for saving the API definition source file
-	HideSchemaTitles:    true,		// Hide the schema titles in the documentation
+	DisableSearch:       true,
+	HideDownloadButtons: true,
+	HideSchemaTitles:    true,
 })
 ```
 
 #### Scalar Configuration
+
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `ProxyURL` | `string` | `""` | Set Proxy URL for making API requests |
+| `HideSidebar` | `bool` | `false` | Hide sidebar navigation |
+| `HideModels` | `bool` | `false` | Hide models in the sidebar |
+| `DocumentDownloadType` | `string` | `"both"` | Document download type: "json", "yaml", "both", or "none" |
+| `HideTestRequestButton` | `bool` | `false` | Hide the "Test Request" button |
+| `HideSearch` | `bool` | `false` | Hide search bar |
+| `DarkMode` | `bool` | `false` | Enable dark mode |
+| `Layout` | `string` | `"modern"` | Layout type: "modern" or "classic" |
+| `Theme` | `string` | `"default"` | Theme name, see [Scalar themes](https://guides.scalar.com/scalar/scalar-api-references/themes) for available options |
+
+**Usage:**
 ```go
 specui.WithScalar(config.Scalar{
-    ProxyURL:                "https://proxy.scalar.com",	// Set Proxy URL for making API requests
-    HideSidebar:             false,						    // Hide sidebar navigation
-    HideModels:              false,						    // Hide models in the sidebar
-    DocumentDownloadType:    "both",					    // Document download type: "json", "yaml", "both", or "none"
-    HideTestRequestButton:   false,						    // Hide the "Test Request" button
-    HideSearch:              false,						    // Hide search bar
-    DarkMode:                true,						    // Enable dark mode
-    Layout:                  "modern",					    // Layout type: "modern" or "classic"
-    Theme:                   "moon"						    // Theme name, see https://guides.scalar.com/scalar/scalar-api-references/themes for available themes
+	ProxyURL:                "https://proxy.scalar.com",
+	HideSidebar:             false,
+	HideModels:              false,
+	DocumentDownloadType:    "both",
+	HideTestRequestButton:   false,
+	HideSearch:              false,
+	DarkMode:                true,
+	Layout:                  "modern",
+	Theme:                   "moon",
 })
 ```
 
 #### RapiDoc Configuration
+
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `Theme` | `string` | `"light"` | Theme style: "light" or "dark" |
+| `Layout` | `string` | `"row"` | Layout type: "row" or "column" |
+| `RenderStyle` | `string` | `"read"` | Render style: "read", "view", or "focused" |
+| `SchemaStyle` | `string` | `"table"` | Schema style: "table" or "tree" |
+| `BgColor` | `string` | `"#fff"` | Background color |
+| `TextColor` | `string` | `"#444"` | Text color |
+| `HeaderColor` | `string` | `"#444444"` | Header color |
+| `PrimaryColor` | `string` | `"#FF791A"` | Primary color |
+| `HideInfo` | `bool` | `false` | Hide the info section |
+| `HideHeader` | `bool` | `false` | Hide the header section |
+| `HideSearch` | `bool` | `false` | Hide the search bar |
+| `HideAdvancedSearch` | `bool` | `false` | Hide the advanced search bar |
+| `HideTryIt` | `bool` | `false` | Hide the "Try" feature |
+| `Logo` | `string` | `""` | Logo URL |
+
+**Usage:**
 ```go
 specui.WithRapiDoc(config.RapiDoc{
-	Theme:				"light",			// Theme style: "light" or "dark"
-	Layout:				"row",				// Layout type: "row" or "column"
-	RenderStyle:		"read",				// Render style: "read", "view", or "focused"
-	SchemaStyle:		"table",			// Schema style: "table" or "tree"
-	BgColor:			"#fff",				// Background color
-	TextColor:			"#444",				// Text color
-	HeaderColor:		"#444444",			// Header color
-	PrimaryColor:		"#FF791A",			// Primary color
-	HideInfo:			false,				// Hide the info section
-	HideHeader:			false,				// Hide the header section
-    HideSearch:			false,				// Hide the search bar
-    HideAdvancedSearch:	false,				// Hide the advanced search bar
-    HideTryIt:			false,				// Hide the "Try" feature
-    Logo:				"/assets/logo.png",	// Logo URL
+	Theme:               "light",
+	Layout:              "row",
+	RenderStyle:         "read",
+	SchemaStyle:         "table",
+	BgColor:             "#fff",
+	TextColor:           "#444",
+	HeaderColor:         "#444444",
+	PrimaryColor:        "#FF791A",
+	HideInfo:            false,
+	HideHeader:          false,
+	HideSearch:          false,
+	HideAdvancedSearch:  false,
+	HideTryIt:           false,
+	Logo:                "/assets/logo.png",
 })
 ```
 

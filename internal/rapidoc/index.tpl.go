@@ -8,7 +8,7 @@ import (
 	"github.com/oaswrap/spec-ui/config"
 )
 
-func IndexTpl(assetBase string, cfg *config.RapiDoc) string {
+func IndexTpl(assetBase, faviconBase string, cfg *config.RapiDoc) string {
 	settings := map[string]string{
 		"spec-url":              `"{{ .OpenAPIURL }}"`,
 		"show-info":             fmt.Sprintf("'%t'", !cfg.HideInfo),
@@ -24,10 +24,10 @@ func IndexTpl(assetBase string, cfg *config.RapiDoc) string {
 		}
 	}
 
-	addSetting("theme", cfg.Theme)
-	addSetting("layout", cfg.Layout)
-	addSetting("render-style", cfg.RenderStyle)
-	addSetting("schema-style", cfg.SchemaStyle)
+	addSetting("theme", string(cfg.Theme))
+	addSetting("layout", string(cfg.Layout))
+	addSetting("render-style", string(cfg.RenderStyle))
+	addSetting("schema-style", string(cfg.SchemaStyle))
 	addSetting("bg-color", cfg.BgColor)
 	addSetting("text-color", cfg.TextColor)
 	addSetting("header-color", cfg.HeaderColor)
@@ -35,7 +35,7 @@ func IndexTpl(assetBase string, cfg *config.RapiDoc) string {
 
 	settingsStr := make([]string, 0, len(settings))
 	for k, v := range settings {
-		settingsStr = append(settingsStr, "\t\t"+k+"="+v)
+		settingsStr = append(settingsStr, "\t"+k+"="+v)
 	}
 
 	sort.Strings(settingsStr)
@@ -47,15 +47,16 @@ func IndexTpl(assetBase string, cfg *config.RapiDoc) string {
 	<title>{{.Title}} - RapiDoc</title>
 	<meta charset="utf-8">
 	<script type="module" src="` + assetBase + `/rapidoc-min.js"></script>
+	<link rel="shortcut icon" type="image/png" href="` + faviconBase + `/images/logo.png"/>
 </head>
 <body>
-	<rapi-doc
+<rapi-doc
 ` + strings.Join(settingsStr, ",\n") + `
-	>
-	{{ if .Logo }}
-		<img slot="nav-logo" src="{{ .Logo }}" />
-	{{ end }}
-	</rapi-doc>
+>
+{{ if .Logo }}
+	<img slot="nav-logo" src="{{ .Logo }}" />
+{{ end }}
+</rapi-doc>
 </body>
 </html>
 `

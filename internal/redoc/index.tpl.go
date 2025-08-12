@@ -18,10 +18,11 @@ func IndexTpl(assetBase string, cfg *config.ReDoc) string {
 
 	settingsStr := make([]string, 0, len(settings))
 	for k, v := range settings {
-		settingsStr = append(settingsStr, "\t\t\t\t"+k+": "+v)
+		settingsStr = append(settingsStr, "\t\t\t"+k+": "+v)
 	}
 
 	sort.Strings(settingsStr)
+
 	return `
 <!DOCTYPE html>
 <html>
@@ -38,26 +39,26 @@ func IndexTpl(assetBase string, cfg *config.ReDoc) string {
 	</style>
 </head>
 <body>
-	<div id="redoc-container"></div>
-	<script src="` + assetBase + `/redoc.standalone.js"> </script>
-	<script>
-		window.onload = function () {
-			var url = "{{ .OpenAPIURL }}";
-			if (!url.startsWith("https://") && !url.startsWith("http://")) {
-				if (url.startsWith(".")) {
-				var path = window.location.pathname;
-				path = path.endsWith("/") ? path : path + "/";
-					url = window.location.protocol + "//" + window.location.host + path + url;
-				} else {
-					url = window.location.protocol + "//" + window.location.host + url;
-				}
+<div id="redoc-container"></div>
+<script src="` + assetBase + `/redoc.standalone.js"> </script>
+<script>
+	window.onload = function () {
+		var url = "{{ .OpenAPIURL }}";
+		if (!url.startsWith("https://") && !url.startsWith("http://")) {
+			if (url.startsWith(".")) {
+			var path = window.location.pathname;
+			path = path.endsWith("/") ? path : path + "/";
+				url = window.location.protocol + "//" + window.location.host + path + url;
+			} else {
+				url = window.location.protocol + "//" + window.location.host + url;
 			}
-			const options = {
-` + strings.Join(settingsStr, ",\n") + `
-			}
-			Redoc.init(url, options, document.getElementById('redoc-container'))
 		}
-	</script>
+		const options = {
+` + strings.Join(settingsStr, ",\n") + `
+		}
+		Redoc.init(url, options, document.getElementById('redoc-container'))
+	}
+</script>
 </body>
 </html>
 `

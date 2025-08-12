@@ -8,7 +8,7 @@ import (
 	"github.com/oaswrap/spec-ui/config"
 )
 
-func IndexTpl(assetBase string, cfg *config.Scalar) string {
+func IndexTpl(assetBase, faviconBase string, cfg *config.Scalar) string {
 	settings := map[string]string{
 		"url":                   "url",
 		"hideModels":            fmt.Sprintf("%t", cfg.HideModels),
@@ -24,13 +24,13 @@ func IndexTpl(assetBase string, cfg *config.Scalar) string {
 		}
 	}
 	addSetting("proxyUrl", cfg.ProxyURL)
-	addSetting("layout", cfg.Layout)
+	addSetting("layout", string(cfg.Layout))
 	addSetting("documentDownloadType", cfg.DocumentDownloadType)
 	addSetting("theme", cfg.Theme)
 
 	settingsStr := make([]string, 0, len(settings))
 	for k, v := range settings {
-		settingsStr = append(settingsStr, "\t\t\t\t"+k+": "+v)
+		settingsStr = append(settingsStr, "\t\t\t"+k+": "+v)
 	}
 
 	sort.Strings(settingsStr)
@@ -43,27 +43,28 @@ func IndexTpl(assetBase string, cfg *config.Scalar) string {
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<link href="` + assetBase + `/style.min.css" rel="stylesheet">
+	<link rel="icon" type="image/png" href="` + faviconBase + `/favicon.png">
 </head>
 <body>
-	<div id="app"></div>
-	<script src="` + assetBase + `/browser/standalone.min.js"></script>
-	<script>
-		window.onload = function () {
-			var url = "{{ .OpenAPIURL }}";
-			if (!url.startsWith("https://") && !url.startsWith("http://")) {
-				if (url.startsWith(".")) {
-				var path = window.location.pathname;
-				path = path.endsWith("/") ? path : path + "/";
-					url = window.location.protocol + "//" + window.location.host + path + url;
-				} else {
-					url = window.location.protocol + "//" + window.location.host + url;
-				}
+<div id="app"></div>
+<script src="` + assetBase + `/browser/standalone.min.js"></script>
+<script>
+	window.onload = function () {
+		var url = "{{ .OpenAPIURL }}";
+		if (!url.startsWith("https://") && !url.startsWith("http://")) {
+			if (url.startsWith(".")) {
+			var path = window.location.pathname;
+			path = path.endsWith("/") ? path : path + "/";
+				url = window.location.protocol + "//" + window.location.host + path + url;
+			} else {
+				url = window.location.protocol + "//" + window.location.host + url;
 			}
-			Scalar.createApiReference('#app', {
-` + strings.Join(settingsStr, ",\n") + `
-			})
 		}
-	</script>
+		Scalar.createApiReference('#app', {
+` + strings.Join(settingsStr, ",\n") + `
+		})
+	}
+</script>
 </body>
 </html>
 `

@@ -50,7 +50,7 @@ func TestHandler(t *testing.T) {
 		t.Run("default", func(t *testing.T) {
 			handler := specui.NewHandler()
 			assert.NotNil(t, handler)
-			assert.Equal(t, "/docs/openapi.yaml", handler.SpecPath())
+			assert.Equal(t, "/docs/openapi.json", handler.SpecPath())
 		})
 		t.Run("custom", func(t *testing.T) {
 			handler := specui.NewHandler(
@@ -164,6 +164,7 @@ func TestHandler(t *testing.T) {
 			handler := specui.NewHandler(
 				specui.WithTitle("Petstore API"),
 				specui.WithSpecFile("testdata/petstore.yaml"),
+				specui.WithCacheAge(86400),
 			)
 			assert.NotNil(t, handler)
 
@@ -178,6 +179,7 @@ func TestHandler(t *testing.T) {
 			handler := specui.NewHandler(
 				specui.WithTitle("Petstore API"),
 				specui.WithSpecIOFS("petstore.yaml", os.DirFS("testdata")),
+				specui.WithCacheAge(86400),
 			)
 			assert.NotNil(t, handler)
 
@@ -192,6 +194,7 @@ func TestHandler(t *testing.T) {
 			handler := specui.NewHandler(
 				specui.WithTitle("Petstore API"),
 				specui.WithSpecEmbedFS("petstore.yaml", &testdata.FS),
+				specui.WithCacheAge(86400),
 			)
 			assert.NotNil(t, handler)
 
@@ -206,6 +209,7 @@ func TestHandler(t *testing.T) {
 			handler := specui.NewHandler(
 				specui.WithTitle("Petstore API"),
 				specui.WithSpecGenerator(&mockGenerator{}),
+				specui.WithCacheAge(86400),
 			)
 			assert.NotNil(t, handler)
 

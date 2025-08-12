@@ -31,7 +31,7 @@ func NewHandler(config *config.SpecUI) *Handler {
 	}
 	var err error
 
-	h.tpl, err = template.New("index").Parse(IndexTpl(constant.RapiDocAssetBase, config.RapiDoc))
+	h.tpl, err = template.New("index").Parse(IndexTpl(constant.RapiDocAssetBase, constant.RapiDocFaviconBase, config.RapiDoc))
 	if err != nil {
 		panic(err)
 	}
