@@ -192,7 +192,7 @@ The library uses functional options for flexible configuration:
 | `HideTryItPanel` | `bool` | `false` | Hide the "Try it" panel |
 | `Layout` | `string` | `"sidebar"` | Layout: "sidebar" or "responsive" |
 | `Logo` | `string` | `""` | URL to logo image |
-| `Router` | `string` | `"history"` | Router type: "history", "hash", "memory", or "static" |
+| `Router` | `string` | `"hash"` | Router type: "history", "hash", "memory", or "static" |
 
 **Usage:**
 ```go
