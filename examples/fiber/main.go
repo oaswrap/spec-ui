@@ -20,8 +20,8 @@ func main() {
 		specui.WithStoplightElements(),
 	)
 
-	app.Get(handler.DocsPath(), adaptor.HTTPHandler(handler.DocsFunc()))
-	app.Get(handler.SpecPath(), adaptor.HTTPHandler(handler.SpecFunc()))
+	app.Get(handler.DocsPath(), adaptor.HTTPHandler(handler.Docs()))
+	app.Get(handler.SpecPath(), adaptor.HTTPHandler(handler.Spec()))
 
 	log.Printf("OpenAPI Documentation available at http://localhost:3000/docs")
 	log.Printf("OpenAPI YAML available at http://localhost:3000/docs/openapi.yaml")
