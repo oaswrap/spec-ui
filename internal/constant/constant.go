@@ -1,20 +1,17 @@
 package constant
 
 const (
-	// RapiDocAssetBase is a base URL for the RapiDoc assets.
-	RapiDocAssetBase = "https://cdnjs.cloudflare.com/ajax/libs/rapidoc/9.3.8"
-	// RedocAssetsBase is a base URL for the Redoc assets.
+	RapiDocAssetBase   = "https://cdnjs.cloudflare.com/ajax/libs/rapidoc/9.3.8"
+	RapiDocFaviconBase = "https://rapidocweb.com"
+
 	RedocAssetsBase = "https://cdn.jsdelivr.net/npm/redoc@2.5.0/bundles"
 
-	// ScalarAssetBase is a base URL for the Scalar assets.
-	ScalarAssetBase = "https://cdn.jsdelivr.net/npm/@scalar/api-reference@1.34.2/dist"
+	ScalarAssetBase   = "https://cdn.jsdelivr.net/npm/@scalar/api-reference@1.34.2/dist"
+	ScalarFaviconBase = "https://scalar.com"
 
-	// StoplightElementsAssetsBase is a base URL for the Stoplight Elements assets.
 	StoplightElementsAssetsBase = "https://cdn.jsdelivr.net/npm/@stoplight/elements@9.0.6"
+	StoplightElementFaviconBase = "https://docs.stoplight.io"
 
-	// SwaggerUIAssetsBase is a base URL for the Swagger UI assets.
-	SwaggerUIAssetsBase = "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.27.1"
-
-	// SwaggerUIFaviconBase is a base URL for the Swagger UI favicon.
+	SwaggerUIAssetsBase  = "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.27.1"
 	SwaggerUIFaviconBase = "https://petstore.swagger.io"
 )

@@ -8,7 +8,7 @@ import (
 	"github.com/oaswrap/spec-ui/config"
 )
 
-func IndexTpl(assetBase string, cfg *config.Scalar) string {
+func IndexTpl(assetBase, faviconBase string, cfg *config.Scalar) string {
 	settings := map[string]string{
 		"url":                   "url",
 		"hideModels":            fmt.Sprintf("%t", cfg.HideModels),
@@ -43,6 +43,7 @@ func IndexTpl(assetBase string, cfg *config.Scalar) string {
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<link href="` + assetBase + `/style.min.css" rel="stylesheet">
+	<link rel="icon" type="image/png" href="` + faviconBase + `/favicon.png">
 </head>
 <body>
 <div id="app"></div>

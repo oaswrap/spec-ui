@@ -8,7 +8,7 @@ import (
 	"github.com/oaswrap/spec-ui/config"
 )
 
-func IndexTpl(assetBase string, cfg *config.RapiDoc) string {
+func IndexTpl(assetBase, faviconBase string, cfg *config.RapiDoc) string {
 	settings := map[string]string{
 		"spec-url":              `"{{ .OpenAPIURL }}"`,
 		"show-info":             fmt.Sprintf("'%t'", !cfg.HideInfo),
@@ -47,6 +47,7 @@ func IndexTpl(assetBase string, cfg *config.RapiDoc) string {
 	<title>{{.Title}} - RapiDoc</title>
 	<meta charset="utf-8">
 	<script type="module" src="` + assetBase + `/rapidoc-min.js"></script>
+	<link rel="shortcut icon" type="image/png" href="` + faviconBase + `/images/logo.png"/>
 </head>
 <body>
 <rapi-doc

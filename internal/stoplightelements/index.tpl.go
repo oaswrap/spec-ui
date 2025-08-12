@@ -8,7 +8,7 @@ import (
 	"github.com/oaswrap/spec-ui/config"
 )
 
-func IndexTpl(assetBase string, specCfg *config.SpecUI) string {
+func IndexTpl(assetBase, faviconBase string, specCfg *config.SpecUI) string {
 	settings := map[string]string{
 		"hideExport":  fmt.Sprintf("%t", specCfg.StoplightElements.HideExport),
 		"hideSchemas": fmt.Sprintf("%t", specCfg.StoplightElements.HideSchemas),
@@ -42,6 +42,7 @@ func IndexTpl(assetBase string, specCfg *config.SpecUI) string {
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>{{ .Title }} - Stoplight Elements</title>
     <link rel="stylesheet" href="` + assetBase + `/styles.min.css">
+    <link rel="shortcut icon" type="image/x-icon" href="` + faviconBase + `/favicons/favicon.ico"/>
     <style>
         html, body {
         height: 100%;

@@ -29,7 +29,7 @@ func NewHandler(config *config.SpecUI) *Handler {
 	}
 	var err error
 
-	h.tpl, err = template.New("index").Parse(IndexTpl(constant.ScalarAssetBase, config.Scalar))
+	h.tpl, err = template.New("index").Parse(IndexTpl(constant.ScalarAssetBase, constant.ScalarFaviconBase, config.Scalar))
 	if err != nil {
 		panic(err)
 	}

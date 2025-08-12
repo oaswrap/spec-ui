@@ -42,7 +42,7 @@ func NewHandler(config *config.SpecUI) *Handler {
 	}
 	var err error
 
-	h.tpl, err = template.New("index").Parse(IndexTpl(constant.StoplightElementsAssetsBase, config))
+	h.tpl, err = template.New("index").Parse(IndexTpl(constant.StoplightElementsAssetsBase, constant.StoplightElementFaviconBase, config))
 	if err != nil {
 		panic(err)
 	}
