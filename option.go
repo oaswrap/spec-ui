@@ -7,24 +7,18 @@ import (
 
 	"github.com/oaswrap/spec-ui/config"
 	"github.com/oaswrap/spec-ui/internal/rapidoc"
-	"github.com/oaswrap/spec-ui/internal/rapidocemb"
 	"github.com/oaswrap/spec-ui/internal/redoc"
-	"github.com/oaswrap/spec-ui/internal/redocemb"
 	"github.com/oaswrap/spec-ui/internal/scalar"
-	"github.com/oaswrap/spec-ui/internal/scalaremb"
 	"github.com/oaswrap/spec-ui/internal/stoplightelements"
-	"github.com/oaswrap/spec-ui/internal/stoplightelementsemb"
 	"github.com/oaswrap/spec-ui/internal/swaggerui"
-	"github.com/oaswrap/spec-ui/internal/swaggeruiemb"
 )
 
 func newConfig(opts ...Option) *config.SpecUI {
 	cfg := &config.SpecUI{
-		Title:      "OpenAPI Documentation",
-		CacheAge:   3600, // Default cache age is 3600 seconds (1 hour)
-		DocsPath:   "/docs",
-		SpecPath:   "/docs/openapi.json",
-		AssetsPath: "/docs/_assets",
+		Title:    "OpenAPI Documentation",
+		CacheAge: 3600, // Default cache age is 3600 seconds (1 hour)
+		DocsPath: "/docs",
+		SpecPath: "/docs/openapi.json",
 	}
 
 	for _, opt := range opts {
@@ -67,22 +61,6 @@ func WithSpecPath(path string) Option {
 	}
 }
 
-// WithAssetsPath overrides the URL prefix where embedded assets are served.
-// It is meaningful only when embed mode is enabled.
-func WithAssetsPath(path string) Option {
-	return func(c *config.SpecUI) {
-		c.AssetsPath = path
-	}
-}
-
-// WithEmbedAssets enables serving UI CSS/JS assets from the local binary.
-// Without this option, assets are loaded from CDN.
-func WithEmbedAssets() Option {
-	return func(c *config.SpecUI) {
-		c.EmbedAssets = true
-	}
-}
-
 // WithSpecFile sets the path to the specification file.
 func WithSpecFile(filepath string) Option {
 	return func(c *config.SpecUI) {
@@ -119,16 +97,7 @@ func WithSwaggerUI(cfg ...config.SwaggerUI) Option {
 	return func(c *config.SpecUI) {
 		c.Provider = config.ProviderSwaggerUI
 		c.DocsHandlerFactory = func(c *config.SpecUI) http.Handler {
-			if c.EmbedAssets {
-				return swaggeruiemb.NewHandler(c)
-			}
 			return swaggerui.NewHandler(c)
-		}
-		c.AssetsHandlerFactory = func(c *config.SpecUI) http.Handler {
-			if !c.EmbedAssets {
-				return nil
-			}
-			return swaggeruiemb.NewAssetsHandler(c)
 		}
 		if len(cfg) > 0 {
 			c.SwaggerUI = &cfg[0]
@@ -151,16 +120,7 @@ func WithStoplightElements(cfg ...config.StoplightElements) Option {
 	return func(c *config.SpecUI) {
 		c.Provider = config.ProviderStoplightElements
 		c.DocsHandlerFactory = func(c *config.SpecUI) http.Handler {
-			if c.EmbedAssets {
-				return stoplightelementsemb.NewHandler(c)
-			}
 			return stoplightelements.NewHandler(c)
-		}
-		c.AssetsHandlerFactory = func(c *config.SpecUI) http.Handler {
-			if !c.EmbedAssets {
-				return nil
-			}
-			return stoplightelementsemb.NewAssetsHandler(c)
 		}
 		if len(cfg) > 0 {
 			c.StoplightElements = &cfg[0]
@@ -177,16 +137,7 @@ func WithReDoc(cfg ...config.ReDoc) Option {
 	return func(c *config.SpecUI) {
 		c.Provider = config.ProviderReDoc
 		c.DocsHandlerFactory = func(c *config.SpecUI) http.Handler {
-			if c.EmbedAssets {
-				return redocemb.NewHandler(c)
-			}
 			return redoc.NewHandler(c)
-		}
-		c.AssetsHandlerFactory = func(c *config.SpecUI) http.Handler {
-			if !c.EmbedAssets {
-				return nil
-			}
-			return redocemb.NewAssetsHandler(c)
 		}
 		if len(cfg) > 0 {
 			c.ReDoc = &cfg[0]
@@ -203,16 +154,7 @@ func WithScalar(cfg ...config.Scalar) Option {
 	return func(c *config.SpecUI) {
 		c.Provider = config.ProviderScalar
 		c.DocsHandlerFactory = func(c *config.SpecUI) http.Handler {
-			if c.EmbedAssets {
-				return scalaremb.NewHandler(c)
-			}
 			return scalar.NewHandler(c)
-		}
-		c.AssetsHandlerFactory = func(c *config.SpecUI) http.Handler {
-			if !c.EmbedAssets {
-				return nil
-			}
-			return scalaremb.NewAssetsHandler(c)
 		}
 		if len(cfg) > 0 {
 			c.Scalar = &cfg[0]
@@ -229,16 +171,7 @@ func WithRapiDoc(cfg ...config.RapiDoc) Option {
 	return func(c *config.SpecUI) {
 		c.Provider = config.ProviderRapiDoc
 		c.DocsHandlerFactory = func(c *config.SpecUI) http.Handler {
-			if c.EmbedAssets {
-				return rapidocemb.NewHandler(c)
-			}
 			return rapidoc.NewHandler(c)
-		}
-		c.AssetsHandlerFactory = func(c *config.SpecUI) http.Handler {
-			if !c.EmbedAssets {
-				return nil
-			}
-			return rapidocemb.NewAssetsHandler(c)
 		}
 		if len(cfg) > 0 {
 			c.RapiDoc = &cfg[0]

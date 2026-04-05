@@ -21,24 +21,17 @@ type Data struct {
 }
 
 // NewHandler returns a HTTP handler for swagger UI.
-func NewHandler(cfg *config.SpecUI) *Handler {
+func NewHandler(config *config.SpecUI) *Handler {
 	h := &Handler{
 		Data: Data{
-			Title:      cfg.Title,
-			OpenAPIURL: cfg.SpecPath,
-			Logo:       cfg.RapiDoc.Logo,
+			Title:      config.Title,
+			OpenAPIURL: config.SpecPath,
+			Logo:       config.RapiDoc.Logo,
 		},
 	}
 	var err error
 
-	assetsBase := constant.RapiDocAssetBase
-	faviconBase := constant.RapiDocFaviconBase
-	if cfg.EmbedAssets {
-		assetsBase = cfg.AssetsPath
-		faviconBase = cfg.AssetsPath
-	}
-
-	h.tpl, err = template.New("index").Parse(IndexTpl(assetsBase, faviconBase, cfg.RapiDoc))
+	h.tpl, err = template.New("index").Parse(IndexTpl(constant.RapiDocAssetBase, constant.RapiDocFaviconBase, config.RapiDoc))
 	if err != nil {
 		panic(err)
 	}

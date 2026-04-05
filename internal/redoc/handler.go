@@ -23,24 +23,19 @@ type Data struct {
 }
 
 // NewHandler returns a HTTP handler for swagger UI.
-func NewHandler(cfg *config.SpecUI) *Handler {
+func NewHandler(config *config.SpecUI) *Handler {
 	h := &Handler{
 		Data: Data{
-			Title:               cfg.Title,
-			OpenAPIURL:          cfg.SpecPath,
-			HideDownloadButtons: cfg.ReDoc.HideDownloadButtons,
-			DisableSearch:       cfg.ReDoc.DisableSearch,
-			HideSchemaTitles:    cfg.ReDoc.HideSchemaTitles,
+			Title:               config.Title,
+			OpenAPIURL:          config.SpecPath,
+			HideDownloadButtons: config.ReDoc.HideDownloadButtons,
+			DisableSearch:       config.ReDoc.DisableSearch,
+			HideSchemaTitles:    config.ReDoc.HideSchemaTitles,
 		},
 	}
 	var err error
 
-	assetsBase := constant.RedocAssetsBase
-	if cfg.EmbedAssets {
-		assetsBase = cfg.AssetsPath
-	}
-
-	h.tpl, err = template.New("index").Parse(IndexTpl(assetsBase, cfg.ReDoc))
+	h.tpl, err = template.New("index").Parse(IndexTpl(constant.RedocAssetsBase, config.ReDoc))
 	if err != nil {
 		panic(err)
 	}
