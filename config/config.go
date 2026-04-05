@@ -115,6 +115,7 @@ type Scalar struct {
 	DocumentDownloadType  string       // Document download type e.g. "json", "yaml", "both", or "none"
 	HideTestRequestButton bool         // Hide the "Test Request" button
 	HideSearch            bool         // Hide search bar
+	HideDeveloperTools    bool         // Hide developer tools
 	DarkMode              bool         // Enable dark mode
 	Layout                ScalarLayout // Layout type e.g. "modern" or "classic"
 	Theme                 string       // Theme name, see https://guides.scalar.com/scalar/scalar-api-references/themes for available themes

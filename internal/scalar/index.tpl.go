@@ -27,6 +27,9 @@ func IndexTpl(assetBase, faviconBase string, cfg *config.Scalar) string {
 	addSetting("layout", string(cfg.Layout))
 	addSetting("documentDownloadType", cfg.DocumentDownloadType)
 	addSetting("theme", cfg.Theme)
+	if cfg.HideDeveloperTools {
+		settings["showDeveloperTools"] = "'never'"
+	}
 
 	settingsStr := make([]string, 0, len(settings))
 	for k, v := range settings {

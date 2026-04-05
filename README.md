@@ -252,6 +252,7 @@ specui.WithReDoc(config.ReDoc{
 | `HideModels` | `bool` | `false` | Hide models in the sidebar |
 | `DocumentDownloadType` | `string` | `"both"` | Document download type: "json", "yaml", "both", or "none" |
 | `HideTestRequestButton` | `bool` | `false` | Hide the "Test Request" button |
+| `HideDeveloperTools` | `bool` | `false` | Hide developer tools |
 | `HideSearch` | `bool` | `false` | Hide search bar |
 | `DarkMode` | `bool` | `false` | Enable dark mode |
 | `Layout` | `string` | `"modern"` | Layout type: "modern" or "classic" |
@@ -266,6 +267,7 @@ specui.WithScalar(config.Scalar{
 	DocumentDownloadType:    "both",
 	HideTestRequestButton:   false,
 	HideSearch:              false,
+	HideDeveloperTools:      false,
 	DarkMode:                true,
 	Layout:                  "modern",
 	Theme:                   "moon",
