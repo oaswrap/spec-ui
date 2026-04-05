@@ -13,6 +13,7 @@ A Go library that provides multiple OpenAPI documentation UIs. Serve beautiful, 
 - ⚡ **Easy Integration**: Simple HTTP handler integration with Go's standard library
 - 🎨 **Customizable**: Configure titles, base paths, and OpenAPI spec locations
 - 🔧 **Flexible**: Works with any Go HTTP router or framework
+- 📦 **Optional Embedded UI Assets**: Enable local embedded assets for self-contained binaries in air-gapped environments
 
 ## Installation
 
@@ -135,6 +136,40 @@ The handler provides convenient methods for integration:
 - `handler.Spec()` - Returns HTTP handler for the OpenAPI specification
 - `handler.SpecFunc()` - Returns the HTTP handler function for serving the OpenAPI specification
 - `handler.SpecPath()` - Returns the OpenAPI spec path (e.g., `/docs/openapi.yaml`)
+- `handler.AssetsEnabled()` - Returns `true` when UI assets are served from embedded files
+- `handler.AssetsPath()` - Returns the assets URL prefix (default: `/docs/_assets`)
+- `handler.Assets()` - Returns the embedded assets handler (or `nil` in CDN mode)
+
+## Embedded Assets (Optional)
+
+By default, UI CSS/JS assets are loaded from CDN.
+
+If you need offline or air-gapped usage, enable embed mode at runtime.
+
+No extra download step is required for library users; embedded assets are already included in this module.
+
+Register docs/spec as usual, then conditionally register the assets route:
+
+```go
+handler := specui.NewHandler(
+	specui.WithEmbedAssets(),
+	specui.WithSwaggerUI(),
+	specui.WithSpecFile("openapi.yaml"),
+	// specui.WithAssetsPath("/custom/assets"), // optional override
+)
+
+r.Get(handler.DocsPath(), handler.DocsFunc())
+r.Get(handler.SpecPath(), handler.SpecFunc())
+
+if handler.AssetsEnabled() {
+	r.Get(handler.AssetsPath()+"/*", handler.Assets().ServeHTTP)
+}
+```
+
+Notes:
+
+- CDN mode (default): assets are loaded from provider CDN URLs.
+- Embed mode (`specui.WithEmbedAssets()`): docs pages reference local asset URLs under `handler.AssetsPath()`.
 
 ## Basic Usage
 
@@ -179,6 +214,8 @@ The library uses functional options for flexible configuration:
 | `WithSpecEmbedFS` | Set spec file location with embedded filesystem | `specui.WithSpecEmbedFS("openapi.yaml", embedFS)` |
 | `WithSpecIOFS` | Set spec file location with OS filesystem | `specui.WithSpecIOFS("openapi.yaml", os.DirFS("docs"))` |
 | `WithCacheAge` | Set cache age for the documentation | `specui.WithCacheAge(3600)` |
+| `WithEmbedAssets` | Enable serving UI assets from embedded files | `specui.WithEmbedAssets()` |
+| `WithAssetsPath` | Set URL prefix for embedded assets (embed mode) | `specui.WithAssetsPath("/docs/_assets")` |
 
 ### UI Selection with Configuration
 
@@ -319,7 +356,7 @@ Check out the [`examples`](/examples) directory for more examples.
 
 ## Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
+Contributions are welcome. Please see [CONTRIBUTING.md](/CONTRIBUTING.md) for setup, checks, and pull request guidelines.
 
 ## License
 

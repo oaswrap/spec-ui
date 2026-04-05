@@ -31,18 +31,18 @@ type Data struct {
 }
 
 // NewHandler returns a HTTP handler for swagger UI.
-func NewHandler(config *config.SpecUI) *Handler {
+func NewHandler(cfg *config.SpecUI) *Handler {
 	h := &Handler{
 		Data: Data{
-			Title:          config.Title,
-			OpenAPIURL:     config.SpecPath,
-			HideExport:     config.StoplightElements.HideExport,
-			HideSchemas:    config.StoplightElements.HideSchemas,
-			HideTryIt:      config.StoplightElements.HideTryIt,
-			HideTryItPanel: config.StoplightElements.HideTryItPanel,
-			Layout:         config.StoplightElements.Layout,
-			Logo:           config.StoplightElements.Logo,
-			Router:         config.StoplightElements.Router,
+			Title:          cfg.Title,
+			OpenAPIURL:     cfg.SpecPath,
+			HideExport:     cfg.StoplightElements.HideExport,
+			HideSchemas:    cfg.StoplightElements.HideSchemas,
+			HideTryIt:      cfg.StoplightElements.HideTryIt,
+			HideTryItPanel: cfg.StoplightElements.HideTryItPanel,
+			Layout:         cfg.StoplightElements.Layout,
+			Logo:           cfg.StoplightElements.Logo,
+			Router:         cfg.StoplightElements.Router,
 		},
 	}
 
@@ -53,7 +53,14 @@ func NewHandler(config *config.SpecUI) *Handler {
 
 	h.ConfigJson = template.JS(j) //nolint:gosec // Data is well formed.
 
-	h.tpl, err = template.New("index").Parse(IndexTpl(constant.StoplightElementsAssetsBase, constant.StoplightElementFaviconBase, config))
+	assetsBase := constant.StoplightElementsAssetsBase
+	faviconBase := constant.StoplightElementFaviconBase
+	if cfg.EmbedAssets {
+		assetsBase = cfg.AssetsPath
+		faviconBase = cfg.AssetsPath
+	}
+
+	h.tpl, err = template.New("index").Parse(IndexTpl(assetsBase, faviconBase, cfg))
 	if err != nil {
 		panic(err)
 	}

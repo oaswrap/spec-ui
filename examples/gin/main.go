@@ -22,6 +22,9 @@ func main() {
 
 	r.GET(handler.DocsPath(), gin.WrapH(handler.Docs()))
 	r.GET(handler.SpecPath(), gin.WrapH(handler.Spec()))
+	if handler.AssetsEnabled() {
+		r.GET(handler.AssetsPath()+"/*filepath", gin.WrapH(handler.Assets()))
+	}
 
 	log.Printf("OpenAPI Documentation available at http://localhost:3000/docs")
 	log.Printf("OpenAPI YAML available at http://localhost:3000/docs/openapi.yaml")

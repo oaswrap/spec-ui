@@ -45,7 +45,14 @@ func NewHandler(config *config.SpecUI) *Handler {
 
 	h.ConfigJson = template.JS(j) //nolint:gosec // Data is well formed.
 
-	h.tpl, err = template.New("index").Parse(IndexTpl(constant.SwaggerUIAssetsBase, constant.SwaggerUIFaviconBase, config.SwaggerUI))
+	assetsBase := constant.SwaggerUIAssetsBase
+	faviconBase := constant.SwaggerUIFaviconBase
+	if config.EmbedAssets {
+		assetsBase = config.AssetsPath
+		faviconBase = config.AssetsPath
+	}
+
+	h.tpl, err = template.New("index").Parse(IndexTpl(assetsBase, faviconBase, config.SwaggerUI))
 	if err != nil {
 		panic(err)
 	}
