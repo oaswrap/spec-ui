@@ -23,29 +23,39 @@ go mod tidy
 
 ## Architecture
 
-`spec-ui` is a Go library that serves OpenAPI documentation UIs as HTTP handlers. It supports five UI providers: SwaggerUI, StoplightElements, ReDoc, Scalar, and RapiDoc.
+`spec-ui` is a Go library that serves OpenAPI documentation UIs as HTTP handlers. It supports five UI providers: SwaggerUI, StoplightElements, ReDoc, Scalar, and RapiDoc. Each provider comes in two variants: CDN mode and embedded mode.
 
 ### Data flow
 
-1. The user calls `specui.NewHandler(opts...)` with functional options from `option.go`
+1. The user calls `specui.NewHandler(opts...)` with functional options from `option.go` and a provider-specific `WithUI()` option
 2. Options populate a `config.SpecUI` struct (defined in `config/config.go`)
-3. `Handler.Docs()` dispatches to the appropriate provider package under `internal/` based on `cfg.Provider`
-4. `Handler.Spec()` always dispatches to `internal/spec`, which serves the raw OpenAPI file
+3. `Handler.Docs()` calls `cfg.DocsHandlerFactory` — set by the provider's `WithUI()` — to create the handler once (via `sync.Once`)
+4. `Handler.Assets()` calls `cfg.AssetsHandlerFactory` for embedded asset serving; returns `nil` in CDN mode
+5. `Handler.Spec()` dispatches to `internal/spec`, which serves the raw OpenAPI file
+
+### Provider packages
+
+Each provider lives in two top-level packages:
+
+- **`<provider>/`** (e.g., `swaggerui/`, `rapidoc/`): CDN mode — loads JS/CSS from pinned CDN URLs in `internal/constant/constant.go`. Contains `handler.go`, `index.tpl.go`, and `option.go`.
+- **`<provider>emb/`** (e.g., `swaggeruiemb/`, `rapidocemb/`): Embedded mode — sets `cfg.EmbedAssets = true` and delegates to the CDN handler, but also registers `AssetsHandlerFactory` to serve files from the package's `assets/` directory via `//go:embed assets`.
+
+Each provider package exposes `WithUI(cfg ...config.<Provider>) specui.Option`. Only the imported provider's code is linked into the binary (tree-shaking via factory pattern).
 
 ### Key structural patterns
 
-- **Provider packages** (`internal/swaggerui`, `internal/stoplightelements`, `internal/redoc`, `internal/scalar`, `internal/rapidoc`): each has a `handler.go` that renders an HTML template, and an `index.tpl.go` that holds the template string. All UI assets are loaded from CDN (URLs pinned in `internal/constant/constant.go`).
+- **`option.go` (root)**: Shared options only — `WithTitle`, `WithDocsPath`, `WithSpecPath`, `WithAssetsPath`, `WithSpecFile`, `WithSpecEmbedFS`, `WithSpecIOFS`, `WithSpecGenerator`, `WithCacheAge`. Provider selection is done by importing the provider package.
 
-- **Spec serving** (`internal/spec/spec.go`): uses `sync.Once` to read the spec file once and cache it in memory. Supports four source modes: `SpecGenerator` interface, `embed.FS`, `fs.FS`, or plain OS file path.
+- **`config/config.go`**: A single `SpecUI` struct holds all configuration. `DocsHandlerFactory` and `AssetsHandlerFactory` are function fields set by `WithUI()`. Each provider has its own typed config struct with enum-like constants (e.g., `SwaggerLayout`, `RapiDocTheme`).
 
-- **Config** (`config/config.go`): a single `SpecUI` struct holds all configuration. Each UI provider has its own nested config struct with typed constants for enum-like fields (e.g., `ElementLayout`, `RapiDocTheme`).
+- **`internal/spec/spec.go`**: Uses `sync.Once` to read the spec file once and cache it. Supports four source modes: `SpecGenerator` interface, `embed.FS`, `fs.FS`, or plain OS file path.
 
-- **Default provider** is `ProviderStoplightElements`; default paths are `/docs` (docs) and `/docs/openapi.json` (spec).
+- **`handler.go`**: `Docs()`, `Spec()`, `Assets()` — the three HTTP handlers. Call `handler.AssetsEnabled()` to check if embedded mode is active; if so, register `handler.Assets()` at `handler.AssetsPath() + "/"`.
 
 ### Adding a new UI provider
 
 1. Add a new `Provider` constant to `config/config.go`
 2. Add the provider config struct to `config/config.go`
-3. Create `internal/<provider>/handler.go` and `internal/<provider>/index.tpl.go`
+3. Create `<provider>/handler.go`, `<provider>/index.tpl.go`, `<provider>/option.go` — `option.go` sets `DocsHandlerFactory`, `AssetsHandlerFactory = nil`, and any config defaults
 4. Add CDN asset URLs to `internal/constant/constant.go`
-5. In `option.go`: import the new internal package, add a `WithXxx` option that sets `c.Provider`, `c.DocsHandlerFactory` (closure wrapping `<pkg>.NewHandler(c)`), and any provider-specific config defaults. `handler.go:Docs()` needs no changes — it dispatches via `DocsHandlerFactory`.
+5. Create `<provider>emb/handler.go`, `<provider>emb/assets.go`, `<provider>emb/option.go` — `assets.go` uses `//go:embed assets` and serves files; `option.go` sets `EmbedAssets = true` and registers both factories

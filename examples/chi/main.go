@@ -6,6 +6,7 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	specui "github.com/oaswrap/spec-ui"
+	"github.com/oaswrap/spec-ui/stoplight"
 )
 
 func main() {
@@ -17,11 +18,14 @@ func main() {
 		specui.WithDocsPath("/docs"),
 		specui.WithSpecPath("/docs/openapi.yaml"),
 		specui.WithSpecFile("openapi.yaml"),
-		specui.WithStoplightElements(),
+		stoplight.WithUI(),
 	)
 
 	r.Get(handler.DocsPath(), handler.DocsFunc())
 	r.Get(handler.SpecPath(), handler.SpecFunc())
+	if handler.AssetsEnabled() {
+		r.Handle(handler.AssetsPath()+"/*", handler.Assets())
+	}
 
 	log.Printf("OpenAPI Documentation available at http://localhost:3000/docs")
 	log.Printf("OpenAPI YAML available at http://localhost:3000/docs/openapi.yaml")

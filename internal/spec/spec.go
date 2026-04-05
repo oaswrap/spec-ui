@@ -60,12 +60,15 @@ func (h *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			file, h.err = h.cfg.SpecIOFS.Open(h.cfg.SpecFile)
 			if h.err == nil {
 				h.schema, h.err = io.ReadAll(file)
-				_ = file.Close()
+				if closeErr := file.Close(); closeErr != nil && h.err == nil {
+					h.err = closeErr
+				}
 			}
 		})
 
 		if h.err != nil {
 			h.renderError(w, 404, errors.New("OpenAPI specification file is not found"))
+			return
 		}
 	} else if h.cfg.SpecFile != "" {
 		h.once.Do(func() {

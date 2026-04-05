@@ -6,22 +6,26 @@ import (
 
 	"github.com/gorilla/mux"
 	specui "github.com/oaswrap/spec-ui"
+	"github.com/oaswrap/spec-ui/redoc"
 )
 
 func main() {
 	mux := mux.NewRouter()
 
-	// Stoplight Elements
+	// ReDoc
 	handler := specui.NewHandler(
 		specui.WithTitle("To-dos API"),
 		specui.WithDocsPath("/docs"),
 		specui.WithSpecPath("/docs/openapi.yaml"),
 		specui.WithSpecFile("openapi.yaml"),
-		specui.WithStoplightElements(),
+		redoc.WithUI(),
 	)
 
-	mux.Handle(handler.DocsPath(), handler.Spec()).Methods("GET")
+	mux.Handle(handler.DocsPath(), handler.Docs()).Methods("GET")
 	mux.Handle(handler.SpecPath(), handler.Spec()).Methods("GET")
+	if handler.AssetsEnabled() {
+		mux.PathPrefix(handler.AssetsPath() + "/").Handler(handler.Assets()).Methods("GET")
+	}
 
 	log.Printf("OpenAPI Documentation available at http://localhost:3000/docs")
 	log.Printf("OpenAPI YAML available at http://localhost:3000/docs/openapi.yaml")

@@ -3,22 +3,17 @@ package specui
 import (
 	"embed"
 	"io/fs"
-	"net/http"
 
 	"github.com/oaswrap/spec-ui/config"
-	"github.com/oaswrap/spec-ui/internal/rapidoc"
-	"github.com/oaswrap/spec-ui/internal/redoc"
-	"github.com/oaswrap/spec-ui/internal/scalar"
-	"github.com/oaswrap/spec-ui/internal/stoplightelements"
-	"github.com/oaswrap/spec-ui/internal/swaggerui"
 )
 
 func newConfig(opts ...Option) *config.SpecUI {
 	cfg := &config.SpecUI{
-		Title:    "OpenAPI Documentation",
-		CacheAge: 3600, // Default cache age is 3600 seconds (1 hour)
-		DocsPath: "/docs",
-		SpecPath: "/docs/openapi.json",
+		Title:      "OpenAPI Documentation",
+		CacheAge:   3600, // Default cache age is 3600 seconds (1 hour)
+		DocsPath:   "/docs",
+		SpecPath:   "/docs/openapi.json",
+		AssetsPath: "/docs/_assets",
 	}
 
 	for _, opt := range opts {
@@ -61,6 +56,14 @@ func WithSpecPath(path string) Option {
 	}
 }
 
+// WithAssetsPath overrides the URL prefix where embedded assets are served.
+// It is meaningful only when embed mode is enabled.
+func WithAssetsPath(path string) Option {
+	return func(c *config.SpecUI) {
+		c.AssetsPath = path
+	}
+}
+
 // WithSpecFile sets the path to the specification file.
 func WithSpecFile(filepath string) Option {
 	return func(c *config.SpecUI) {
@@ -88,96 +91,5 @@ func WithSpecEmbedFS(filepath string, fs *embed.FS) Option {
 func WithSpecGenerator(cfg config.SpecGenerator) Option {
 	return func(c *config.SpecUI) {
 		c.SpecGenerator = cfg
-	}
-}
-
-// WithSwaggerUI set ui documentation to use Swagger UI.
-// It can be used to override the default Swagger UI configuration.
-func WithSwaggerUI(cfg ...config.SwaggerUI) Option {
-	return func(c *config.SpecUI) {
-		c.Provider = config.ProviderSwaggerUI
-		c.DocsHandlerFactory = func(c *config.SpecUI) http.Handler {
-			return swaggerui.NewHandler(c)
-		}
-		if len(cfg) > 0 {
-			c.SwaggerUI = &cfg[0]
-		}
-		if c.SwaggerUI == nil {
-			c.SwaggerUI = &config.SwaggerUI{}
-		}
-		if c.SwaggerUI.Layout == "" {
-			c.SwaggerUI.Layout = config.SwaggerLayoutStandalone
-		}
-		if c.SwaggerUI.DefaultModelsExpandDepth == 0 {
-			c.SwaggerUI.DefaultModelsExpandDepth = 1
-		}
-	}
-}
-
-// WithStoplightElements set ui documentation to use Stoplight Elements.
-// It can be used to override the default Stoplight Elements configuration.
-func WithStoplightElements(cfg ...config.StoplightElements) Option {
-	return func(c *config.SpecUI) {
-		c.Provider = config.ProviderStoplightElements
-		c.DocsHandlerFactory = func(c *config.SpecUI) http.Handler {
-			return stoplightelements.NewHandler(c)
-		}
-		if len(cfg) > 0 {
-			c.StoplightElements = &cfg[0]
-		}
-		if c.StoplightElements == nil {
-			c.StoplightElements = &config.StoplightElements{}
-		}
-	}
-}
-
-// WithReDoc set ui documentation to use ReDoc.
-// It can be used to override the default ReDoc configuration.
-func WithReDoc(cfg ...config.ReDoc) Option {
-	return func(c *config.SpecUI) {
-		c.Provider = config.ProviderReDoc
-		c.DocsHandlerFactory = func(c *config.SpecUI) http.Handler {
-			return redoc.NewHandler(c)
-		}
-		if len(cfg) > 0 {
-			c.ReDoc = &cfg[0]
-		}
-		if c.ReDoc == nil {
-			c.ReDoc = &config.ReDoc{}
-		}
-	}
-}
-
-// WithScalar set ui documentation to use Scalar.
-// It can be used to override the default Scalar configuration.
-func WithScalar(cfg ...config.Scalar) Option {
-	return func(c *config.SpecUI) {
-		c.Provider = config.ProviderScalar
-		c.DocsHandlerFactory = func(c *config.SpecUI) http.Handler {
-			return scalar.NewHandler(c)
-		}
-		if len(cfg) > 0 {
-			c.Scalar = &cfg[0]
-		}
-		if c.Scalar == nil {
-			c.Scalar = &config.Scalar{}
-		}
-	}
-}
-
-// WithRapiDoc set ui documentation to use RapiDoc.
-// It can be used to override the default RapiDoc configuration.
-func WithRapiDoc(cfg ...config.RapiDoc) Option {
-	return func(c *config.SpecUI) {
-		c.Provider = config.ProviderRapiDoc
-		c.DocsHandlerFactory = func(c *config.SpecUI) http.Handler {
-			return rapidoc.NewHandler(c)
-		}
-		if len(cfg) > 0 {
-			c.RapiDoc = &cfg[0]
-		}
-		if c.RapiDoc == nil {
-			c.RapiDoc = &config.RapiDoc{}
-		}
 	}
 }

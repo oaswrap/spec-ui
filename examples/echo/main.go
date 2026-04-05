@@ -5,22 +5,26 @@ import (
 
 	"github.com/labstack/echo/v4"
 	specui "github.com/oaswrap/spec-ui"
+	"github.com/oaswrap/spec-ui/swaggerui"
 )
 
 func main() {
 	e := echo.New()
 
-	// Stoplight Elements
+	// Swagger UI
 	handler := specui.NewHandler(
 		specui.WithTitle("To-dos API"),
 		specui.WithDocsPath("/docs"),
 		specui.WithSpecPath("/docs/openapi.yaml"),
 		specui.WithSpecFile("openapi.yaml"),
-		specui.WithStoplightElements(),
+		swaggerui.WithUI(),
 	)
 
 	e.GET(handler.DocsPath(), echo.WrapHandler(handler.Docs()))
 	e.GET(handler.SpecPath(), echo.WrapHandler(handler.Spec()))
+	if handler.AssetsEnabled() {
+		e.GET(handler.AssetsPath()+"/*", echo.WrapHandler(handler.Assets()))
+	}
 
 	log.Printf("OpenAPI Documentation available at http://localhost:3000/docs")
 	log.Printf("OpenAPI YAML available at http://localhost:3000/docs/openapi.yaml")
