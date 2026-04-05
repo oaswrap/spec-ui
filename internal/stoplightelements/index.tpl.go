@@ -33,12 +33,6 @@ func IndexTpl(assetBase, faviconBase string, specCfg *config.SpecUI) string {
 
 	sort.Strings(settingsStr)
 
-	faviconLink := ""
-	if faviconBase != "" {
-		faviconLink = `
-    <link rel="shortcut icon" type="image/x-icon" href="` + faviconBase + `/favicons/favicon.ico"/>`
-	}
-
 	return `
 <!doctype html>
 <html lang="en">
@@ -47,7 +41,7 @@ func IndexTpl(assetBase, faviconBase string, specCfg *config.SpecUI) string {
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>{{ .Title }} - Stoplight Elements</title>
     <link rel="stylesheet" href="` + assetBase + `/styles.min.css">
-` + faviconLink + `
+    <link rel="shortcut icon" type="image/x-icon" href="` + faviconBase + `/favicons/favicon.ico"/>
     <style>
         html, body {
         height: 100%;

@@ -32,8 +32,6 @@ type SpecUI struct {
 	SpecIOFS      fs.FS         // Filesystem for the OpenAPI specification
 	SpecEmbedFS   *embed.FS     // Embedded file system for the OpenAPI specification
 	SpecGenerator SpecGenerator // OpenAPI specification generator
-	AssetsPath    string        // Path to embedded assets, defaults to "/docs/_assets"
-	EmbedAssets   bool          // True when local UI assets are served from embedded files
 
 	Provider          Provider           // Provider type
 	SwaggerUI         *SwaggerUI         // Swagger UI configuration
@@ -46,10 +44,6 @@ type SpecUI struct {
 	// provider's handler is created at request time. Only the referenced
 	// provider's code is linked into the binary, enabling tree-shaking.
 	DocsHandlerFactory func(*SpecUI) http.Handler
-
-	// AssetsHandlerFactory is set by With<Provider> options only when embedded
-	// assets are enabled for the selected provider.
-	AssetsHandlerFactory func(*SpecUI) http.Handler
 }
 
 type SwaggerLayout string

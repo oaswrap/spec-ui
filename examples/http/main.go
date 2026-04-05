@@ -21,9 +21,6 @@ func main() {
 
 	mux.Handle("GET "+handler.DocsPath(), handler.Docs())
 	mux.Handle("GET "+handler.SpecPath(), handler.Spec())
-	if handler.AssetsEnabled() {
-		mux.Handle("GET "+handler.AssetsPath()+"/", handler.Assets())
-	}
 
 	log.Printf("OpenAPI Documentation available at http://localhost:3000/docs")
 	log.Printf("OpenAPI YAML available at http://localhost:3000/docs/openapi.yaml")

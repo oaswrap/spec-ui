@@ -38,12 +38,6 @@ func IndexTpl(assetBase, faviconBase string, cfg *config.Scalar) string {
 
 	sort.Strings(settingsStr)
 
-	faviconLink := ""
-	if faviconBase != "" {
-		faviconLink = `
-	<link rel="icon" type="image/png" href="` + faviconBase + `/favicon.png">`
-	}
-
 	return `
 <!doctype html>
 <html>
@@ -52,7 +46,7 @@ func IndexTpl(assetBase, faviconBase string, cfg *config.Scalar) string {
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<link href="` + assetBase + `/style.min.css" rel="stylesheet">
-` + faviconLink + `
+	<link rel="icon" type="image/png" href="` + faviconBase + `/favicon.png">
 </head>
 <body>
 <div id="app"></div>

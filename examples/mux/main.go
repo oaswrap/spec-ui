@@ -20,11 +20,8 @@ func main() {
 		specui.WithStoplightElements(),
 	)
 
-	mux.Handle(handler.DocsPath(), handler.Docs()).Methods("GET")
+	mux.Handle(handler.DocsPath(), handler.Spec()).Methods("GET")
 	mux.Handle(handler.SpecPath(), handler.Spec()).Methods("GET")
-	if handler.AssetsEnabled() {
-		mux.PathPrefix(handler.AssetsPath() + "/").Handler(handler.Assets()).Methods("GET")
-	}
 
 	log.Printf("OpenAPI Documentation available at http://localhost:3000/docs")
 	log.Printf("OpenAPI YAML available at http://localhost:3000/docs/openapi.yaml")

@@ -22,9 +22,6 @@ func main() {
 
 	r.Get(handler.DocsPath(), handler.DocsFunc())
 	r.Get(handler.SpecPath(), handler.SpecFunc())
-	if handler.AssetsEnabled() {
-		r.Handle(handler.AssetsPath()+"/*", handler.Assets())
-	}
 
 	log.Printf("OpenAPI Documentation available at http://localhost:3000/docs")
 	log.Printf("OpenAPI YAML available at http://localhost:3000/docs/openapi.yaml")
