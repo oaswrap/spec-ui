@@ -40,6 +40,12 @@ func IndexTpl(assetBase, faviconBase string, cfg *config.RapiDoc) string {
 
 	sort.Strings(settingsStr)
 
+	faviconLink := ""
+	if faviconBase != "" {
+		faviconLink = `
+	<link rel="shortcut icon" type="image/png" href="` + faviconBase + `/images/logo.png"/>`
+	}
+
 	return `
 <!doctype html>
 <html>
@@ -47,7 +53,7 @@ func IndexTpl(assetBase, faviconBase string, cfg *config.RapiDoc) string {
 	<title>{{.Title}} - RapiDoc</title>
 	<meta charset="utf-8">
 	<script type="module" src="` + assetBase + `/rapidoc-min.js"></script>
-	<link rel="shortcut icon" type="image/png" href="` + faviconBase + `/images/logo.png"/>
+` + faviconLink + `
 </head>
 <body>
 <rapi-doc

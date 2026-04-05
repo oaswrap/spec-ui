@@ -21,6 +21,9 @@ func main() {
 
 	e.GET(handler.DocsPath(), echo.WrapHandler(handler.Docs()))
 	e.GET(handler.SpecPath(), echo.WrapHandler(handler.Spec()))
+	if handler.AssetsEnabled() {
+		e.GET(handler.AssetsPath()+"/*", echo.WrapHandler(handler.Assets()))
+	}
 
 	log.Printf("OpenAPI Documentation available at http://localhost:3000/docs")
 	log.Printf("OpenAPI YAML available at http://localhost:3000/docs/openapi.yaml")

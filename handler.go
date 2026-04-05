@@ -23,6 +23,8 @@ type Handler struct {
 	cfg         *config.SpecUI
 	docsOnce    sync.Once
 	docsHandler http.Handler
+	assetsOnce  sync.Once
+	assets      http.Handler
 }
 
 // DocsPath returns the path to the API documentation.
@@ -35,6 +37,16 @@ func (h *Handler) SpecPath() string {
 	return h.cfg.SpecPath
 }
 
+// AssetsEnabled returns true when embedded assets are enabled.
+func (h *Handler) AssetsEnabled() bool {
+	return h.cfg.EmbedAssets
+}
+
+// AssetsPath returns the URL prefix used for embedded assets.
+func (h *Handler) AssetsPath() string {
+	return h.cfg.AssetsPath
+}
+
 // Docs returns the HTTP handler for the API documentation.
 // The handler is created once and cached for subsequent calls.
 func (h *Handler) Docs() http.Handler {
@@ -45,6 +57,18 @@ func (h *Handler) Docs() http.Handler {
 		h.docsHandler = h.cfg.DocsHandlerFactory(h.cfg)
 	})
 	return h.docsHandler
+}
+
+// Assets returns the HTTP handler for embedded UI assets.
+// Returns nil when running in CDN mode.
+func (h *Handler) Assets() http.Handler {
+	if h.cfg.AssetsHandlerFactory == nil {
+		return nil
+	}
+	h.assetsOnce.Do(func() {
+		h.assets = h.cfg.AssetsHandlerFactory(h.cfg)
+	})
+	return h.assets
 }
 
 // DocsFunc returns the HTTP handler function for the API documentation.
