@@ -22,7 +22,6 @@ go get github.com/oaswrap/spec-ui
 ```
 
 ## Quick Start
-any 
 ```go
 package main
 
