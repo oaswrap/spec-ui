@@ -7,6 +7,8 @@ import (
 	"github.com/oaswrap/spec-ui/config"
 )
 
+// WithUI configures the handler to use RapiDoc, loading assets from CDN.
+// An optional config.RapiDoc value may be passed to customise the UI behaviour.
 func WithUI(cfg ...config.RapiDoc) specui.Option {
 	return func(c *config.SpecUI) {
 		c.Provider = config.ProviderRapiDoc

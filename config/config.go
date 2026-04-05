@@ -101,7 +101,7 @@ type StoplightElements struct {
 
 // ReDoc holds the configuration for the ReDoc.
 type ReDoc struct {
-	DisableSearch       bool // Disable search functionality.
+	HideSearch          bool // Hide the search bar.
 	HideDownloadButtons bool // Hides the "Download" button for saving the API definition source file.
 	HideSchemaTitles    bool // Hides the schema titles in the documentation.
 }

@@ -7,6 +7,8 @@ import (
 	"github.com/oaswrap/spec-ui/config"
 )
 
+// WithUI configures the handler to use ReDoc, loading assets from CDN.
+// An optional config.ReDoc value may be passed to customise the UI behaviour.
 func WithUI(cfg ...config.ReDoc) specui.Option {
 	return func(c *config.SpecUI) {
 		c.Provider = config.ProviderReDoc

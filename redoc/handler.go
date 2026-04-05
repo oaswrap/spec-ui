@@ -18,18 +18,18 @@ type Data struct {
 	Title               string `json:"title"`
 	OpenAPIURL          string `json:"openapiURL"`
 	HideDownloadButtons bool   `json:"hideDownloadButtons"`
-	DisableSearch       bool   `json:"disableSearch"`
+	HideSearch          bool   `json:"hideSearch"`
 	HideSchemaTitles    bool   `json:"hideSchemaTitles"`
 }
 
-// NewHandler returns a HTTP handler for swagger UI.
+// NewHandler returns a HTTP handler for ReDoc.
 func NewHandler(cfg *config.SpecUI) *Handler {
 	h := &Handler{
 		Data: Data{
 			Title:               cfg.Title,
 			OpenAPIURL:          cfg.SpecPath,
 			HideDownloadButtons: cfg.ReDoc.HideDownloadButtons,
-			DisableSearch:       cfg.ReDoc.DisableSearch,
+			HideSearch:          cfg.ReDoc.HideSearch,
 			HideSchemaTitles:    cfg.ReDoc.HideSchemaTitles,
 		},
 	}

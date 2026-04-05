@@ -22,7 +22,7 @@ go get github.com/oaswrap/spec-ui
 ```
 
 ## Quick Start
-
+any 
 ```go
 package main
 
@@ -38,7 +38,6 @@ import (
 func main() {
 	r := chi.NewRouter()
 
-	// Stoplight Elements (default provider)
 	handler := specui.NewHandler(
 		specui.WithTitle("Pet Store API"),
 		specui.WithDocsPath("/docs"),
@@ -66,7 +65,10 @@ Each UI provider is accessed through its own package. Import the provider packag
 [View Demo](https://elements-demo.stoplight.io/?spec=https://petstore3.swagger.io/api/v3/openapi.json)
 
 ```go
-import "github.com/oaswrap/spec-ui/stoplight"
+import (
+	"github.com/oaswrap/spec-ui/config"
+	"github.com/oaswrap/spec-ui/stoplight"
+)
 
 handler := specui.NewHandler(
 	specui.WithTitle("My API"),
@@ -283,6 +285,7 @@ The library uses functional options for flexible configuration through provider 
 | `WithSpecIOFS` | Set spec file location with OS filesystem | `specui.WithSpecIOFS("openapi.yaml", os.DirFS("docs"))` |
 | `WithCacheAge` | Set cache age for the documentation | `specui.WithCacheAge(3600)` |
 | `WithAssetsPath` | Set URL prefix for embedded assets (embed mode only) | `specui.WithAssetsPath("/docs/_assets")` |
+| `WithSpecGenerator` | Set a generator that produces the spec at runtime | `specui.WithSpecGenerator(myGen)` |
 
 ### UI Provider Selection
 
@@ -312,7 +315,10 @@ Each UI provider package exports a `WithUI(config...)` option:
 
 **Usage:**
 ```go
-import "github.com/oaswrap/spec-ui/stoplight"
+import (
+	"github.com/oaswrap/spec-ui/config"
+	"github.com/oaswrap/spec-ui/stoplight"
+)
 
 stoplight.WithUI(config.StoplightElements{
 	HideExport:		false,
@@ -336,7 +342,10 @@ stoplight.WithUI(config.StoplightElements{
 
 **Usage:**
 ```go
-import "github.com/oaswrap/spec-ui/swaggerui"
+import (
+	"github.com/oaswrap/spec-ui/config"
+	"github.com/oaswrap/spec-ui/swaggerui"
+)
 
 swaggerui.WithUI(config.SwaggerUI{
 	HideCurl:   				false,
@@ -350,16 +359,19 @@ swaggerui.WithUI(config.SwaggerUI{
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
-| `DisableSearch` | `bool` | `false` | Disable search functionality |
+| `HideSearch` | `bool` | `false` | Hide the search bar |
 | `HideDownloadButtons` | `bool` | `false` | Hide the "Download" button for saving the API definition source file |
 | `HideSchemaTitles` | `bool` | `false` | Hide the schema titles in the documentation |
 
 **Usage:**
 ```go
-import "github.com/oaswrap/spec-ui/redoc"
+import (
+	"github.com/oaswrap/spec-ui/config"
+	"github.com/oaswrap/spec-ui/redoc"
+)
 
 redoc.WithUI(config.ReDoc{
-	DisableSearch:       true,
+	HideSearch:          true,
 	HideDownloadButtons: true,
 	HideSchemaTitles:    true,
 })
@@ -382,7 +394,10 @@ redoc.WithUI(config.ReDoc{
 
 **Usage:**
 ```go
-import "github.com/oaswrap/spec-ui/scalar"
+import (
+	"github.com/oaswrap/spec-ui/config"
+	"github.com/oaswrap/spec-ui/scalar"
+)
 
 scalar.WithUI(config.Scalar{
 	ProxyURL:                "https://proxy.scalar.com",
@@ -419,7 +434,10 @@ scalar.WithUI(config.Scalar{
 
 **Usage:**
 ```go
-import "github.com/oaswrap/spec-ui/rapidoc"
+import (
+	"github.com/oaswrap/spec-ui/config"
+	"github.com/oaswrap/spec-ui/rapidoc"
+)
 
 rapidoc.WithUI(config.RapiDoc{
 	Theme:               "light",

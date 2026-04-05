@@ -12,7 +12,7 @@ func IndexTpl(assetBase string, cfg *config.ReDoc) string {
 	settings := map[string]string{
 		"expandResponses":     "'200,400'",
 		"hideDownloadButtons": fmt.Sprintf("%t", cfg.HideDownloadButtons),
-		"disableSearch":       fmt.Sprintf("%t", cfg.DisableSearch),
+		"disableSearch":       fmt.Sprintf("%t", cfg.HideSearch),
 		"hideSchemaTitles":    fmt.Sprintf("%t", cfg.HideSchemaTitles),
 	}
 

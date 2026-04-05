@@ -7,6 +7,8 @@ import (
 	"github.com/oaswrap/spec-ui/config"
 )
 
+// WithUI configures the handler to use Scalar, serving assets from embedded files.
+// An optional config.Scalar value may be passed to customise the UI behaviour.
 func WithUI(cfg ...config.Scalar) specui.Option {
 	return func(c *config.SpecUI) {
 		c.Provider = config.ProviderScalar
