@@ -6,18 +6,19 @@ import (
 
 	"github.com/gorilla/mux"
 	specui "github.com/oaswrap/spec-ui"
+	"github.com/oaswrap/spec-ui/redoc"
 )
 
 func main() {
 	mux := mux.NewRouter()
 
-	// Stoplight Elements
+	// ReDoc
 	handler := specui.NewHandler(
 		specui.WithTitle("To-dos API"),
 		specui.WithDocsPath("/docs"),
 		specui.WithSpecPath("/docs/openapi.yaml"),
 		specui.WithSpecFile("openapi.yaml"),
-		specui.WithStoplightElements(),
+		redoc.WithUI(),
 	)
 
 	mux.Handle(handler.DocsPath(), handler.Docs()).Methods("GET")

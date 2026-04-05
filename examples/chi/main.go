@@ -6,6 +6,7 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	specui "github.com/oaswrap/spec-ui"
+	"github.com/oaswrap/spec-ui/stoplight"
 )
 
 func main() {
@@ -17,7 +18,7 @@ func main() {
 		specui.WithDocsPath("/docs"),
 		specui.WithSpecPath("/docs/openapi.yaml"),
 		specui.WithSpecFile("openapi.yaml"),
-		specui.WithStoplightElements(),
+		stoplight.WithUI(),
 	)
 
 	r.Get(handler.DocsPath(), handler.DocsFunc())

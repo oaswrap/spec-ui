@@ -9,6 +9,11 @@ import (
 
 	specui "github.com/oaswrap/spec-ui"
 	"github.com/oaswrap/spec-ui/config"
+	"github.com/oaswrap/spec-ui/rapidoc"
+	"github.com/oaswrap/spec-ui/redoc"
+	"github.com/oaswrap/spec-ui/scalar"
+	"github.com/oaswrap/spec-ui/stoplight"
+	"github.com/oaswrap/spec-ui/swaggerui"
 	"github.com/oaswrap/spec-ui/testdata"
 	"github.com/stretchr/testify/assert"
 )
@@ -69,70 +74,70 @@ func TestHandler(t *testing.T) {
 			{
 				name: "SwaggerUI",
 				opts: []specui.Option{
-					specui.WithSwaggerUI(),
+					swaggerui.WithUI(),
 				},
 				contains: []string{"Swagger UI"},
 			},
 			{
 				name: "SwaggerUI Empty",
 				opts: []specui.Option{
-					specui.WithSwaggerUI(config.SwaggerUI{}),
+					swaggerui.WithUI(config.SwaggerUI{}),
 				},
 				contains: []string{"Swagger UI"},
 			},
 			{
 				name: "StoplightElements",
 				opts: []specui.Option{
-					specui.WithStoplightElements(),
+					stoplight.WithUI(),
 				},
 				contains: []string{"Stoplight Elements"},
 			},
 			{
 				name: "StoplightElements Empty",
 				opts: []specui.Option{
-					specui.WithStoplightElements(config.StoplightElements{}),
+					stoplight.WithUI(config.StoplightElements{}),
 				},
 				contains: []string{"Stoplight Elements"},
 			},
 			{
 				name: "ReDoc",
 				opts: []specui.Option{
-					specui.WithReDoc(),
+					redoc.WithUI(),
 				},
 				contains: []string{"ReDoc"},
 			},
 			{
 				name: "ReDoc Empty",
 				opts: []specui.Option{
-					specui.WithReDoc(config.ReDoc{}),
+					redoc.WithUI(config.ReDoc{}),
 				},
 				contains: []string{"ReDoc"},
 			},
 			{
 				name: "Scalar",
 				opts: []specui.Option{
-					specui.WithScalar(),
+					scalar.WithUI(),
 				},
 				contains: []string{"Scalar"},
 			},
 			{
 				name: "Scalar Empty",
 				opts: []specui.Option{
-					specui.WithScalar(config.Scalar{}),
+					scalar.WithUI(config.Scalar{}),
 				},
 				contains: []string{"Scalar"},
 			},
 			{
 				name: "RapiDoc",
 				opts: []specui.Option{
-					specui.WithRapiDoc(),
+					rapidoc.WithUI(),
 				},
 				contains: []string{"RapiDoc"},
 			},
 			{
 				name: "RapiDoc Empty",
 				opts: []specui.Option{
-					specui.WithRapiDoc(config.RapiDoc{}),
+					rapidoc.WithUI(config.RapiDoc{}),
 				},
 				contains: []string{"RapiDoc"},
 			},

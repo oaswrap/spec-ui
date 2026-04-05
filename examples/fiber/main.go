@@ -6,18 +6,19 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/adaptor"
 	specui "github.com/oaswrap/spec-ui"
+	"github.com/oaswrap/spec-ui/scalar"
 )
 
 func main() {
 	app := fiber.New()
 
-	// Stoplight Elements
+	// Scalar
 	handler := specui.NewHandler(
 		specui.WithTitle("To-dos API"),
 		specui.WithDocsPath("/docs"),
 		specui.WithSpecPath("/docs/openapi.yaml"),
 		specui.WithSpecFile("openapi.yaml"),
-		specui.WithStoplightElements(),
+		scalar.WithUI(),
 	)
 
 	app.Get(handler.DocsPath(), adaptor.HTTPHandler(handler.Docs()))

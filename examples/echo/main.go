@@ -5,18 +5,19 @@ import (
 
 	"github.com/labstack/echo/v4"
 	specui "github.com/oaswrap/spec-ui"
+	"github.com/oaswrap/spec-ui/swaggerui"
 )
 
 func main() {
 	e := echo.New()
 
-	// Stoplight Elements
+	// Swagger UI
 	handler := specui.NewHandler(
 		specui.WithTitle("To-dos API"),
 		specui.WithDocsPath("/docs"),
 		specui.WithSpecPath("/docs/openapi.yaml"),
 		specui.WithSpecFile("openapi.yaml"),
-		specui.WithStoplightElements(),
+		swaggerui.WithUI(),
 	)
 
 	e.GET(handler.DocsPath(), echo.WrapHandler(handler.Docs()))
