@@ -3,6 +3,7 @@ package config
 import (
 	"embed"
 	"io/fs"
+	"net/http"
 )
 
 type Provider uint8
@@ -38,6 +39,11 @@ type SpecUI struct {
 	ReDoc             *ReDoc             // ReDoc configuration
 	Scalar            *Scalar            // Scalar configuration
 	RapiDoc           *RapiDoc           // RapiDoc configuration
+
+	// DocsHandlerFactory is set by With<Provider> options and controls which
+	// provider's handler is created at request time. Only the referenced
+	// provider's code is linked into the binary, enabling tree-shaking.
+	DocsHandlerFactory func(*SpecUI) http.Handler
 }
 
 type SwaggerLayout string

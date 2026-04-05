@@ -3,14 +3,10 @@ package specui
 import (
 	"errors"
 	"net/http"
+	"sync"
 
 	"github.com/oaswrap/spec-ui/config"
-	"github.com/oaswrap/spec-ui/internal/rapidoc"
-	"github.com/oaswrap/spec-ui/internal/redoc"
-	"github.com/oaswrap/spec-ui/internal/scalar"
 	"github.com/oaswrap/spec-ui/internal/spec"
-	"github.com/oaswrap/spec-ui/internal/stoplightelements"
-	"github.com/oaswrap/spec-ui/internal/swaggerui"
 )
 
 // NewHandler creates a new HTTP handler for the OpenAPI UI.
@@ -24,7 +20,9 @@ func NewHandler(opts ...Option) *Handler {
 
 // Handler handles HTTP requests for the OpenAPI UI.
 type Handler struct {
-	cfg *config.SpecUI
+	cfg         *config.SpecUI
+	docsOnce    sync.Once
+	docsHandler http.Handler
 }
 
 // DocsPath returns the path to the API documentation.
@@ -38,28 +36,20 @@ func (h *Handler) SpecPath() string {
 }
 
 // Docs returns the HTTP handler for the API documentation.
+// The handler is created once and cached for subsequent calls.
 func (h *Handler) Docs() http.Handler {
-	switch h.cfg.Provider {
-	case config.ProviderSwaggerUI:
-		return swaggerui.NewHandler(h.cfg)
-	case config.ProviderStoplightElements:
-		return stoplightelements.NewHandler(h.cfg)
-	case config.ProviderReDoc:
-		return redoc.NewHandler(h.cfg)
-	case config.ProviderScalar:
-		return scalar.NewHandler(h.cfg)
-	case config.ProviderRapiDoc:
-		return rapidoc.NewHandler(h.cfg)
-	default:
-		panic(errors.New("unsupported provider"))
+	if h.cfg.DocsHandlerFactory == nil {
+		panic(errors.New("no UI provider configured: use WithSwaggerUI, WithStoplightElements, WithReDoc, WithScalar, or WithRapiDoc"))
 	}
+	h.docsOnce.Do(func() {
+		h.docsHandler = h.cfg.DocsHandlerFactory(h.cfg)
+	})
+	return h.docsHandler
 }
 
 // DocsFunc returns the HTTP handler function for the API documentation.
 func (h *Handler) DocsFunc() http.HandlerFunc {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		h.Docs().ServeHTTP(w, r)
-	})
+	return h.Docs().ServeHTTP
 }
 
 // Spec returns the HTTP handler for the OpenAPI specification.
