@@ -3,18 +3,22 @@ package specui
 import (
 	"embed"
 	"io/fs"
+	"net/http"
 
 	"github.com/oaswrap/spec-ui/config"
+	"github.com/oaswrap/spec-ui/internal/rapidoc"
+	"github.com/oaswrap/spec-ui/internal/redoc"
+	"github.com/oaswrap/spec-ui/internal/scalar"
+	"github.com/oaswrap/spec-ui/internal/stoplightelements"
+	"github.com/oaswrap/spec-ui/internal/swaggerui"
 )
 
 func newConfig(opts ...Option) *config.SpecUI {
 	cfg := &config.SpecUI{
-		Title:             "OpenAPI Documentation",
-		CacheAge:          3600, // Default cache age is 3600 seconds (1 hour)
-		DocsPath:          "/docs",
-		SpecPath:          "/docs/openapi.json",
-		StoplightElements: &config.StoplightElements{},
-		Provider:          config.ProviderStoplightElements,
+		Title:    "OpenAPI Documentation",
+		CacheAge: 3600, // Default cache age is 3600 seconds (1 hour)
+		DocsPath: "/docs",
+		SpecPath: "/docs/openapi.json",
 	}
 
 	for _, opt := range opts {
@@ -92,6 +96,9 @@ func WithSpecGenerator(cfg config.SpecGenerator) Option {
 func WithSwaggerUI(cfg ...config.SwaggerUI) Option {
 	return func(c *config.SpecUI) {
 		c.Provider = config.ProviderSwaggerUI
+		c.DocsHandlerFactory = func(c *config.SpecUI) http.Handler {
+			return swaggerui.NewHandler(c)
+		}
 		if len(cfg) > 0 {
 			c.SwaggerUI = &cfg[0]
 		}
@@ -109,10 +116,12 @@ func WithSwaggerUI(cfg ...config.SwaggerUI) Option {
 
 // WithStoplightElements set ui documentation to use Stoplight Elements.
 // It can be used to override the default Stoplight Elements configuration.
-// It sets the default router to "hash" and layout to "sidebar" if not specified.
 func WithStoplightElements(cfg ...config.StoplightElements) Option {
 	return func(c *config.SpecUI) {
 		c.Provider = config.ProviderStoplightElements
+		c.DocsHandlerFactory = func(c *config.SpecUI) http.Handler {
+			return stoplightelements.NewHandler(c)
+		}
 		if len(cfg) > 0 {
 			c.StoplightElements = &cfg[0]
 		}
@@ -127,6 +136,9 @@ func WithStoplightElements(cfg ...config.StoplightElements) Option {
 func WithReDoc(cfg ...config.ReDoc) Option {
 	return func(c *config.SpecUI) {
 		c.Provider = config.ProviderReDoc
+		c.DocsHandlerFactory = func(c *config.SpecUI) http.Handler {
+			return redoc.NewHandler(c)
+		}
 		if len(cfg) > 0 {
 			c.ReDoc = &cfg[0]
 		}
@@ -141,6 +153,9 @@ func WithReDoc(cfg ...config.ReDoc) Option {
 func WithScalar(cfg ...config.Scalar) Option {
 	return func(c *config.SpecUI) {
 		c.Provider = config.ProviderScalar
+		c.DocsHandlerFactory = func(c *config.SpecUI) http.Handler {
+			return scalar.NewHandler(c)
+		}
 		if len(cfg) > 0 {
 			c.Scalar = &cfg[0]
 		}
@@ -155,6 +170,9 @@ func WithScalar(cfg ...config.Scalar) Option {
 func WithRapiDoc(cfg ...config.RapiDoc) Option {
 	return func(c *config.SpecUI) {
 		c.Provider = config.ProviderRapiDoc
+		c.DocsHandlerFactory = func(c *config.SpecUI) http.Handler {
+			return rapidoc.NewHandler(c)
+		}
 		if len(cfg) > 0 {
 			c.RapiDoc = &cfg[0]
 		}
