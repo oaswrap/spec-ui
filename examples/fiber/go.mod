@@ -3,7 +3,7 @@ module github.com/oaswrap/spec-ui/examples/fiber
 go 1.20
 
 require (
-	github.com/gofiber/fiber/v2 v2.52.9
+	github.com/gofiber/fiber/v2 v2.52.12
 	github.com/oaswrap/spec-ui v0.0.0
 )
 
