@@ -70,7 +70,7 @@ func IndexTpl(assetBase, faviconBase string, cfg *config.RapiDoc) string {
 </head>
 <body>
 <rapi-doc
-` + strings.Join(settingsStr, ",\n") + `
+` + strings.Join(settingsStr, "\n") + `
 >
 {{ if .Logo }}
 	<img slot="nav-logo" src="{{ .Logo }}" />

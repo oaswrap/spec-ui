@@ -58,7 +58,7 @@ func IndexTpl(assetBase, faviconBase string, specCfg *config.SpecUI) string {
 <body>
 <elements-api
     id="docs"
-` + strings.Join(settingsStr, ",\n") + `
+` + strings.Join(settingsStr, "\n") + `
 ></elements-api>
 <script src="` + assetBase + `/web-components.min.js"></script>
 <script>

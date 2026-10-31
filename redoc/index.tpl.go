@@ -10,6 +10,7 @@ import (
 
 func IndexTpl(assetBase string, cfg *config.ReDoc) string {
 	settings := map[string]string{
+		"disableTelemetry":    "true", // Redoc 3 sends usage telemetry to redocly.com by default.
 		"hideDownloadButtons": fmt.Sprintf("%t", cfg.HideDownloadButtons),
 		"hideSchemaTitles":    fmt.Sprintf("%t", cfg.HideSchemaTitles),
 	}
@@ -28,7 +29,6 @@ func IndexTpl(assetBase string, cfg *config.ReDoc) string {
 	<title>{{.Title}} - ReDoc</title>
 	<meta charset="utf-8"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700|Roboto:300,400,700" rel="stylesheet">
 	<style>
 		body {
 			margin: 0;

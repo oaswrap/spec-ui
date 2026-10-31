@@ -32,6 +32,14 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - **RapiDoc 12**: `BgColor` and `TextColor` are applied through the `--background` and `--foreground`
   CSS variables, because the `bg-color` and `text-color` attributes were removed upstream.
 
+### Fixed
+
+- ReDoc: disable Redoc 3 usage telemetry (`disableTelemetry: true`); it posted to `otel.cloud.redocly.com` by default,
+  including in embedded mode.
+- ReDoc: remove the Google Fonts `<link>` so the page makes no external font request.
+- Scalar: set `withDefaultFonts: false` so the page no longer fetches fonts from `fonts.scalar.com`.
+- RapiDoc, Stoplight Elements: stop emitting commas between HTML attributes.
+
 ### Removed
 
 - **Breaking:** `config.ReDoc.HideSearch`. ReDoc 3 always enables search.
