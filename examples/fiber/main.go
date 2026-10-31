@@ -3,8 +3,8 @@ package main
 import (
 	"log"
 
-	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/adaptor"
+	"github.com/gofiber/fiber/v3"
+	"github.com/gofiber/fiber/v3/middleware/adaptor"
 	specui "github.com/oaswrap/spec-ui"
 	"github.com/oaswrap/spec-ui/scalar"
 )
