@@ -1,11 +1,11 @@
 # Variables
 PKG := ./...
 COVERAGE_FILE := coverage.out
-SWAGGERUI_VER := 5.32.11
-STOPLIGHT_VER := 9.0.24
-REDOC_VER := 2.5.3
-SCALAR_VER := 1.63.0
-RAPIDOC_VER := 9.3.8
+SWAGGERUI_VER := 5.34.1
+STOPLIGHT_VER := 9.0.29
+REDOC_VER := 3.0.1
+SCALAR_VER := 1.76.4
+RAPIDOC_VER := 12.0.0
 CDN := https://cdn.jsdelivr.net/npm
 
 # Default target

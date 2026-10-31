@@ -110,7 +110,6 @@ type StoplightElements struct {
 
 // ReDoc holds the configuration for the ReDoc.
 type ReDoc struct {
-	HideSearch          bool // Hide the search bar.
 	HideDownloadButtons bool // Hides the "Download" button for saving the API definition source file.
 	HideSchemaTitles    bool // Hides the schema titles in the documentation.
 }
@@ -166,13 +165,12 @@ const (
 )
 
 type RapiDoc struct {
-	Theme              RapiDocTheme       // Theme style, "light" or "dark"
+	Theme              RapiDocTheme       // Color scheme, "light" or "dark" (rendered as color-scheme)
 	Layout             RapiDocLayout      // Layout type, "row" or "column"
 	RenderStyle        RapiDocRenderStyle // Render style, "read", "view", or "focused"
 	SchemaStyle        RapiDocSchemaStyle // Schema style, "table" or "tree"
-	BgColor            string             // Background color, e.g. "#fff"
-	TextColor          string             // Text color, e.g. "#444"
-	HeaderColor        string             // Header color, e.g. "#444444"
+	BgColor            string             // Background color, e.g. "#fff" (sets --background)
+	TextColor          string             // Text color, e.g. "#444" (sets --foreground)
 	PrimaryColor       string             // Primary color, e.g. "#FF791A"
 	HideInfo           bool               // Hide the info section
 	HideHeader         bool               // Hide the header section

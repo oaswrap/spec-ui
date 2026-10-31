@@ -360,7 +360,6 @@ swaggerui.WithUI(config.SwaggerUI{
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
-| `HideSearch` | `bool` | `false` | Hide the search bar |
 | `HideDownloadButtons` | `bool` | `false` | Hide the "Download" button for saving the API definition source file |
 | `HideSchemaTitles` | `bool` | `false` | Hide the schema titles in the documentation |
 
@@ -372,7 +371,6 @@ import (
 )
 
 redoc.WithUI(config.ReDoc{
-	HideSearch:          true,
 	HideDownloadButtons: true,
 	HideSchemaTitles:    true,
 })
@@ -418,13 +416,12 @@ scalar.WithUI(config.Scalar{
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
-| `Theme` | `string` | `"light"` | Theme style: "light" or "dark" |
+| `Theme` | `string` | `"light"` | Color scheme: "light" or "dark" |
 | `Layout` | `string` | `"row"` | Layout type: "row" or "column" |
 | `RenderStyle` | `string` | `"read"` | Render style: "read", "view", or "focused" |
 | `SchemaStyle` | `string` | `"table"` | Schema style: "table" or "tree" |
 | `BgColor` | `string` | `"#fff"` | Background color |
 | `TextColor` | `string` | `"#444"` | Text color |
-| `HeaderColor` | `string` | `"#444444"` | Header color |
 | `PrimaryColor` | `string` | `"#FF791A"` | Primary color |
 | `HideInfo` | `bool` | `false` | Hide the info section |
 | `HideHeader` | `bool` | `false` | Hide the header section |
@@ -447,7 +444,6 @@ rapidoc.WithUI(config.RapiDoc{
 	SchemaStyle:         "table",
 	BgColor:             "#fff",
 	TextColor:           "#444",
-	HeaderColor:         "#444444",
 	PrimaryColor:        "#FF791A",
 	HideInfo:            false,
 	HideHeader:          false,

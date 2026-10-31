@@ -24,14 +24,27 @@ func IndexTpl(assetBase, faviconBase string, cfg *config.RapiDoc) string {
 		}
 	}
 
-	addSetting("theme", string(cfg.Theme))
+	// RapiDoc v11+ replaced theme="light|dark" with color-scheme.
+	// Default to "light" to keep the pre-v11 look (v12 defaults to dark).
+	colorScheme := string(cfg.Theme)
+	if colorScheme == "" {
+		colorScheme = string(config.RapiDocThemeLight)
+	}
+	addSetting("color-scheme", colorScheme)
 	addSetting("layout", string(cfg.Layout))
 	addSetting("render-style", string(cfg.RenderStyle))
 	addSetting("schema-style", string(cfg.SchemaStyle))
-	addSetting("bg-color", cfg.BgColor)
-	addSetting("text-color", cfg.TextColor)
-	addSetting("header-color", cfg.HeaderColor)
 	addSetting("primary-color", cfg.PrimaryColor)
+
+	// bg-color / text-color attributes were removed in v11; use CSS variables.
+	var styles []string
+	if cfg.BgColor != "" {
+		styles = append(styles, "--background:"+cfg.BgColor)
+	}
+	if cfg.TextColor != "" {
+		styles = append(styles, "--foreground:"+cfg.TextColor)
+	}
+	addSetting("style", strings.Join(styles, ";"))
 
 	settingsStr := make([]string, 0, len(settings))
 	for k, v := range settings {
@@ -57,7 +70,7 @@ func IndexTpl(assetBase, faviconBase string, cfg *config.RapiDoc) string {
 </head>
 <body>
 <rapi-doc
-` + strings.Join(settingsStr, ",\n") + `
+` + strings.Join(settingsStr, "\n") + `
 >
 {{ if .Logo }}
 	<img slot="nav-logo" src="{{ .Logo }}" />

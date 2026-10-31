@@ -16,6 +16,7 @@ func IndexTpl(assetBase, faviconBase string, cfg *config.Scalar) string {
 		"hideTestRequestButton": fmt.Sprintf("%t", cfg.HideTestRequestButton),
 		"hideSearch":            fmt.Sprintf("%t", cfg.HideSearch),
 		"darkMode":              fmt.Sprintf("%t", cfg.DarkMode),
+		"withDefaultFonts":      "false", // Do not fetch fonts from fonts.scalar.com.
 	}
 	// Helper to add a quoted string if not empty
 	addSetting := func(key, val string) {

@@ -22,9 +22,9 @@ func TestWithUI(t *testing.T) {
 
 func TestWithUICustomConfig(t *testing.T) {
 	cfg := &config.SpecUI{Title: "T", SpecPath: "/s", AssetsPath: "/a"}
-	WithUI(config.ReDoc{HideSearch: true})(cfg)
+	WithUI(config.ReDoc{HideSchemaTitles: true})(cfg)
 
-	assert.True(t, cfg.ReDoc.HideSearch)
+	assert.True(t, cfg.ReDoc.HideSchemaTitles)
 }
 
 func TestNewHandlerEmbedAssets(t *testing.T) {
