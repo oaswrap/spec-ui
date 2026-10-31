@@ -10,9 +10,7 @@ import (
 
 func IndexTpl(assetBase string, cfg *config.ReDoc) string {
 	settings := map[string]string{
-		"expandResponses":     "'200,400'",
 		"hideDownloadButtons": fmt.Sprintf("%t", cfg.HideDownloadButtons),
-		"disableSearch":       fmt.Sprintf("%t", cfg.HideSearch),
 		"hideSchemaTitles":    fmt.Sprintf("%t", cfg.HideSchemaTitles),
 	}
 
@@ -40,24 +38,22 @@ func IndexTpl(assetBase string, cfg *config.ReDoc) string {
 </head>
 <body>
 <div id="redoc-container"></div>
-<script src="` + assetBase + `/redoc.standalone.js"> </script>
-<script>
-	window.onload = function () {
-		var url = "{{ .OpenAPIURL }}";
-		if (!url.startsWith("https://") && !url.startsWith("http://")) {
-			if (url.startsWith(".")) {
+<script type="module">
+	import { init } from "` + assetBase + `/redoc.standalone.js";
+	var url = "{{ .OpenAPIURL }}";
+	if (!url.startsWith("https://") && !url.startsWith("http://")) {
+		if (url.startsWith(".")) {
 			var path = window.location.pathname;
 			path = path.endsWith("/") ? path : path + "/";
-				url = window.location.protocol + "//" + window.location.host + path + url;
-			} else {
-				url = window.location.protocol + "//" + window.location.host + url;
-			}
+			url = window.location.protocol + "//" + window.location.host + path + url;
+		} else {
+			url = window.location.protocol + "//" + window.location.host + url;
 		}
-		const options = {
-` + strings.Join(settingsStr, ",\n") + `
-		}
-		Redoc.init(url, options, document.getElementById('redoc-container'))
 	}
+	const options = {
+` + strings.Join(settingsStr, ",\n") + `
+	}
+	init(url, options, document.getElementById('redoc-container'))
 </script>
 </body>
 </html>

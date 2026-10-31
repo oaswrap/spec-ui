@@ -26,5 +26,5 @@ func TestHandler(t *testing.T) {
 	assert.Equal(t, 200, rec.Code)
 	assert.Contains(t, rec.Body.String(), "My API")
 	assert.Contains(t, rec.Body.String(), "RapiDoc")
-	assert.Contains(t, rec.Body.String(), `theme="light"`)
+	assert.Contains(t, rec.Body.String(), `color-scheme="light"`)
 }

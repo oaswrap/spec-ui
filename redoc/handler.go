@@ -18,7 +18,6 @@ type Data struct {
 	Title               string `json:"title"`
 	OpenAPIURL          string `json:"openapiURL"`
 	HideDownloadButtons bool   `json:"hideDownloadButtons"`
-	HideSearch          bool   `json:"hideSearch"`
 	HideSchemaTitles    bool   `json:"hideSchemaTitles"`
 }
 
@@ -29,7 +28,6 @@ func NewHandler(cfg *config.SpecUI) *Handler {
 			Title:               cfg.Title,
 			OpenAPIURL:          cfg.SpecPath,
 			HideDownloadButtons: cfg.ReDoc.HideDownloadButtons,
-			HideSearch:          cfg.ReDoc.HideSearch,
 			HideSchemaTitles:    cfg.ReDoc.HideSchemaTitles,
 		},
 	}
