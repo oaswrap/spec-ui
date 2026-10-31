@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 
-	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v5"
 	specui "github.com/oaswrap/spec-ui"
 	"github.com/oaswrap/spec-ui/swaggerui"
 )
@@ -29,5 +29,5 @@ func main() {
 	log.Printf("OpenAPI Documentation available at http://localhost:3000/docs")
 	log.Printf("OpenAPI YAML available at http://localhost:3000/docs/openapi.yaml")
 
-	e.Logger.Fatal(e.Start(":3000"))
+	log.Fatal(e.Start(":3000"))
 }
