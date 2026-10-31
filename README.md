@@ -302,15 +302,16 @@ Each UI provider package exports a `WithUI(config...)` option:
 
 #### Stoplight Elements Configuration
 
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `HideExport` | `bool` | `false` | Hide the "Export" button |
-| `HideSchemas` | `bool` | `false` | Hide schemas in the Table of Contents |
-| `HideTryIt` | `bool` | `false` | Hide the "Try it" interactive feature |
-| `HideTryItPanel` | `bool` | `false` | Hide the "Try it" panel |
-| `Layout` | `string` | `"sidebar"` | Layout: "sidebar" or "responsive" |
-| `Logo` | `string` | `""` | URL to logo image |
-| `Router` | `string` | `"hash"` | Router type: "history", "hash", "memory", or "static" |
+| Field                    | Type     | Default     | Description                                                                                 |
+| ------------------------ | -------- | ----------- | ------------------------------------------------------------------------------------------- |
+| `HideExport`             | `bool`   | `false`     | Hide the "Export" button                                                                    |
+| `HideSchemas`            | `bool`   | `false`     | Hide schemas in the Table of Contents                                                       |
+| `HideTryIt`              | `bool`   | `false`     | Hide the "Try it" interactive feature                                                       |
+| `HideTryItPanel`         | `bool`   | `false`     | Hide the "Try it" panel                                                                     |
+| `TryItCredentialsPolicy` | `string` | `omit`      | Fetch credential policy for the "Try It" feature, options: "omit", "include", "same-origin" |
+| `Layout`                 | `string` | `"sidebar"` | Layout: "sidebar" or "responsive"                                                           |
+| `Logo`                   | `string` | `""`        | URL to logo image                                                                           |
+| `Router`                 | `string` | `"hash"`    | Router type: "history", "hash", "memory", or "static"                                       |
 
 **Usage:**
 ```go
@@ -320,13 +321,14 @@ import (
 )
 
 stoplight.WithUI(config.StoplightElements{
-	HideExport:		false,
-	HideSchemas:	false,
-	HideTryIt:		false,
-	HideTryItPanel:	false,
-	Layout:			"sidebar",
-	Logo:			"/assets/logo.png",
-	Router:			"hash",
+	HideExport:             false,
+	HideSchemas:            false,
+	HideTryIt:              false,
+	HideTryItPanel:         false,
+	TryItCredentialsPolicy: "omit",
+	Layout:                 "sidebar",
+	Logo:                   "/assets/logo.png",
+	Router:                 "hash",
 })
 ```
 

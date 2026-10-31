@@ -19,30 +19,32 @@ type Handler struct {
 }
 
 type Data struct {
-	Title          string               `json:"title"`
-	OpenAPIURL     string               `json:"openapiURL"`
-	HideExport     bool                 `json:"hideExport"`
-	HideSchemas    bool                 `json:"hideSchemas"`
-	HideTryIt      bool                 `json:"hideTryIt"`
-	HideTryItPanel bool                 `json:"hideTryItPanel"`
-	Layout         config.ElementLayout `json:"layout"`
-	Logo           string               `json:"logo"`
-	Router         config.ElementRouter `json:"router"`
+	Title                  string                               `json:"title"`
+	OpenAPIURL             string                               `json:"openapiURL"`
+	HideExport             bool                                 `json:"hideExport"`
+	HideSchemas            bool                                 `json:"hideSchemas"`
+	HideTryIt              bool                                 `json:"hideTryIt"`
+	HideTryItPanel         bool                                 `json:"hideTryItPanel"`
+	TryItCredentialsPolicy config.ElementTryItCredentialsPolicy `json:"tryItCredentialsPolicy"`
+	Layout                 config.ElementLayout                 `json:"layout"`
+	Logo                   string                               `json:"logo"`
+	Router                 config.ElementRouter                 `json:"router"`
 }
 
 // NewHandler returns a HTTP handler for swagger UI.
 func NewHandler(cfg *config.SpecUI) *Handler {
 	h := &Handler{
 		Data: Data{
-			Title:          cfg.Title,
-			OpenAPIURL:     cfg.SpecPath,
-			HideExport:     cfg.StoplightElements.HideExport,
-			HideSchemas:    cfg.StoplightElements.HideSchemas,
-			HideTryIt:      cfg.StoplightElements.HideTryIt,
-			HideTryItPanel: cfg.StoplightElements.HideTryItPanel,
-			Layout:         cfg.StoplightElements.Layout,
-			Logo:           cfg.StoplightElements.Logo,
-			Router:         cfg.StoplightElements.Router,
+			Title:                  cfg.Title,
+			OpenAPIURL:             cfg.SpecPath,
+			HideExport:             cfg.StoplightElements.HideExport,
+			HideSchemas:            cfg.StoplightElements.HideSchemas,
+			HideTryIt:              cfg.StoplightElements.HideTryIt,
+			TryItCredentialsPolicy: cfg.StoplightElements.TryItCredentialsPolicy,
+			HideTryItPanel:         cfg.StoplightElements.HideTryItPanel,
+			Layout:                 cfg.StoplightElements.Layout,
+			Logo:                   cfg.StoplightElements.Logo,
+			Router:                 cfg.StoplightElements.Router,
 		},
 	}
 

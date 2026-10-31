@@ -88,15 +88,24 @@ const (
 	ElementRouterStatic  ElementRouter = "static"
 )
 
+type ElementTryItCredentialsPolicy string
+
+const (
+	ElementTryItCredentialsPolicyOmit       ElementTryItCredentialsPolicy = "omit"
+	ElementTryItCredentialsPolicyInclude    ElementTryItCredentialsPolicy = "include"
+	ElementTryItCredentialsPolicySameOrigin ElementTryItCredentialsPolicy = "same-origin"
+)
+
 // StoplightElements holds the configuration for the Stoplight Elements.
 type StoplightElements struct {
-	HideExport     bool          // Hide the "Export" button on an overview section of the documentation.
-	HideSchemas    bool          // Hide the schemas in the Table of Contents when using the sidebar layout.
-	HideTryIt      bool          // Hide the "Try it" feature.
-	HideTryItPanel bool          // Hide the "Try it" panel.
-	Layout         ElementLayout // Layout type, e.g. "sidebar" or "responsive".
-	Router         ElementRouter // Router type.
-	Logo           string        // Logo URL to an image that displays as a small square logo next to the title, above the table of contents.
+	HideExport             bool                          // Hide the "Export" button on an overview section of the documentation.
+	HideSchemas            bool                          // Hide the schemas in the Table of Contents when using the sidebar layout.
+	HideTryIt              bool                          // Hide the "Try it" feature.
+	HideTryItPanel         bool                          // Hide the "Try it" panel.
+	TryItCredentialsPolicy ElementTryItCredentialsPolicy // Fetch credential policy for the "Try It" feature, options: "omit", "include", "same-origin"
+	Layout                 ElementLayout                 // Layout type, e.g. "sidebar" or "responsive".
+	Router                 ElementRouter                 // Router type.
+	Logo                   string                        // Logo URL to an image that displays as a small square logo next to the title, above the table of contents.
 }
 
 // ReDoc holds the configuration for the ReDoc.

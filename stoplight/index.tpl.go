@@ -84,6 +84,7 @@ func IndexTpl(assetBase, faviconBase string, specCfg *config.SpecUI) string {
             docs.hideTryItPanel = cfg.hideTryItPanel;
             docs.hideExport = cfg.hideExport;
             docs.hideSchemas = cfg.hideSchemas;
+            docs.tryItCredentialsPolicy = cfg.tryItCredentialsPolicy;
         })();
     }
 </script>
